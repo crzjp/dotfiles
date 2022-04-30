@@ -44,7 +44,6 @@ alias egrep='egrep --color=always'
 alias fgrep='fgrep --color=always'
 
 alias e="emacsclient -nw -a ''"
-alias n='nano'
 
 alias reboot="sudo reboot"
 alias poweroff="sudo poweroff"
