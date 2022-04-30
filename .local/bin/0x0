@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+for dep in curl xclip ; do
+  [ $(command -v $dep) ] || { echo \"$dep\" not found && exit 1; }
+done
+
+upload(){
+    curl -s -F file=@$1 https://0x0.st | xclip -sel c -i
+    xclip -sel c -o
+}
+
+for f in "$@" ; do
+    if [ -x "$f" ]; then
+        cp "$f" /tmp/
+        chmod -x /tmp/${f##*/}
+        upload /tmp/${f##*/}
+    else
+        upload "$f"
+    fi
+done

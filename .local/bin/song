@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+for dep in cmus cmus-remote ffmpeg notify-send ; do
+    [ $(command -v $dep) ] || { echo \"$dep\" not found && exit 1; }
+done
+
+content="/tmp/nowplaying"
+
+file="$(awk '/file/{print substr($0, index($0, $2))}' $content)"
+
+artist_name="$(awk '/tag artist/{print substr($0, index($0, $3)); exit}' $content)"
+title_name="$(awk '/tag title/{print substr($0, index($0, $3))}' $content)"
+album_name="$(awk '/album/{print substr($0, index($0, $3)) ; exit}' $content)"
+
+album_path="$(awk '/^tag album/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
+
+album_cover="$(dirname $file)/${album_path}.jpg"
+
+if pidof cmus > /dev/null 2>&1 ; then
+    notify-send -u low -i "$album_cover" \
+                -h string:x-canonical-private-synchronous:cmus \
+                "$title_name" "$artist_name\n$album_name"
+else
+    notify-send "Error" "Cmus is not running!"
+fi
