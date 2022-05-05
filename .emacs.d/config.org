@@ -26,6 +26,7 @@
     - [[#tab-indentation][Tab indentation]]
     - [[#automatically-revert-buffers][Automatically revert buffers]]
     - [[#delete-by-moving-to-trash][Delete by moving to trash]]
+    - [[#stop-large-file-warning][Stop large file warning]]
   - [[#window-movement][Window movement]]
   - [[#minibuffer][Minibuffer]]
     - [[#history][History]]
@@ -235,6 +236,12 @@
 
 #+begin_src emacs-lisp
   (setq delete-by-moving-to-trash t)
+#+end_src
+
+*** Stop large file warning
+
+#+begin_src emacs-lisp
+  (setq large-file-warning-threshold nil)
 #+end_src
 
 ** Window movement

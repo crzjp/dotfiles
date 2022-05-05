@@ -61,6 +61,8 @@
 
 (setq delete-by-moving-to-trash t)
 
+(setq large-file-warning-threshold nil)
+
 (straight-use-package 'ace-window)
 
 (global-set-key (kbd "M-o") 'ace-window)
