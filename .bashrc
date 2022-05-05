@@ -2,6 +2,8 @@
 
 set -o emacs
 
+stty -ixon -ixoff
+
 HISTFILE="$HOME/.bash_history"
 HISTSIZE=1000
 HISTCONTROL=ignoredups:erasedups

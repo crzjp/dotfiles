@@ -9,6 +9,7 @@
 .config/transmission*
 .config/configstore/
 .config/gtk-2.0
+.config/GIMP/
 
 .local/*
 !.local/bin
