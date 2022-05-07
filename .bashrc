@@ -16,24 +16,32 @@ shopt -s autocd
 PS1="\[\e[1;7;34m\] \w \[\e[0m\] "
 
 function repeat {
-  while :; do
-    "$@"
-  done
+    while :; do
+        "$@"
+    done
 }
 
 function trash {
-  for file in "$@"; do
-    mv -v "$file" /tmp
-  done
+    for file in "$@"; do
+        mv -v "$file" /tmp
+    done
 }
 
 function ls {
-  export COLUMNS
-  command ls -AC --color=always --group-directories-first "$@" | less
+    if [ $TERM == "eterm-color" ] || [ $TERM == "dumb" ] ; then
+        command ls -AC --color=always --group-directories-first "$@"
+    else
+        export COLUMNS
+        command ls -AC --color=always --group-directories-first "$@" | less
+    fi
 }
 
 function ll {
-  command ls -lhA --color=always --group-directories-first "$@" | less
+    if [ $TERM == "eterm-color" ] || [ $TERM == "dumb" ] ; then
+        command ls -lhA --color=always --group-directories-first "$@"
+    else
+        command ls -lhA --color=always --group-directories-first "$@" | less
+    fi
 }
 
 alias cp='cp -rv'

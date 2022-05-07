@@ -172,7 +172,7 @@
         tab-bar-tab-name-truncated-max 15
         tab-bar-show 1))
 
-(defvar crz/font "ypn envypn 15")
+(defvar crz/font "Iosevka Slab 10")
 
 (defun crz/set-font-faces ()
   (set-face-attribute 'default nil :font crz/font)
@@ -213,11 +213,10 @@
         org-startup-folded t
         org-src-window-setup 'current-window
         org-ellipsis " ..."
-        org-hide-emphasis-markers t)
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+        org-hide-emphasis-markers t
+        org-return-follows-link t)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("li" . "src lisp"))
-  (add-to-list 'org-structure-template-alist '("cs" . "src conf-space"))
   (add-to-list 'org-structure-template-alist '("j" . "src java")))
 
 (straight-use-package 'toc-org)

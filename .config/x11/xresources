@@ -7,9 +7,9 @@ URxvt*.intensityStyles: true
 URxvt*.pointerBlank:      true
 URxvt*.pointerBlankDelay: 987654321
 
-URxvt*.font:           xft:ypn envypn:size=15
-URxvt*.letterSpace:    0
-URxvt*.lineSpace:      0
+URxvt.font:           xft:Iosevka Slab:size=10
+URxvt.letterSpace:    -1
+URxvt.lineSpace:      0
 
 URxvt.clipboard.copycmd:  xclip -i -selection clipboard
 URxvt.clipboard.pastecmd: xclip -o -selection clipboard
@@ -39,3 +39,10 @@ URxvt*.color12:    #2544bb
 URxvt*.color13:    #5317ac
 URxvt*.color14:    #005a5f
 URxvt*.color15:    #ffffff
+
+Xft.antialias:	1
+Xft.hinting:	1
+Xft.autohint:	0
+Xft.hintstyle:	hintslight
+Xft.rgba:	rgb
+Xft.lcdfilter:	lcddefault
