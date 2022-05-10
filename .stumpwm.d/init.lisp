@@ -94,10 +94,16 @@
 (define-key *top-map* (kbd "s-}") "gprev")
 
 (when *initializing*
-  (grename "home")
-  (gnewbg ".hidden"))
+  (grename "dev")
+  (gnewbg "www")
+  (gnewbg "message")
+  (gnewbg "misc"))
 
-(define-frame-preference ".hidden" (0 t t :title "cmus"))
+(clear-window-placement-rules)
+
+(define-frame-preference "www" (0 t t :class "Pale moon"))
+(define-frame-preference "message" (0 t t :class "TelegramDesktop"))
+(define-frame-preference "misc" (0 t t :title "cmus"))
 
 (define-key *root-map* (kbd "s-c") "quit-confirm")
 
@@ -156,5 +162,5 @@
 
 (setf *screen-mode-line-format* "[%n] %W ^> %d")
 
-;; (when *initializing*
-;;   (mode-line))
+(when *initializing*
+  (mode-line))
