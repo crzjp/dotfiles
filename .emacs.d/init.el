@@ -26,8 +26,8 @@
 (setq auto-save-list-file-prefix "~/.cache/emacs/autosaves/"
       auto-save-file-name-transforms `((".*" "~/.cache/emacs/autosaves/" t)))
 
-(setq recentf-max-menu-items 20
-      recentf-max-saved-items 20
+(setq recentf-max-menu-items 11
+      recentf-max-saved-items 30
       recentf-auto-cleanup 'never)
 
 (add-hook 'kill-emacs-hook (lambda () (recentf-cleanup)))
@@ -205,7 +205,7 @@
         org-agenda-start-with-log-mode t
         org-log-done 'time
         org-log-into-drawer t
-        org-agenda-files '("~/media/docs/org/agenda.org")
+        org-agenda-files '("~/media/docs/agenda.org")
         org-files-directory "~/media/docs/org"
         org-startup-indented t
         org-startup-with-inline-images t
