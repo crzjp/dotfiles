@@ -148,6 +148,7 @@
 
 #+begin_src lisp
   (define-key *groups-map* (kbd "b") "grouplist")
+  (define-key *groups-map* (kbd "v") "vgroups")
 
   (define-key *top-map* (kbd "s-ISO_Left_Tab") "gother")
 
@@ -156,14 +157,13 @@
 
   (when *initializing*
     (grename "dev")
-    (gnewbg "www")
-    (gnewbg "message")
+    (gnewbg "msg")
     (gnewbg "misc"))
 
   (clear-window-placement-rules)
 
-  (define-frame-preference "www" (0 t t :class "Pale moon"))
-  (define-frame-preference "message" (0 t t :class "TelegramDesktop"))
+  (define-frame-preference "dev" (0 t t :class "Pale moon"))
+  (define-frame-preference "msg" (0 t t :class "TelegramDesktop"))
   (define-frame-preference "misc" (0 t t :title "cmus"))
 #+end_src
 
@@ -257,6 +257,6 @@
 
   (setf *screen-mode-line-format* "[%n] %W ^> %d")
 
-  (when *initializing*
-    (mode-line))
+  ;; (when *initializing*
+  ;;   (mode-line))
 #+end_src
