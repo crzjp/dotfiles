@@ -67,6 +67,9 @@
 
 (global-set-key (kbd "M-o") 'ace-window)
 
+(with-eval-after-load 'ace-window
+  (setq aw-scope 'frame))
+
 (setq history-length 25)
 
 (savehist-mode 1)
