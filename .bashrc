@@ -44,6 +44,14 @@ function ll {
     fi
 }
 
+function tree {
+    if [ $TERM == "eterm-color" ] || [ $TERM == "dumb" ] ; then
+        command tree -C "$@"
+    else
+        command tree -C "$@" | less
+    fi
+}
+
 alias cp='cp -rv'
 alias mv='mv -v'
 alias rm='rm -rfvI'
