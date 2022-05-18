@@ -47,6 +47,14 @@
 (define-key *top-map* (kbd "s-RET") "exec urxvtc")
 (define-key *root-map* (kbd "l") "exec slock")
 
+(defvar *apps*
+  (let ((m (make-sparse-keymap)))
+    (define-key m (kbd "t") "exec telegram-desktop")
+    (define-key m (kbd "g") "exec gimp")
+    (define-key m (kbd "p") "exec palemoon") m))
+
+(define-key *top-map* (kbd "s-a") '*apps*)
+
 (setf *window-format* "%n%s%25t")
 
 (define-key *root-map* (kbd "b") "windowlist")
