@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+pk="$(pacman -Q | wc -l)"
+sh="${SHELL##*/}"
+wm="$(awk '/exec/{print $2}' $HOME/.config/sx/sxrc)"
+tm="${TERM%-*}"
+
+echo -e " \033[34m    _
+ \033[34m   / \     \033[0m${pk}
+ \033[34m  / _ \    \033[0m${sh}
+ \033[34m / ( ) \   \033[0m${tm}
+ \033[34m/.\`   \`.\  \033[0m${wm}
+"
