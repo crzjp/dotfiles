@@ -10,7 +10,8 @@
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "RET") "exec emacsclient -c -a ''")
     (define-key m (kbd "d") "exec emacsclient -c -a '' -e '(dired nil)'")
-    (define-key m (kbd "e") "exec emacsclient -c -a '' -e '(eshell)'") m))
+    (define-key m (kbd "e") "exec emacsclient -c -a '' -e '(eshell)'")
+    (define-key m (kbd "a") "exec emacsclient -c -a '' -e '(org-agenda)'") m))
 
 (define-key *top-map* (kbd "s-e") '*emacs*)
 
