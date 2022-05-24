@@ -215,7 +215,6 @@
         org-image-actual-width '(600)
         org-startup-folded t
         org-src-window-setup 'current-window
-        org-ellipsis " ..."
         org-hide-emphasis-markers t
         org-return-follows-link t)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
