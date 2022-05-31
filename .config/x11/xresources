@@ -1,3 +1,5 @@
+! -*- compile-comand: "xrdb -load xresources" -*-
+
 URxvt*.perl-ext-common: default,matcher,clipboard
 URxvt*.scrollBar:       false
 URxvt*.internalBorder:  0
