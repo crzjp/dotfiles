@@ -59,7 +59,8 @@
 
 (setq global-auto-revert-non-file-buffers t)
 
-(setq delete-by-moving-to-trash t)
+(setq delete-by-moving-to-trash t
+      trash-directory "/tmp/emacs-trash/")
 
 (setq large-file-warning-threshold nil)
 
@@ -145,6 +146,8 @@
 (global-set-key (kbd "C-x C-d") 'dired-jump)
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(add-hook 'ibuffer-mode-hook '(lambda () (ibuffer-auto-mode 1)))
 
 (straight-use-package 'markdown-mode)
 
