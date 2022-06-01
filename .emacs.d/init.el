@@ -18,13 +18,18 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(setq backup-directory-alist `((".*" . "~/.cache/emacs/backups/"))
+(setq backup-directory-alist `((".*" . ,(concat user-emacs-directory "backups")))
       backup-by-copying t
       version-control t
-      delete-old-versions t)
+      delete-old-versions t
+      vc-make-backup-files t
+      kept-old-versions 0
+      kept-new-versions 10)
 
-(setq auto-save-list-file-prefix "~/.cache/emacs/autosaves/"
-      auto-save-file-name-transforms `((".*" "~/.cache/emacs/autosaves/" t)))
+;; (setq backup-directory-alist `((".*" . "~/.cache/emacs/backups/")))
+
+(setq auto-save-list-file-prefix (concat user-emacs-directory "autosaves")
+      auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosaves") t)))
 
 (setq recentf-max-menu-items 11
       recentf-max-saved-items 30
@@ -51,10 +56,6 @@
               default-sendmail-coding-system 'utf-8-unix
               default-terminal-coding-system 'utf-8-unix)
 
-(delete-selection-mode 1)
-
-(setq-default indent-tabs-mode nil)
-
 (global-auto-revert-mode 1)
 
 (setq global-auto-revert-non-file-buffers t)
@@ -64,12 +65,18 @@
 
 (setq large-file-warning-threshold nil)
 
-(straight-use-package 'ace-window)
+(setq-default truncate-lines t)
 
-(global-set-key (kbd "M-o") 'ace-window)
+(setq-default indent-tabs-mode nil)
+
+(delete-selection-mode 1)
+
+(straight-use-package 'ace-window)
 
 (with-eval-after-load 'ace-window
   (setq aw-scope 'frame))
+
+(global-set-key (kbd "M-o") 'ace-window)
 
 (setq history-length 25)
 
@@ -85,7 +92,7 @@
 
 (with-eval-after-load 'vertico
   (setq completion-styles '(orderless)
-        orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
+        orderless-matching-styles '(orderless-flex)))
 
 (straight-use-package 'consult)
 
@@ -100,22 +107,40 @@
 (with-eval-after-load 'org
   (define-key org-mode-map "\C-c\o" 'consult-org-heading))
 
-(defun crz/eshell-history-search ()
-  (interactive (unless (derived-mode-p 'eshell-mode)
-                 (user-error "Must be called from Eshell buffer")))
-  (let ((command (with-temp-buffer
-                   (insert-file-contents-literally "~/.cache/emacs/eshell/history")
-                   (let ((history-list (split-string (buffer-string) "\n" t)))
-                     (completing-read "History search: " history-list)))))
-    (when command
-      (insert command))))
-
 (defun crz/eshell-prompt ()
   (concat
    (propertize " " 'face '(:background "#2544bb"))
    (propertize (abbreviate-file-name (eshell/pwd)) 'face '(:background "#2544bb" :foreground "#ffffff"))
    (propertize " " 'face '(:background "#2544bb"))
    (propertize "$" 'invisible t) " "))
+
+(defun crz/eshell-history-search ()
+  (interactive (unless (derived-mode-p 'eshell-mode)
+                 (user-error "Must be called from Eshell buffer")))
+  (let ((command (with-temp-buffer
+                   (insert-file-contents-literally (concat user-emacs-directory "eshell/history"))
+                   (let ((history-list (split-string (buffer-string) "\n" t)))
+                     (completing-read "History search: " history-list)))))
+    (when command
+      (insert command))))
+
+(add-hook 'eshell-first-time-mode-hook
+          (lambda ()
+            (eshell/alias "f" "find-file $1")
+            (eshell/alias "fo" "find-file-other-window $1")
+            (eshell/alias "v" "view-file $1")
+            (eshell/alias "d" "dired $1")
+            (eshell/alias "grep" "grep --color $*")
+            (eshell/alias "egrep" "egrep --color $*")
+            (eshell/alias "zgrep" "zgrep --color $*")
+            (eshell/alias "fgrep" "fgrep --color $*")
+            (eshell/alias "-" "cd -")
+            (eshell/alias "ll" "ls -lhA --color=always --group-directories-first $*")
+            (eshell/alias "ls" "ls -AC --color=always --group-directories-first $*")
+            (eshell/alias "rm" "rm -rfvI $*")
+            (eshell/alias "alias" "cat -n $*")
+            (eshell/alias "ping" "ping -c 3 gnu.org")
+            (eshell/alias "cpu" "ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20")))
 
 (defun crz/eshell-config ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
@@ -124,10 +149,9 @@
         eshell-buffer-maximum-lines 1000
         eshell-hist-ignoredups t
         eshell-scroll-to-bottom-on-input t
-        eshell-aliases-file "~/.emacs.d/eshell-aliases"
         eshell-prompt-regexp "^[^$\n]*\\\$ "
         eshell-prompt-function 'crz/eshell-prompt)
-  (eshell-read-aliases-list)
+  (setenv "PAGER" "cat")
   (define-key eshell-mode-map (kbd "C-r") 'crz/eshell-history-search))
 
 (with-eval-after-load 'eshell
@@ -219,10 +243,10 @@
         org-startup-folded t
         org-src-window-setup 'current-window
         org-hide-emphasis-markers t
-        org-return-follows-link t)
+        org-return-follows-link t
+        org-ellipsis " ▾")
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("li" . "src lisp"))
-  (add-to-list 'org-structure-template-alist '("j" . "src java")))
+  (add-to-list 'org-structure-template-alist '("li" . "src lisp")))
 
 (straight-use-package 'toc-org)
 
@@ -230,6 +254,13 @@
 
 (with-eval-after-load 'toc-org
   (setq toc-org-max-depth 10))
+
+(straight-use-package 'org-superstar)
+
+(add-hook 'org-mode-hook 'org-superstar-mode)
+
+(with-eval-after-load 'org-superstar
+  (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
 
 (straight-use-package 'pdf-tools)
 
@@ -279,5 +310,3 @@
                                      transmission-peers-mode)))
 
 (straight-use-package '0x0)
-
-(setq gc-cons-threshold (* 2 1000 1000))
