@@ -26,8 +26,6 @@
       kept-old-versions 0
       kept-new-versions 10)
 
-;; (setq backup-directory-alist `((".*" . "~/.cache/emacs/backups/")))
-
 (setq auto-save-list-file-prefix (concat user-emacs-directory "autosaves")
       auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosaves") t)))
 

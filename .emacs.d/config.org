@@ -167,8 +167,6 @@
         vc-make-backup-files t
         kept-old-versions 0
         kept-new-versions 10)
-
-  ;; (setq backup-directory-alist `((".*" . "~/.cache/emacs/backups/")))
 #+end_src
 
 **** Auto save
