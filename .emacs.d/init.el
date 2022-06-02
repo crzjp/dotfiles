@@ -63,8 +63,6 @@
 
 (setq large-file-warning-threshold nil)
 
-(setq-default truncate-lines t)
-
 (setq-default indent-tabs-mode nil)
 
 (delete-selection-mode 1)
@@ -136,7 +134,7 @@
             (eshell/alias "ll" "ls -lhA --color=always --group-directories-first $*")
             (eshell/alias "ls" "ls -AC --color=always --group-directories-first $*")
             (eshell/alias "rm" "rm -rfvI $*")
-            (eshell/alias "alias" "cat -n $*")
+            (eshell/alias "cat" "cat -n $*")
             (eshell/alias "ping" "ping -c 3 gnu.org")
             (eshell/alias "cpu" "ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20")))
 
@@ -224,10 +222,6 @@
 
 (straight-use-package '(org :type built-in))
 
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-
-(global-set-key (kbd "C-c a") 'org-agenda)
-
 (with-eval-after-load 'org
   (setq org-modules '(org-tempo)
         org-agenda-start-with-log-mode t
@@ -245,6 +239,12 @@
         org-ellipsis " ▾")
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("li" . "src lisp")))
+
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+(global-set-key (kbd "C-c a") 'org-agenda)
+
+(add-hook 'org-mode-hook 'visual-line-mode)
 
 (straight-use-package 'toc-org)
 
