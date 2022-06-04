@@ -11,36 +11,36 @@ area(){ scrot -s "$pic" ;}
 abort(){ notify-send "Print" "Aborted" ; exit 1 ;}
 
 hidecursor(){
-  for term in /dev/pts/[0-9]*; do
-    [ -w "$term" ] && printf "%b" "$1" > "$term"
-  done
-  sleep 0.3
+    for term in /dev/pts/[0-9]*; do
+        [ -w "$term" ] && printf "%b" "$1" > "$term"
+    done
+    sleep 0.3
 }
 
 case "$1" in
-  s*)
-    hidecursor "\033[?25l"
-    screen || abort
-    xclip -selection c -t image/png "$pic"
-    notify-send -u low -i "$pic" "Print" "Saved to folder"
-    hidecursor "\033[?25h"
-    ;;
-  a*)
-    area || abort
-    xclip -selection c -t image/png "$pic"
-    notify-send -u low -i "$pic" "Print" "Area saved to folder"
-    ;;
-  us*)
-    screen || abort
-    curl -F file=@$pic http://0x0.st | xclip -selection c -i
-    notify-send -u low -i "$pic" "Print" "Uploaded and url copied"
-    ;;
-  ua*)
-    area || abort
-    curl -F file=@$pic http://0x0.st | xclip -selection c -i
-    notify-send -u low -i "$pic" "Print" "Area uploaded and url copied"
-    ;;
-  *)
-    exit 1
-    ;;
+    s*)
+        hidecursor "\033[?25l"
+        screen || abort
+        xclip -selection c -t image/png "$pic"
+        notify-send -u low -i "$pic" "Print" "Saved to folder"
+        hidecursor "\033[?25h"
+        ;;
+    a*)
+        area || abort
+        xclip -selection c -t image/png "$pic"
+        notify-send -u low -i "$pic" "Print" "Area saved to folder"
+        ;;
+    us*)
+        screen || abort
+        curl -F file=@$pic http://0x0.st | xclip -selection c -i
+        notify-send -u low -i "$pic" "Print" "Uploaded and url copied"
+        ;;
+    ua*)
+        area || abort
+        curl -F file=@$pic http://0x0.st | xclip -selection c -i
+        notify-send -u low -i "$pic" "Print" "Area uploaded and url copied"
+        ;;
+    *)
+        exit 1
+        ;;
 esac
