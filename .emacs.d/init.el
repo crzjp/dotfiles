@@ -267,7 +267,6 @@
 (add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
 (with-eval-after-load 'pdf-tools
-  (setq-default pdf-view-display-size 'fit-page)
   (setq pdf-view-continuous nil))
 
 (straight-use-package 'pdf-view-restore)
