@@ -117,24 +117,6 @@
     (when command
       (insert command))))
 
-(add-hook 'eshell-first-time-mode-hook
-          (lambda ()
-            (eshell/alias "f" "find-file $1")
-            (eshell/alias "fo" "find-file-other-window $1")
-            (eshell/alias "v" "view-file $1")
-            (eshell/alias "d" "dired $1")
-            (eshell/alias "grep" "grep --color $*")
-            (eshell/alias "egrep" "egrep --color $*")
-            (eshell/alias "zgrep" "zgrep --color $*")
-            (eshell/alias "fgrep" "fgrep --color $*")
-            (eshell/alias "-" "cd -")
-            (eshell/alias "ll" "ls -lhA --color=always --group-directories-first $*")
-            (eshell/alias "ls" "ls -AC --color=always --group-directories-first $*")
-            (eshell/alias "rm" "rm -rfvI $*")
-            (eshell/alias "cat" "cat -n $*")
-            (eshell/alias "ping" "ping -c 3 gnu.org")
-            (eshell/alias "cpu" "ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20")))
-
 (defun crz/eshell-config ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
@@ -143,7 +125,9 @@
         eshell-hist-ignoredups t
         eshell-scroll-to-bottom-on-input t
         eshell-prompt-regexp "^[^$\n]*\\\$ "
-        eshell-prompt-function 'crz/eshell-prompt)
+        eshell-prompt-function 'crz/eshell-prompt
+        eshell-aliases-file "~/.emacs.d/eshell-aliases")
+  (eshell-read-aliases-list)
   (setenv "PAGER" "cat")
   (define-key eshell-mode-map (kbd "C-r") 'crz/eshell-history-search))
 
