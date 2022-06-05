@@ -27,13 +27,10 @@
       kept-new-versions 10)
 
 (setq auto-save-list-file-prefix (concat user-emacs-directory "autosaves")
-      auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosaves") t)))
+      auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosaves/") t)))
 
-(setq recentf-max-menu-items 11
-      recentf-max-saved-items 30
-      recentf-auto-cleanup 'never)
-
-(add-hook 'kill-emacs-hook (lambda () (recentf-cleanup)))
+(setq recentf-max-saved-items 50
+      recentf-auto-cleanup 300)
 
 (recentf-mode 1)
 
@@ -74,7 +71,7 @@
 
 (global-set-key (kbd "M-o") 'ace-window)
 
-(setq history-length 25)
+(setq history-length 50)
 
 (savehist-mode 1)
 
@@ -92,11 +89,11 @@
 
 (straight-use-package 'consult)
 
-(setq completion-in-region-function 'consult-completion-in-region)
-
 (with-eval-after-load 'consult
   (consult-customize consult-recent-file :preview-key nil)
   (consult-customize consult-org-heading :preview-key nil))
+
+(setq completion-in-region-function 'consult-completion-in-region)
 
 (global-set-key (kbd "C-c r") 'consult-recent-file)
 
@@ -167,7 +164,7 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(add-hook 'ibuffer-mode-hook '(lambda () (ibuffer-auto-mode 1)))
+(add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode)
 
 (straight-use-package 'markdown-mode)
 
@@ -248,26 +245,24 @@
 
 (straight-use-package 'toc-org)
 
-(add-hook 'org-mode-hook 'toc-org-mode)
-
 (with-eval-after-load 'toc-org
   (setq toc-org-max-depth 10))
 
-(straight-use-package 'org-superstar)
+(add-hook 'org-mode-hook 'toc-org-mode)
 
-(add-hook 'org-mode-hook 'org-superstar-mode)
+(straight-use-package 'org-superstar)
 
 (with-eval-after-load 'org-superstar
   (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
 
+(add-hook 'org-mode-hook 'org-superstar-mode)
+
 (straight-use-package 'pdf-tools)
-
-(pdf-tools-install :no-query)
-
-(add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
 (with-eval-after-load 'pdf-tools
   (setq pdf-view-continuous nil))
+
+(add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
 (straight-use-package 'pdf-view-restore)
 
