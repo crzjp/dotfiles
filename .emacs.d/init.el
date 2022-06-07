@@ -26,7 +26,7 @@
       kept-old-versions 0
       kept-new-versions 10)
 
-(setq auto-save-list-file-prefix (concat user-emacs-directory "autosaves")
+(setq auto-save-list-file-prefix (concat user-emacs-directory "autosaves/")
       auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosaves/") t)))
 
 (setq recentf-max-saved-items 50
@@ -245,6 +245,8 @@
 
 (with-eval-after-load 'pdf-tools
   (setq pdf-view-continuous nil))
+
+(pdf-tools-install :noquery)
 
 (add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 

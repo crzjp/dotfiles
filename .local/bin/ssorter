@@ -34,6 +34,7 @@ elif [ "$1" = "m" ]; then
     for p in *.mp3; do
         ffmpeg -loglevel 8 -hide_banner -i "$p" -codec copy \
                -metadata "${type}=${name}" "${type}_EDITED_${p}"
+        rm -rv -- "$p"
     done
 else
     echo "Wrong usage"
