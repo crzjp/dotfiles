@@ -10,9 +10,9 @@ file="$(awk '/file/{print substr($0, index($0, $2))}' $content)"
 
 artist_name="$(awk '/tag artist/{print substr($0, index($0, $3)); exit}' $content)"
 title_name="$(awk '/tag title/{print substr($0, index($0, $3))}' $content)"
-album_name="$(awk '/album/{print substr($0, index($0, $3)) ; exit}' $content)"
+album_name="$(awk '/\yalbum\y/{print substr($0, index($0, $3)) ; exit}' $content)"
 
-album_path="$(awk '/^tag album/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
+album_path="$(awk '/\yalbum\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
 
 album_cover="$(dirname $file)/${album_path}.jpg"
 

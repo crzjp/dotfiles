@@ -1,79 +1,9 @@
 #+title: Emacs config
 #+property: header-args :tangle init.el
-#+exclude_tags: noexport
 
-* Table Of Contents :noexport::toc:
-- [[#early-initel][early-init.el]]
-  - [[#performance][Performance]]
-    - [[#garbage-collector][Garbage collector]]
-    - [[#native-compile][Native compile]]
-  - [[#package][Package]]
-  - [[#visual][Visual]]
-  - [[#user-emacs-directory][User emacs directory]]
-- [[#initel][init.el]]
-  - [[#package-installer][Package installer]]
-  - [[#defaults][Defaults]]
-    - [[#files][Files]]
-      - [[#custom][Custom]]
-      - [[#backup][Backup]]
-      - [[#auto-save][Auto save]]
-      - [[#recent][Recent]]
-      - [[#symlinks][Symlinks]]
-    - [[#short-answers][Short answers]]
-    - [[#eww][EWW]]
-    - [[#default-directory][Default directory]]
-    - [[#coding-system][Coding system]]
-    - [[#automatically-revert-buffers][Automatically revert buffers]]
-    - [[#delete-by-moving-to-trash][Delete by moving to trash]]
-    - [[#stop-large-file-warning][Stop large file warning]]
-    - [[#tab-indentation][Tab indentation]]
-    - [[#delete-selection-mode][Delete selection mode]]
-  - [[#window-movement][Window movement]]
-  - [[#minibuffer][Minibuffer]]
-    - [[#history][History]]
-    - [[#recursive-minibuffers][Recursive minibuffers]]
-    - [[#completion-ui][Completion UI]]
-    - [[#completion-style][Completion style]]
-  - [[#completion-in-region][Completion in region]]
-  - [[#shells][Shells]]
-    - [[#eshell][Eshell]]
-      - [[#prompt][Prompt]]
-      - [[#history-search][History search]]
-      - [[#aliases][Aliases]]
-      - [[#defaults-1][Defaults]]
-    - [[#term][Term]]
-  - [[#dired][Dired]]
-  - [[#ibuffer][Ibuffer]]
-  - [[#language-modes][Language modes]]
-    - [[#markdown][Markdown]]
-    - [[#clojure][Clojure]]
-  - [[#visual-1][Visual]]
-    - [[#maximize-the-frame][Maximize the frame]]
-    - [[#line-number][Line number]]
-    - [[#column-number][Column number]]
-    - [[#color-codes][Color codes]]
-    - [[#cursor][Cursor]]
-    - [[#tab-bar][Tab bar]]
-    - [[#font][Font]]
-    - [[#theme][Theme]]
-    - [[#dialog-box][Dialog box]]
-  - [[#org][Org]]
-    - [[#defaults-2][Defaults]]
-    - [[#table-of-contents][Table Of Contents]]
-    - [[#asteriscs][Asteriscs]]
-  - [[#media][Media]]
-    - [[#pdf][PDF]]
-    - [[#epub][EPUB]]
-    - [[#irc][IRC]]
-    - [[#email][Email]]
-    - [[#torrent][Torrent]]
-    - [[#0x0][0x0]]
+* Early init
 
-* early-init.el
-
-** Performance
-
-*** Garbage collector
+** Garbage collector
 
 #+begin_src emacs-lisp :tangle early-init.el
   ;; -*- lexical-binding: t; -*-
@@ -82,15 +12,27 @@
         gc-cons-percentage 0.6)
 
   (add-hook 'emacs-startup-hook
-            (lambda () (setq gc-cons-threshold (* 2 1000 1000))))
+            #'(lambda () (setq gc-cons-threshold (* 2 1000 1000))))
 #+end_src
 
-*** Native compile
+** User emacs directory
+
+#+begin_src emacs-lisp :tangle early-init.el
+  (setq user-emacs-directory "~/.cache/emacs/")
+
+  (when (not (file-directory-p user-emacs-directory))
+    (make-directory user-emacs-directory t))
+#+end_src
+
+** Native compile
 
 #+begin_src emacs-lisp :tangle early-init.el
   (setq package-native-compile t
         native-comp-deferred-compilation t
         native-comp-async-report-warnings-errors nil)
+
+  (setq native-comp-eln-load-path
+        (list (expand-file-name "eln-cache" user-emacs-directory)))
 #+end_src
 
 ** Package
@@ -108,27 +50,17 @@
   (scroll-bar-mode -1)
 
   (setq inhibit-startup-screen t
+        inhibit-startup-echo-area-message t
         initial-scratch-message nil
         server-client-instructions nil)
 #+end_src
 
-** User emacs directory
-
-#+begin_src emacs-lisp :tangle early-init.el
-  (setq user-emacs-directory "~/.cache/emacs/")
-
-  (when (not (file-directory-p user-emacs-directory))
-    (make-directory user-emacs-directory t))
-#+end_src
-
-* init.el
-
-** Package installer
+* Package installer
 
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t; -*-
 
-  (setq straight-check-for-modifications '(check-on-save))
+  (setq straight-check-for-modifications nil)
 
   (defvar bootstrap-version)
 
@@ -145,36 +77,39 @@
     (load bootstrap-file nil 'nomessage))
 #+end_src
 
-** Defaults
+* Defaults
 
-*** Files
+** Files
 
-**** Custom
+*** Custom
 
 #+begin_src emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+  (when (file-exists-p custom-file)
+    (load custom-file nil t))
 #+end_src
 
-**** Backup
+*** Backup
 
 #+begin_src emacs-lisp
-  (setq backup-directory-alist `((".*" . ,(concat user-emacs-directory "backups")))
+  (setq backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
         backup-by-copying t
         version-control t
         delete-old-versions t
         vc-make-backup-files t
-        kept-old-versions 0
+        kept-old-versions 10
         kept-new-versions 10)
 #+end_src
 
-**** Auto save
+*** Auto save
 
 #+begin_src emacs-lisp
-  (setq auto-save-list-file-prefix (concat user-emacs-directory "autosaves/")
-        auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosaves/") t)))
+  (setq auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
+        auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
 #+end_src
 
-**** Recent
+*** Recent
 
 #+begin_src emacs-lisp
   (setq recentf-max-saved-items 50
@@ -183,19 +118,19 @@
   (recentf-mode 1)
 #+end_src
 
-**** Symlinks
+*** Symlinks
 
 #+begin_src emacs-lisp
   (setq-default vc-follow-symlinks)
 #+end_src
 
-*** Short answers
+** Short answers
 
 #+begin_src emacs-lisp
   (setq use-short-answers t)
 #+end_src
 
-*** EWW
+** EWW
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'browse-url
@@ -203,13 +138,13 @@
           browse-url-browser-function 'browse-url-generic))
 #+end_src
 
-*** Default directory
+** Default directory
 
 #+begin_src emacs-lisp
   (cd "~/")
 #+end_src
 
-*** Coding system
+** Coding system
 
 #+begin_src emacs-lisp
   (setq-default buffer-file-coding-system 'utf-8-unix
@@ -220,7 +155,7 @@
                 default-terminal-coding-system 'utf-8-unix)
 #+end_src
 
-*** Automatically revert buffers
+** Automatically revert buffers
 
 #+begin_src emacs-lisp
   (global-auto-revert-mode 1)
@@ -228,32 +163,39 @@
   (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
-*** Delete by moving to trash
+** Delete by moving to trash
 
 #+begin_src emacs-lisp
   (setq delete-by-moving-to-trash t
-        trash-directory "/tmp/emacs-trash/")
+        trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
 #+end_src
 
-*** Stop large file warning
+** Stop large file warning
 
 #+begin_src emacs-lisp
   (setq large-file-warning-threshold nil)
 #+end_src
 
-*** Tab indentation
+** Tab indentation
 
 #+begin_src emacs-lisp
-  (setq-default indent-tabs-mode nil)
+  (setq-default indent-tabs-mode nil
+                tab-width 4)
 #+end_src
 
-*** Delete selection mode
+** Delete selection mode
 
 #+begin_src emacs-lisp
   (delete-selection-mode 1)
 #+end_src
 
-** Window movement
+** Focus help window when opened
+
+#+begin_src emacs-lisp
+  (setq help-window-select t)
+#+end_src
+
+* Window movement
 
 #+begin_src emacs-lisp
   (straight-use-package 'ace-window)
@@ -264,23 +206,24 @@
   (global-set-key (kbd "M-o") 'ace-window)
 #+end_src
 
-** Minibuffer
+* Minibuffer
 
-*** History
+** History
 
 #+begin_src emacs-lisp
-  (setq history-length 50)
+  (setq history-length 50
+        history-delete-duplicates t)
 
   (savehist-mode 1)
 #+end_src
 
-*** Recursive minibuffers
+** Recursive minibuffers
 
 #+begin_src emacs-lisp
   (setq enable-recursive-minibuffers t)
 #+end_src
 
-*** Completion UI
+** Completion UI
 
 #+begin_src emacs-lisp
   (straight-use-package 'vertico)
@@ -288,7 +231,7 @@
   (vertico-mode 1)
 #+end_src
 
-*** Completion style
+** Completion style
 
 #+begin_src emacs-lisp
   (straight-use-package 'orderless)
@@ -298,7 +241,7 @@
           orderless-matching-styles '(orderless-flex)))
 #+end_src
 
-** Completion in region
+* Completion in region
 
 #+begin_src emacs-lisp
   (straight-use-package 'consult)
@@ -307,7 +250,12 @@
     (consult-customize consult-recent-file :preview-key nil)
     (consult-customize consult-org-heading :preview-key nil))
 
-  (setq completion-in-region-function 'consult-completion-in-region)
+  (setq completion-in-region-function
+        (lambda (&rest args)
+          (apply (if vertico-mode
+                     'consult-completion-in-region
+                   'completion--in-region)
+                 args)))
 
   (global-set-key (kbd "C-c r") 'consult-recent-file)
 
@@ -315,11 +263,11 @@
     (define-key org-mode-map "\C-c\o" 'consult-org-heading))
 #+end_src
 
-** Shells
+* Shells
 
-*** Eshell
+** Eshell
 
-**** Prompt
+*** Prompt
 
 #+begin_src emacs-lisp
   (defun crz/eshell-prompt ()
@@ -330,7 +278,7 @@
      (propertize "$" 'invisible t) " "))
 #+end_src
 
-**** History search
+*** History search
 
 #+begin_src emacs-lisp
   (defun crz/eshell-history-search ()
@@ -344,7 +292,7 @@
         (insert command))))
 #+end_src
 
-**** Aliases
+*** Aliases
 
 #+begin_src fundamental :tangle eshell-aliases
   alias f find-file $1
@@ -369,7 +317,7 @@
   alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
 #+end_src
 
-**** Defaults
+*** Defaults
 
 #+begin_src emacs-lisp
   (defun crz/eshell-config ()
@@ -392,14 +340,14 @@
   (global-set-key (kbd "C-c e") 'eshell)
 #+end_src
 
-*** Term
+** Term
 
 #+begin_src emacs-lisp
   (defun crz/quick-term ()
     (interactive) (ansi-term (getenv "SHELL")))
 #+end_src
 
-** Dired
+* Dired
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'dired
@@ -410,7 +358,7 @@
   (global-set-key (kbd "C-x C-d") 'dired-jump)
 #+end_src
 
-** Ibuffer
+* Ibuffer
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -418,9 +366,9 @@
   (add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode)
 #+end_src
 
-** Language modes
+* Language modes
 
-*** Markdown
+** Markdown
 
 #+begin_src emacs-lisp
   (straight-use-package 'markdown-mode)
@@ -429,39 +377,39 @@
   (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 #+end_src
 
-*** Clojure
+** Clojure
 
 #+begin_src emacs-lisp
   (straight-use-package 'cider)
 #+end_src
 
-** Visual
+* Visual
 
-*** Maximize the frame
+** Maximize the frame
 
 #+begin_src emacs-lisp
   (setq frame-resize-pixelwise t)
 #+end_src
 
-*** Line number
+** Line number
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+end_src
 
-*** Column number
+** Column number
 
 #+begin_src emacs-lisp
   (column-number-mode 1)
 #+end_src
 
-*** Color codes
+** Color codes
 
 #+begin_src emacs-lisp
   (straight-use-package 'rainbow-mode)
 #+end_src
 
-*** Cursor
+** Cursor
 
 #+begin_src emacs-lisp
   (setq-default cursor-type 'bar
@@ -470,7 +418,7 @@
   (blink-cursor-mode 0)
 #+end_src
 
-*** Tab bar
+** Tab bar
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'tab-bar
@@ -483,7 +431,7 @@
           tab-bar-show 1))
 #+end_src
 
-*** Font
+** Font
 
 #+begin_src emacs-lisp
   (defvar crz/font "Iosevka Slab 10")
@@ -499,7 +447,7 @@
     (crz/set-font-faces))
 #+end_src
 
-*** Theme
+** Theme
 
 #+begin_src emacs-lisp
   (straight-use-package 'modus-themes)
@@ -511,15 +459,15 @@
   (modus-themes-load-operandi)
 #+end_src
 
-*** Dialog box
+** Dialog box
 
 #+begin_src emacs-lisp
   (setq use-dialog-box nil)
 #+end_src
 
-** Org
+* Org
 
-*** Defaults
+** Defaults
 
 #+begin_src emacs-lisp
   (straight-use-package '(org :type built-in))
@@ -549,18 +497,7 @@
   (add-hook 'org-mode-hook 'visual-line-mode)
 #+end_src
 
-*** Table Of Contents
-
-#+begin_src emacs-lisp
-  (straight-use-package 'toc-org)
-
-  (with-eval-after-load 'toc-org
-    (setq toc-org-max-depth 10))
-
-  (add-hook 'org-mode-hook 'toc-org-mode)
-#+end_src
-
-*** Asteriscs
+** Asteriscs
 
 #+begin_src emacs-lisp
   (straight-use-package 'org-superstar)
@@ -571,9 +508,9 @@
   (add-hook 'org-mode-hook 'org-superstar-mode)
 #+end_src
 
-** Media
+* Media
 
-*** PDF
+** PDF
 
 #+begin_src emacs-lisp
   (straight-use-package 'pdf-tools)
@@ -590,7 +527,7 @@
   (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
 #+end_src
 
-*** EPUB
+** EPUB
 
 #+begin_src emacs-lisp
   (straight-use-package 'nov.el)
@@ -599,7 +536,7 @@
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 #+end_src
 
-*** IRC
+** IRC
 
 #+begin_src emacs-lisp
   (straight-use-package 'erc-hl-nicks)
@@ -617,7 +554,7 @@
     (add-to-list 'erc-modules 'hl-nicks))
 #+end_src
 
-*** Email
+** Email
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'gnus
@@ -627,7 +564,7 @@
                                           (nnimap "imap.gmail.com"))))
 #+end_src
 
-*** Torrent
+** Torrent
 
 #+begin_src emacs-lisp
   (straight-use-package 'transmission)
@@ -639,7 +576,7 @@
                                        transmission-peers-mode)))
 #+end_src
 
-*** 0x0
+** 0x0
 
 #+begin_src emacs-lisp
   (straight-use-package '0x0)

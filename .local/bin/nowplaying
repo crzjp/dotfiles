@@ -12,9 +12,9 @@ position="$(awk '/position/{print $2}' $content)"
 
 artist_name="$(awk '/tag artist/{print substr($0, index($0, $3)); exit}' $content)"
 title_name="$(awk '/tag title/{print substr($0, index($0, $3))}' $content)"
-album_name="$(awk '/album/{print substr($0, index($0, $3)) ; exit}' $content)"
+album_name="$(awk '/\yalbum\y/{print substr($0, index($0, $3)) ; exit}' $content)"
 
-album_path="$(awk '/^tag album/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
+album_path="$(awk '/\yalbum\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
 artist_path="$(awk '/artist/{a = substr($0, index($0, $3)) ; gsub(",.*","",a) ; gsub(" &.*","",a) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
 title_path="$(awk '/^tag title/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a}' $content)"
 

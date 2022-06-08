@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(setq straight-check-for-modifications '(check-on-save))
+(setq straight-check-for-modifications nil)
 
 (defvar bootstrap-version)
 
@@ -18,16 +18,19 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(setq backup-directory-alist `((".*" . ,(concat user-emacs-directory "backups")))
+(when (file-exists-p custom-file)
+  (load custom-file nil t))
+
+(setq backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
       backup-by-copying t
       version-control t
       delete-old-versions t
       vc-make-backup-files t
-      kept-old-versions 0
+      kept-old-versions 10
       kept-new-versions 10)
 
-(setq auto-save-list-file-prefix (concat user-emacs-directory "autosaves/")
-      auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosaves/") t)))
+(setq auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
+      auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
 
 (setq recentf-max-saved-items 50
       recentf-auto-cleanup 300)
@@ -56,13 +59,16 @@
 (setq global-auto-revert-non-file-buffers t)
 
 (setq delete-by-moving-to-trash t
-      trash-directory "/tmp/emacs-trash/")
+      trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
 
 (setq large-file-warning-threshold nil)
 
-(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil
+              tab-width 4)
 
 (delete-selection-mode 1)
+
+(setq help-window-select t)
 
 (straight-use-package 'ace-window)
 
@@ -71,7 +77,8 @@
 
 (global-set-key (kbd "M-o") 'ace-window)
 
-(setq history-length 50)
+(setq history-length 50
+      history-delete-duplicates t)
 
 (savehist-mode 1)
 
@@ -93,7 +100,12 @@
   (consult-customize consult-recent-file :preview-key nil)
   (consult-customize consult-org-heading :preview-key nil))
 
-(setq completion-in-region-function 'consult-completion-in-region)
+(setq completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   'consult-completion-in-region
+                 'completion--in-region)
+               args)))
 
 (global-set-key (kbd "C-c r") 'consult-recent-file)
 
@@ -226,13 +238,6 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 
 (add-hook 'org-mode-hook 'visual-line-mode)
-
-(straight-use-package 'toc-org)
-
-(with-eval-after-load 'toc-org
-  (setq toc-org-max-depth 10))
-
-(add-hook 'org-mode-hook 'toc-org-mode)
 
 (straight-use-package 'org-superstar)
 
