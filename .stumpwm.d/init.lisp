@@ -43,7 +43,7 @@
 
 (run-shell-command "xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'")
 (run-shell-command "urxvtd")
-(run-shell-command "dunst")
+(run-shell-command "pkill dunst ; dunst")
 
 (define-key *top-map* (kbd "s-RET") "exec urxvtc")
 (define-key *root-map* (kbd "l") "exec slock")
@@ -52,7 +52,7 @@
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "t") "exec telegram-desktop")
     (define-key m (kbd "g") "exec gimp")
-    (define-key m (kbd "p") "exec palemoon") m))
+    (define-key m (kbd "b") "exec palemoon") m))
 
 (define-key *top-map* (kbd "s-a") '*apps*)
 

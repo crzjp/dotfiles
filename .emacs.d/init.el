@@ -280,9 +280,8 @@
 
 (with-eval-after-load 'gnus
   (setq gnus-select-method '(nnnil "")
-        gnus-secondary-select-methods '((nnimap "imap.yandex.com")
-                                        ; (nnimap "mail.cock.li")
-                                        (nnimap "imap.gmail.com"))))
+        gnus-secondary-select-methods '((nnimap "mail.riseup.net")
+                                        (nnimap "mail.cock.li"))))
 
 (straight-use-package 'transmission)
 
