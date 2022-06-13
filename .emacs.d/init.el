@@ -203,13 +203,11 @@
                 (with-selected-frame frame (crz/set-font-faces))))
   (crz/set-font-faces))
 
-(straight-use-package 'modus-themes)
-
 (setq modus-themes-subtle-line-numbers t
-      modus-themes-org-blocks 'gray-background)
+      modus-themes-org-blocks 'gray-background
+      modus-themes-mode-line '(borderless))
 
-(modus-themes-load-themes)
-(modus-themes-load-operandi)
+(load-theme 'modus-operandi t)
 
 (setq use-dialog-box nil)
 
