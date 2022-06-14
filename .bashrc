@@ -52,6 +52,15 @@ function tree {
     fi
 }
 
+function vterm_printf { printf "\e]%s\e\\" "$1" ;}
+
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    function clear {
+        vterm_printf "51;Evterm-clear-scrollback"
+        tput clear
+    }
+fi
+
 alias cp='cp -rv'
 alias mv='mv -v'
 alias rm='rm -rfvI'
