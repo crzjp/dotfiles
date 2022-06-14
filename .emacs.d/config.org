@@ -340,11 +340,15 @@
   (global-set-key (kbd "C-c e") 'eshell)
 #+end_src
 
-** Term
+** Vterm
 
 #+begin_src emacs-lisp
-  (defun crz/quick-term ()
-    (interactive) (ansi-term (getenv "SHELL")))
+  (straight-use-package 'vterm)
+
+  (with-eval-after-load 'vterm
+    (setq vterm-kill-buffer-on-exit t))
+
+  (setq vterm-always-compile-module t)
 #+end_src
 
 * Dired
@@ -504,6 +508,12 @@
     (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
 
   (add-hook 'org-mode-hook 'org-superstar-mode)
+#+end_src
+
+* Magit
+
+#+begin_src emacs-lisp
+  (straight-use-package 'magit)
 #+end_src
 
 * Media

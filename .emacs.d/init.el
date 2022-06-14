@@ -148,8 +148,12 @@
 
 (global-set-key (kbd "C-c e") 'eshell)
 
-(defun crz/quick-term ()
-  (interactive) (ansi-term (getenv "SHELL")))
+(straight-use-package 'vterm)
+
+(with-eval-after-load 'vterm
+  (setq vterm-kill-buffer-on-exit t))
+
+(setq vterm-always-compile-module t)
 
 (with-eval-after-load 'dired
   (setq dired-listing-switches "-lha --group-directories-first")
@@ -243,6 +247,8 @@
   (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
 
 (add-hook 'org-mode-hook 'org-superstar-mode)
+
+(straight-use-package 'magit)
 
 (straight-use-package 'pdf-tools)
 
