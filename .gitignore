@@ -10,6 +10,7 @@
 .config/configstore/
 .config/gtk-2.0
 .config/GIMP/
+.config/dconf/
 
 .local/*
 !.local/bin
