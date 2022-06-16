@@ -82,9 +82,7 @@
 (define-key *root-map* (kbd "k") "kill-windowlist")
 
 (define-key *root-map* (kbd "0") "remove-split")
-
 (define-key *root-map* (kbd "1") "only")
-
 (define-key *root-map* (kbd "2") "vsplit")
 (define-key *root-map* (kbd "3") "hsplit")
 
@@ -118,7 +116,9 @@
 
 (define-key *root-map* (kbd "r") "loadrc")
 
-(setf *time-modeline-string* "%F %H:%M")
+(setf *time-format-string-default*
+      (format nil "%k:%M:%S~%%A~%%d %B~%%d/%m/%Y")
+      *timeout-wait* 10)
 
 (define-key *root-map* (kbd "d") "echo-date")
 
@@ -143,8 +143,7 @@
         ,col6   ;; 6 cyan
         ,col7)) ;; 7 white
 
-(when *initializing*
-  (update-color-map (current-screen)))
+(update-color-map (current-screen))
 
 (set-bg-color col9)
 (set-fg-color col0)
@@ -163,11 +162,13 @@
 
 (setf *message-window-gravity* :center
       *input-window-gravity* :center
-      *message-window-padding* 10
-      *mouse-focus-policy* :click)
+      *message-window-padding* 10)
+
+(setf *mouse-focus-policy* :click)
 
 (setf *mode-line-background-color* col9
-      *mode-line-foreground-color* col0)
+      *mode-line-foreground-color* col0
+      *time-modeline-string* "%F %H:%M")
 
 (setf *screen-mode-line-format* "[%n] %W ^> %d")
 
