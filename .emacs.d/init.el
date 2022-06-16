@@ -150,10 +150,12 @@
 
 (straight-use-package 'vterm)
 
+(setq vterm-always-compile-module t)
+
 (with-eval-after-load 'vterm
   (setq vterm-kill-buffer-on-exit t))
 
-(setq vterm-always-compile-module t)
+(global-set-key (kbd "C-c t") 'vterm)
 
 (with-eval-after-load 'dired
   (setq dired-listing-switches "-lha --group-directories-first")

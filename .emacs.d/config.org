@@ -345,10 +345,12 @@
 #+begin_src emacs-lisp
   (straight-use-package 'vterm)
 
+  (setq vterm-always-compile-module t)
+
   (with-eval-after-load 'vterm
     (setq vterm-kill-buffer-on-exit t))
 
-  (setq vterm-always-compile-module t)
+  (global-set-key (kbd "C-c t") 'vterm)
 #+end_src
 
 * Dired
