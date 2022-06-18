@@ -27,31 +27,6 @@ function trash {
     done
 }
 
-function ls {
-    if [ $TERM == "eterm-color" ] || [ $TERM == "dumb" ] ; then
-        command ls -AC --color=always --group-directories-first "$@"
-    else
-        export COLUMNS
-        command ls -AC --color=always --group-directories-first "$@" | less
-    fi
-}
-
-function ll {
-    if [ $TERM == "eterm-color" ] || [ $TERM == "dumb" ] ; then
-        command ls -lhA --color=always --group-directories-first "$@"
-    else
-        command ls -lhA --color=always --group-directories-first "$@" | less
-    fi
-}
-
-function tree {
-    if [ $TERM == "eterm-color" ] || [ $TERM == "dumb" ] ; then
-        command tree -C "$@"
-    else
-        command tree -C "$@" | less
-    fi
-}
-
 function vterm_printf { printf "\e]%s\e\\" "$1" ;}
 
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
@@ -60,6 +35,9 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
         tput clear
     }
 fi
+
+alias ls='ls -AC --color=always --group-directories-first'
+alias ll='ls -lhA --color=always --group-directories-first'
 
 alias cp='cp -rv'
 alias mv='mv -v'
@@ -71,6 +49,7 @@ alias egrep='egrep --color=always'
 alias fgrep='fgrep --color=always'
 
 alias e="emacsclient -nw -a ''"
+alias ek="emacsclient -e '(kill-emacs)'"
 
 alias reboot="sudo reboot"
 alias poweroff="sudo poweroff"
@@ -90,3 +69,4 @@ alias cpu="\ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk 'NR<=20'"
 alias ping="ping -c 3 gnu.org"
 alias rice="curl -L http://git.io/rice"
 alias wttr="curl http://wttr.in"
+alias tree='tree -C'
