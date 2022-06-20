@@ -366,7 +366,90 @@
 
 * Ibuffer
 
+** Human readable size column
+
 #+begin_src emacs-lisp
+  (defun crz/human-readable-file-sizes-to-bytes (string)
+    "Convert a human-readable file size into bytes."
+    (cond
+     ((string-suffix-p "G" string t)
+      (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
+     ((string-suffix-p "M" string t)
+      (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
+     ((string-suffix-p "K" string t)
+      (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
+     (t
+      (string-to-number (substring string 0 (- (length string) 1))))))
+
+  (defun crz/bytes-to-human-readable-file-sizes (bytes)
+    "Convert number of bytes to human-readable file size."
+    (cond
+     ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
+     ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
+     ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
+     ((> bytes 100000) (format "%10.0fK" (/ bytes 1000.0)))
+     ((> bytes 1000) (format "%10.1fK" (/ bytes 1000.0)))
+     (t (format "%10d" bytes))))
+
+  (with-eval-after-load 'ibuffer
+    (define-ibuffer-column size-h
+      (:name "Size"
+             :inline t
+             :summarizer
+             (lambda (column-strings)
+               (let ((total 0))
+                 (dolist (string column-strings)
+                   (setq total
+                         (+ (float (crz/human-readable-file-sizes-to-bytes string))
+                            total)))
+                 (crz/bytes-to-human-readable-file-sizes total))))
+      (crz/bytes-to-human-readable-file-sizes (buffer-size))))
+#+end_src
+
+** Groups
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'ibuffer
+    (setq ibuffer-saved-filter-groups
+          '(("Default"
+             ("Modified" (and (modified . t)
+                              (visiting-file . t)))
+             ("Term" (or (mode . vterm-mode)
+                         (mode . eshell-mode)
+                         (mode . term-mode)
+                         (mode . shell-mode)))
+             ("Org" (mode . org-mode))
+             ("PDF" (mode . pdf-view-mode))
+             ("Dired" (mode . dired-mode))
+             ("Help" (or (name . "\*Help\*")
+                         (name . "\*Apropos\*")
+                         (name . "\*info\*")
+                         (mode . help-mode)))
+             ("Image" (mode . image-mode))
+             ("Internal" (name . "^\*.*$"))
+             ("Misc" (name . "^.*$")))))
+    (setq ibuffer-show-empty-filter-groups nil))
+
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-switch-to-saved-filter-groups "Default")))
+#+end_src
+
+** Defaults
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'ibuffer
+    (setq ibuffer-formats '((mark modified read-only locked " "
+                                  (name 20 20 :left :elide)
+                                  " "
+                                  (size-h 11 -1 :right)
+                                  " "
+                                  (mode 16 16 :left :elide)
+                                  " " filename-and-process)
+                            (mark " "
+                                  (name 16 -1)
+                                  " " filename))))
+
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 
   (add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode)
