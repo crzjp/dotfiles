@@ -42,10 +42,9 @@
 (define-key *top-map* (kbd "Print") '*print*)
 
 (run-shell-command "xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'")
-(run-shell-command "urxvtd")
 (run-shell-command "pkill dunst ; dunst")
 
-(define-key *top-map* (kbd "s-RET") "exec urxvtc")
+(define-key *top-map* (kbd "s-RET") "exec st")
 (define-key *root-map* (kbd "l") "exec slock")
 
 (defvar *apps*
