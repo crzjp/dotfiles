@@ -70,6 +70,23 @@
 
 (setq help-window-select t)
 
+(defvar-local hide-cursor--original nil)
+
+(define-minor-mode pager-mode
+  "View buffer as a pager."
+  :global nil
+  :lighter " Pager"
+  (if pager-mode
+      (progn
+        (scroll-lock-mode 1)
+        (setq-local hide-cursor--original
+                    cursor-type)
+        (setq-local cursor-type nil))
+    (scroll-lock-mode 0)
+    (setq-local cursor-type (or hide-cursor--original t))))
+
+(add-hook 'woman-mode-hook 'pager-mode)
+
 (straight-use-package 'ace-window)
 
 (with-eval-after-load 'ace-window
@@ -220,7 +237,8 @@
            ("Help" (or (name . "\*Help\*")
                        (name . "\*Apropos\*")
                        (name . "\*info\*")
-                       (mode . help-mode)))
+                       (mode . help-mode)
+                       (mode . woman-mode)))
            ("Image" (mode . image-mode))
            ("Internal" (name . "^\*.*$"))
            ("Misc" (name . "^.*$")))))
