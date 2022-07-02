@@ -90,7 +90,8 @@
 (straight-use-package 'ace-window)
 
 (with-eval-after-load 'ace-window
-  (setq aw-scope 'frame))
+  (setq aw-scope 'frame
+        aw-ignore-current t))
 
 (global-set-key (kbd "M-o") 'ace-window)
 
@@ -129,36 +130,59 @@
 (with-eval-after-load 'org
   (define-key org-mode-map "\C-c\o" 'consult-org-heading))
 
+(defun crz/eshell-history-config ()
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+  (setq eshell-history-size 1000
+        eshell-hist-ignoredups t)
+  (define-key eshell-mode-map (kbd "C-r") 'crz/eshell-history-search))
+
 (defun crz/eshell-prompt ()
   (concat
    (propertize " " 'face '(:background "#2544bb"))
-   (propertize (abbreviate-file-name (eshell/pwd)) 'face '(:background "#2544bb" :foreground "#ffffff"))
+   (propertize (abbreviate-file-name (eshell/pwd))
+               'face '(:background "#2544bb" :foreground "#ffffff"))
    (propertize " " 'face '(:background "#2544bb"))
    (propertize "$" 'invisible t) " "))
+
+(defun crz/eshell-prompt-config ()
+    (setq eshell-prompt-regexp "^[^$\n]*\\\$ "
+          eshell-prompt-function 'crz/eshell-prompt))
+
+(straight-use-package 'xterm-color)
+
+(defun crz/eshell-colors-config ()
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (add-hook 'eshell-before-prompt-hook
+            (lambda ()
+              (setq xterm-color-preserve-properties t)))
+  (setq eshell-output-filter-functions
+        (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+  (setenv "TERM" "xterm-256color"))
 
 (defun crz/eshell-history-search ()
   (interactive (unless (derived-mode-p 'eshell-mode)
                  (user-error "Must be called from Eshell buffer")))
-  (let ((command (with-temp-buffer
-                   (insert-file-contents-literally (concat user-emacs-directory "eshell/history"))
-                   (let ((history-list (split-string (buffer-string) "\n" t)))
-                     (completing-read "History search: " history-list)))))
-    (when command
-      (insert command))))
+  (insert
+   (completing-read "Search History: "
+                    (delete-dups (ring-elements eshell-history-ring)))))
+
+(defun crz/eshell-clear ()
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
+
+(defun crz/eshell-alias-config ()
+  (setq eshell-aliases-file "~/.emacs.d/eshell-aliases")
+  (eshell-read-aliases-list))
 
 (defun crz/eshell-config ()
-  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+  (crz/eshell-history-config)
+  (crz/eshell-prompt-config)
+  (crz/eshell-alias-config)
+  (crz/eshell-colors-config)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-  (setq eshell-history-size 1000
-        eshell-buffer-maximum-lines 1000
-        eshell-hist-ignoredups t
-        eshell-scroll-to-bottom-on-input t
-        eshell-prompt-regexp "^[^$\n]*\\\$ "
-        eshell-prompt-function 'crz/eshell-prompt
-        eshell-aliases-file "~/.emacs.d/eshell-aliases")
-  (eshell-read-aliases-list)
-  (setenv "PAGER" "cat")
-  (define-key eshell-mode-map (kbd "C-r") 'crz/eshell-history-search))
+  (setq eshell-buffer-maximum-lines 1000
+        eshell-scroll-to-bottom-on-input t)
+  (setenv "PAGER" "cat"))
 
 (with-eval-after-load 'eshell
   (add-hook 'eshell-mode-hook 'crz/eshell-config))
@@ -166,8 +190,6 @@
 (global-set-key (kbd "C-c e") 'eshell)
 
 (straight-use-package 'vterm)
-
-(setq vterm-always-compile-module t)
 
 (with-eval-after-load 'vterm
   (setq vterm-kill-buffer-on-exit t))
@@ -326,7 +348,6 @@
         org-startup-with-inline-images t
         org-image-actual-width '(600)
         org-startup-folded t
-        org-src-window-setup 'current-window
         org-hide-emphasis-markers t
         org-return-follows-link t
         org-ellipsis " ▾")
@@ -338,6 +359,10 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 
 (add-hook 'org-mode-hook 'visual-line-mode)
+
+(with-eval-after-load 'org-src
+  (setq org-src-window-setup 'current-window
+        org-edit-src-content-indentation 0))
 
 (straight-use-package 'org-superstar)
 

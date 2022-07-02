@@ -3,15 +3,17 @@ alias fo find-file-other-window $1
 alias v view-file $1
 alias vo view-file-other-window $1
 alias d dired $1
+alias do dired-other-window $1
 
-alias grep grep --color $*
-alias egrep egrep --color $*
-alias zgrep zgrep --color $*
-alias fgrep fgrep --color $*
+alias grep grep --color=always $*
+alias egrep egrep --color=always $*
+alias zgrep zgrep --color=always $*
+alias fgrep fgrep --color=always $*
 
 alias - cd -
 alias rm rm -rfvI $*
 alias cat cat -n $*
+alias c crz/eshell-clear
 
 alias ll ls -lhA --color=always --group-directories-first $*
 alias ls ls -AC --color=always --group-directories-first $*

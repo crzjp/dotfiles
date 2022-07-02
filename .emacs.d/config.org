@@ -6,75 +6,75 @@
 ** Garbage collector
 
 #+begin_src emacs-lisp :tangle early-init.el
-  ;; -*- lexical-binding: t; -*-
+;; -*- lexical-binding: t; -*-
 
-  (setq gc-cons-threshold most-positive-fixnum
-        gc-cons-percentage 0.6)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
 
-  (add-hook 'emacs-startup-hook
-            #'(lambda () (setq gc-cons-threshold (* 2 1000 1000))))
+(add-hook 'emacs-startup-hook
+          #'(lambda () (setq gc-cons-threshold (* 2 1000 1000))))
 #+end_src
 
 ** User emacs directory
 
 #+begin_src emacs-lisp :tangle early-init.el
-  (setq user-emacs-directory "~/.cache/emacs/")
+(setq user-emacs-directory "~/.cache/emacs/")
 
-  (when (not (file-directory-p user-emacs-directory))
-    (make-directory user-emacs-directory t))
+(when (not (file-directory-p user-emacs-directory))
+  (make-directory user-emacs-directory t))
 #+end_src
 
 ** Native compile
 
 #+begin_src emacs-lisp :tangle early-init.el
-  (setq package-native-compile t
-        native-comp-deferred-compilation t
-        native-comp-async-report-warnings-errors nil)
+(setq package-native-compile t
+      native-comp-deferred-compilation t
+      native-comp-async-report-warnings-errors nil)
 
-  (setq native-comp-eln-load-path
-        (list (expand-file-name "eln-cache" user-emacs-directory)))
+(setq native-comp-eln-load-path
+      (list (expand-file-name "eln-cache" user-emacs-directory)))
 #+end_src
 
 ** Package
 
 #+begin_src emacs-lisp :tangle early-init.el
-  (setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil)
 #+end_src
 
 ** Visual
 
 #+begin_src emacs-lisp :tangle early-init.el
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (tooltip-mode -1)
-  (scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(scroll-bar-mode -1)
 
-  (setq inhibit-startup-screen t
-        inhibit-startup-echo-area-message t
-        initial-scratch-message nil
-        server-client-instructions nil)
+(setq inhibit-startup-screen t
+      inhibit-startup-echo-area-message t
+      initial-scratch-message nil
+      server-client-instructions nil)
 #+end_src
 
 * Package installer
 
 #+begin_src emacs-lisp
-  ;; -*- lexical-binding: t; -*-
+;; -*- lexical-binding: t; -*-
 
-  (setq straight-check-for-modifications nil)
+(setq straight-check-for-modifications nil)
 
-  (defvar bootstrap-version)
+(defvar bootstrap-version)
 
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 #+end_src
 
 * Defaults
@@ -84,136 +84,136 @@
 *** Custom
 
 #+begin_src emacs-lisp
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-  (when (file-exists-p custom-file)
-    (load custom-file nil t))
+(when (file-exists-p custom-file)
+  (load custom-file nil t))
 #+end_src
 
 *** Backup
 
 #+begin_src emacs-lisp
-  (setq backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
-        backup-by-copying t
-        version-control t
-        delete-old-versions t
-        vc-make-backup-files t
-        kept-old-versions 10
-        kept-new-versions 10)
+(setq backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
+      backup-by-copying t
+      version-control t
+      delete-old-versions t
+      vc-make-backup-files t
+      kept-old-versions 10
+      kept-new-versions 10)
 #+end_src
 
 *** Auto save
 
 #+begin_src emacs-lisp
-  (setq auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
-        auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
+(setq auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
+      auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
 #+end_src
 
 *** Recent
 
 #+begin_src emacs-lisp
-  (setq recentf-max-saved-items 50
-        recentf-auto-cleanup 300)
+(setq recentf-max-saved-items 50
+      recentf-auto-cleanup 300)
 
-  (recentf-mode 1)
+(recentf-mode 1)
 #+end_src
 
 *** Symlinks
 
 #+begin_src emacs-lisp
-  (setq-default vc-follow-symlinks)
+(setq-default vc-follow-symlinks)
 #+end_src
 
 ** Short answers
 
 #+begin_src emacs-lisp
-  (setq use-short-answers t)
+(setq use-short-answers t)
 #+end_src
 
 ** EWW
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'browse-url
-    (setq browse-url-generic-program (executable-find (getenv "BROWSER"))
-          browse-url-browser-function 'browse-url-generic))
+(with-eval-after-load 'browse-url
+  (setq browse-url-generic-program (executable-find (getenv "BROWSER"))
+        browse-url-browser-function 'browse-url-generic))
 #+end_src
 
 ** Default directory
 
 #+begin_src emacs-lisp
-  (cd "~/")
+(cd "~/")
 #+end_src
 
 ** Coding system
 
 #+begin_src emacs-lisp
-  (setq-default buffer-file-coding-system 'utf-8-unix
-                default-file-name-coding-system 'utf-8-unix
-                default-keyboard-coding-system 'utf-8-unix
-                default-process-coding-system '(utf-8-unix . utf-8-unix)
-                default-sendmail-coding-system 'utf-8-unix
-                default-terminal-coding-system 'utf-8-unix)
+(setq-default buffer-file-coding-system 'utf-8-unix
+              default-file-name-coding-system 'utf-8-unix
+              default-keyboard-coding-system 'utf-8-unix
+              default-process-coding-system '(utf-8-unix . utf-8-unix)
+              default-sendmail-coding-system 'utf-8-unix
+              default-terminal-coding-system 'utf-8-unix)
 #+end_src
 
 ** Automatically revert buffers
 
 #+begin_src emacs-lisp
-  (global-auto-revert-mode 1)
+(global-auto-revert-mode 1)
 
-  (setq global-auto-revert-non-file-buffers t)
+(setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 ** Delete by moving to trash
 
 #+begin_src emacs-lisp
-  (setq delete-by-moving-to-trash t
-        trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
+(setq delete-by-moving-to-trash t
+      trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
 #+end_src
 
 ** Stop large file warning
 
 #+begin_src emacs-lisp
-  (setq large-file-warning-threshold nil)
+(setq large-file-warning-threshold nil)
 #+end_src
 
 ** Tab indentation
 
 #+begin_src emacs-lisp
-  (setq-default indent-tabs-mode nil
-                tab-width 4)
+(setq-default indent-tabs-mode nil
+              tab-width 4)
 #+end_src
 
 ** Delete selection mode
 
 #+begin_src emacs-lisp
-  (delete-selection-mode 1)
+(delete-selection-mode 1)
 #+end_src
 
 ** Focus help window when opened
 
 #+begin_src emacs-lisp
-  (setq help-window-select t)
+(setq help-window-select t)
 #+end_src
 
 ** Pager
 
 #+begin_src emacs-lisp
-  (defvar-local hide-cursor--original nil)
+(defvar-local hide-cursor--original nil)
 
-  (define-minor-mode pager-mode
-    "View buffer as a pager."
-    :global nil
-    :lighter " Pager"
-    (if pager-mode
-        (progn
-          (scroll-lock-mode 1)
-          (setq-local hide-cursor--original
-                      cursor-type)
-          (setq-local cursor-type nil))
-      (scroll-lock-mode 0)
-      (setq-local cursor-type (or hide-cursor--original t))))
+(define-minor-mode pager-mode
+  "View buffer as a pager."
+  :global nil
+  :lighter " Pager"
+  (if pager-mode
+      (progn
+        (scroll-lock-mode 1)
+        (setq-local hide-cursor--original
+                    cursor-type)
+        (setq-local cursor-type nil))
+    (scroll-lock-mode 0)
+    (setq-local cursor-type (or hide-cursor--original t))))
 
-  (add-hook 'woman-mode-hook 'pager-mode)
+(add-hook 'woman-mode-hook 'pager-mode)
 #+end_src
 
 * Window movement
@@ -222,7 +222,8 @@
   (straight-use-package 'ace-window)
 
   (with-eval-after-load 'ace-window
-    (setq aw-scope 'frame))
+    (setq aw-scope 'frame
+          aw-ignore-current t))
 
   (global-set-key (kbd "M-o") 'ace-window)
 #+end_src
@@ -288,90 +289,133 @@
 
 ** Eshell
 
+*** History
+
+#+begin_src emacs-lisp
+  (defun crz/eshell-history-config ()
+    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+    (setq eshell-history-size 1000
+          eshell-hist-ignoredups t)
+    (define-key eshell-mode-map (kbd "C-r") 'crz/eshell-history-search))
+#+end_src
+
 *** Prompt
 
 #+begin_src emacs-lisp
   (defun crz/eshell-prompt ()
     (concat
      (propertize " " 'face '(:background "#2544bb"))
-     (propertize (abbreviate-file-name (eshell/pwd)) 'face '(:background "#2544bb" :foreground "#ffffff"))
+     (propertize (abbreviate-file-name (eshell/pwd))
+                 'face '(:background "#2544bb" :foreground "#ffffff"))
      (propertize " " 'face '(:background "#2544bb"))
      (propertize "$" 'invisible t) " "))
+
+  (defun crz/eshell-prompt-config ()
+      (setq eshell-prompt-regexp "^[^$\n]*\\\$ "
+            eshell-prompt-function 'crz/eshell-prompt))
 #+end_src
 
-*** History search
+*** Colors
 
 #+begin_src emacs-lisp
-  (defun crz/eshell-history-search ()
-    (interactive (unless (derived-mode-p 'eshell-mode)
-                   (user-error "Must be called from Eshell buffer")))
-    (let ((command (with-temp-buffer
-                     (insert-file-contents-literally (concat user-emacs-directory "eshell/history"))
-                     (let ((history-list (split-string (buffer-string) "\n" t)))
-                       (completing-read "History search: " history-list)))))
-      (when command
-        (insert command))))
+(straight-use-package 'xterm-color)
+
+(defun crz/eshell-colors-config ()
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (add-hook 'eshell-before-prompt-hook
+            (lambda ()
+              (setq xterm-color-preserve-properties t)))
+  (setq eshell-output-filter-functions
+        (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+  (setenv "TERM" "xterm-256color"))
+#+end_src
+
+*** Functions
+
+**** History search
+
+#+begin_src emacs-lisp
+(defun crz/eshell-history-search ()
+  (interactive (unless (derived-mode-p 'eshell-mode)
+                 (user-error "Must be called from Eshell buffer")))
+  (insert
+   (completing-read "Search History: "
+                    (delete-dups (ring-elements eshell-history-ring)))))
+#+end_src
+
+**** Clear
+
+#+begin_src emacs-lisp
+(defun crz/eshell-clear ()
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
 #+end_src
 
 *** Aliases
 
+**** Config
+
+#+begin_src emacs-lisp
+(defun crz/eshell-alias-config ()
+  (setq eshell-aliases-file "~/.emacs.d/eshell-aliases")
+  (eshell-read-aliases-list))
+#+end_src
+
+**** List
+
 #+begin_src fundamental :tangle eshell-aliases
-  alias f find-file $1
-  alias fo find-file-other-window $1
-  alias v view-file $1
-  alias vo view-file-other-window $1
-  alias d dired $1
+alias f find-file $1
+alias fo find-file-other-window $1
+alias v view-file $1
+alias vo view-file-other-window $1
+alias d dired $1
+alias do dired-other-window $1
 
-  alias grep grep --color $*
-  alias egrep egrep --color $*
-  alias zgrep zgrep --color $*
-  alias fgrep fgrep --color $*
+alias grep grep --color=always $*
+alias egrep egrep --color=always $*
+alias zgrep zgrep --color=always $*
+alias fgrep fgrep --color=always $*
 
-  alias - cd -
-  alias rm rm -rfvI $*
-  alias cat cat -n $*
+alias - cd -
+alias rm rm -rfvI $*
+alias cat cat -n $*
+alias c crz/eshell-clear
 
-  alias ll ls -lhA --color=always --group-directories-first $*
-  alias ls ls -AC --color=always --group-directories-first $*
+alias ll ls -lhA --color=always --group-directories-first $*
+alias ls ls -AC --color=always --group-directories-first $*
 
-  alias ping ping -c 3 gnu.org
-  alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
+alias ping ping -c 3 gnu.org
+alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
 #+end_src
 
 *** Defaults
 
 #+begin_src emacs-lisp
-  (defun crz/eshell-config ()
-    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-    (setq eshell-history-size 1000
-          eshell-buffer-maximum-lines 1000
-          eshell-hist-ignoredups t
-          eshell-scroll-to-bottom-on-input t
-          eshell-prompt-regexp "^[^$\n]*\\\$ "
-          eshell-prompt-function 'crz/eshell-prompt
-          eshell-aliases-file "~/.emacs.d/eshell-aliases")
-    (eshell-read-aliases-list)
-    (setenv "PAGER" "cat")
-    (define-key eshell-mode-map (kbd "C-r") 'crz/eshell-history-search))
+(defun crz/eshell-config ()
+  (crz/eshell-history-config)
+  (crz/eshell-prompt-config)
+  (crz/eshell-alias-config)
+  (crz/eshell-colors-config)
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+  (setq eshell-buffer-maximum-lines 1000
+        eshell-scroll-to-bottom-on-input t)
+  (setenv "PAGER" "cat"))
 
-  (with-eval-after-load 'eshell
-    (add-hook 'eshell-mode-hook 'crz/eshell-config))
+(with-eval-after-load 'eshell
+  (add-hook 'eshell-mode-hook 'crz/eshell-config))
 
-  (global-set-key (kbd "C-c e") 'eshell)
+(global-set-key (kbd "C-c e") 'eshell)
 #+end_src
 
 ** Vterm
 
 #+begin_src emacs-lisp
-  (straight-use-package 'vterm)
+(straight-use-package 'vterm)
 
-  (setq vterm-always-compile-module t)
+(with-eval-after-load 'vterm
+  (setq vterm-kill-buffer-on-exit t))
 
-  (with-eval-after-load 'vterm
-    (setq vterm-kill-buffer-on-exit t))
-
-  (global-set-key (kbd "C-c t") 'vterm)
+(global-set-key (kbd "C-c t") 'vterm)
 #+end_src
 
 * Dired
@@ -390,41 +434,41 @@
 ** Human readable size column
 
 #+begin_src emacs-lisp
-  (defun crz/human-readable-file-sizes-to-bytes (string)
-    "Convert a human-readable file size into bytes."
-    (cond
-     ((string-suffix-p "G" string t)
-      (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
-     ((string-suffix-p "M" string t)
-      (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
-     ((string-suffix-p "K" string t)
-      (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
-     (t
-      (string-to-number (substring string 0 (- (length string) 1))))))
+(defun crz/human-readable-file-sizes-to-bytes (string)
+  "Convert a human-readable file size into bytes."
+  (cond
+   ((string-suffix-p "G" string t)
+    (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
+   ((string-suffix-p "M" string t)
+    (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
+   ((string-suffix-p "K" string t)
+    (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
+   (t
+    (string-to-number (substring string 0 (- (length string) 1))))))
 
-  (defun crz/bytes-to-human-readable-file-sizes (bytes)
-    "Convert number of bytes to human-readable file size."
-    (cond
-     ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
-     ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
-     ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
-     ((> bytes 100000) (format "%10.0fK" (/ bytes 1000.0)))
-     ((> bytes 1000) (format "%10.1fK" (/ bytes 1000.0)))
-     (t (format "%10d" bytes))))
+(defun crz/bytes-to-human-readable-file-sizes (bytes)
+  "Convert number of bytes to human-readable file size."
+  (cond
+   ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
+   ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
+   ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
+   ((> bytes 100000) (format "%10.0fK" (/ bytes 1000.0)))
+   ((> bytes 1000) (format "%10.1fK" (/ bytes 1000.0)))
+   (t (format "%10d" bytes))))
 
-  (with-eval-after-load 'ibuffer
-    (define-ibuffer-column size-h
-      (:name "Size"
-             :inline t
-             :summarizer
-             (lambda (column-strings)
-               (let ((total 0))
-                 (dolist (string column-strings)
-                   (setq total
-                         (+ (float (crz/human-readable-file-sizes-to-bytes string))
-                            total)))
-                 (crz/bytes-to-human-readable-file-sizes total))))
-      (crz/bytes-to-human-readable-file-sizes (buffer-size))))
+(with-eval-after-load 'ibuffer
+  (define-ibuffer-column size-h
+    (:name "Size"
+           :inline t
+           :summarizer
+           (lambda (column-strings)
+             (let ((total 0))
+               (dolist (string column-strings)
+                 (setq total
+                       (+ (float (crz/human-readable-file-sizes-to-bytes string))
+                          total)))
+               (crz/bytes-to-human-readable-file-sizes total))))
+    (crz/bytes-to-human-readable-file-sizes (buffer-size))))
 #+end_src
 
 ** Groups
@@ -584,31 +628,38 @@
 ** Defaults
 
 #+begin_src emacs-lisp
-  (straight-use-package '(org :type built-in))
+(straight-use-package '(org :type built-in))
 
-  (with-eval-after-load 'org
-    (setq org-modules '(org-tempo)
-          org-agenda-start-with-log-mode t
-          org-log-done 'time
-          org-log-into-drawer t
-          org-agenda-files '("~/media/docs/agenda.org")
-          org-files-directory "~/media/docs/org"
-          org-startup-indented t
-          org-startup-with-inline-images t
-          org-image-actual-width '(600)
-          org-startup-folded t
-          org-src-window-setup 'current-window
-          org-hide-emphasis-markers t
-          org-return-follows-link t
-          org-ellipsis " ▾")
-    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-    (add-to-list 'org-structure-template-alist '("li" . "src lisp")))
+(with-eval-after-load 'org
+  (setq org-modules '(org-tempo)
+        org-agenda-start-with-log-mode t
+        org-log-done 'time
+        org-log-into-drawer t
+        org-agenda-files '("~/media/docs/agenda.org")
+        org-files-directory "~/media/docs/org"
+        org-startup-indented t
+        org-startup-with-inline-images t
+        org-image-actual-width '(600)
+        org-startup-folded t
+        org-hide-emphasis-markers t
+        org-return-follows-link t
+        org-ellipsis " ▾")
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("li" . "src lisp")))
 
-  (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
-  (global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c a") 'org-agenda)
 
-  (add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+#+end_src
+
+** Source blocks
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-src
+  (setq org-src-window-setup 'current-window
+        org-edit-src-content-indentation 0))
 #+end_src
 
 ** Asteriscs
