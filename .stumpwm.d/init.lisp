@@ -43,9 +43,7 @@
 
 (run-shell-command "xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'")
 (run-shell-command "pkill dunst ; dunst")
-(run-shell-command "urxvtd")
 
-(define-key *top-map* (kbd "s-RET") "exec urxvtc")
 (define-key *root-map* (kbd "l") "exec slock")
 
 (defvar *apps*
