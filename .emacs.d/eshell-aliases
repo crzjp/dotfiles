@@ -5,6 +5,10 @@ alias vo view-file-other-window $1
 alias d dired $1
 alias do dired-other-window $1
 
+alias ll ls -lhA --color=always --group-directories-first $*
+alias ls ls -AC --color=always --group-directories-first $*
+alias tree tree -C $*
+
 alias grep grep --color=always $*
 alias egrep egrep --color=always $*
 alias zgrep zgrep --color=always $*
@@ -15,8 +19,10 @@ alias rm rm -rfvI $*
 alias cat cat -n $*
 alias c crz/eshell-clear
 
-alias ll ls -lhA --color=always --group-directories-first $*
-alias ls ls -AC --color=always --group-directories-first $*
+alias h curl -s cheat.sh/$1
+alias ho curl -s cheat.sh/$1 > #<cheat.sh>
 
 alias ping ping -c 3 gnu.org
 alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
+alias wttr curl -s wttr.in
+alias qttr curl -s wttr.in/?0Q
