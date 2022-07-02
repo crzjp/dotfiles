@@ -1,0 +1,23 @@
+for f in $@ ; do  
+    if [ -f "$f" ] ; then
+        case $f in
+            *.tar.bz2) tar xjfv $f    ;;
+            *.tar.gz)  tar xzfv $f    ;;
+            *.tar.xz)  tar xfv $f     ;;
+            *.tar)     tar xfv $f     ;;
+            *.tar.zst) uzstd $f      ;;
+            *.bz2)     bunzip2 $f    ;;
+            *.rar)     unrar x $f    ;;
+            *.gz)      gunzip $f     ;;
+            *.tbz2)    tar xjfv $f    ;;
+            *.tgz)     tar xzf $f    ;;
+            *.zip)     unzip $f      ;;
+            *.Z)       uncompress $f ;;
+            *.7z)      7z x $f       ;;
+            *.deb)     ar x $f       ;;
+            *) echo "I don't known how to extract \"$f\"" ;;
+        esac
+    else
+        echo "\"$f\": not valid file(s)"
+    fi
+done
