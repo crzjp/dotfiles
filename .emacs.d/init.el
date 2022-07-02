@@ -87,6 +87,8 @@
 
 (add-hook 'woman-mode-hook 'pager-mode)
 
+(setq disabled-command-function nil)
+
 (straight-use-package 'ace-window)
 
 (with-eval-after-load 'ace-window
@@ -152,11 +154,11 @@
 
 (defun crz/eshell-colors-config ()
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
   (add-hook 'eshell-before-prompt-hook
             (lambda ()
               (setq xterm-color-preserve-properties t)))
-  (setq eshell-output-filter-functions
-        (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+  (setq xterm-color-use-bold-for-bright t)
   (setenv "TERM" "xterm-256color"))
 
 (defun crz/eshell-history-search ()
@@ -197,8 +199,13 @@
 (global-set-key (kbd "C-c t") 'vterm)
 
 (with-eval-after-load 'dired
-  (setq dired-listing-switches "-lha --group-directories-first")
-  (put 'dired-find-alternate-file 'disabled nil)
+  (setq xterm-color-preserve-properties nil
+        xterm-color-use-bold-for-bright t
+        dired-listing-switches "-lha --color=always --group-directories-first")
+  (add-hook 'dired-after-readin-hook
+            (lambda ()
+              (read-only-mode 0)
+              (xterm-color-colorize-buffer)))
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
 
 (global-set-key (kbd "C-x C-d") 'dired-jump)
