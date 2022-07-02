@@ -27,18 +27,7 @@ function trash {
     done
 }
 
-function ls {
-    export COLUMNS
-    command ls -AC --color=always --group-directories-first "$@" | less
-}
-
-function ll {
-    command ls -lhA --color=always --group-directories-first | less
-}
-
-function tree { command tree -C "$@" | less ;}
-
-function h { curl -s cheat.sh/$1 | less ;}
+function h { curl -s cheat.sh/$1 ;}
 
 function vterm_printf { printf "\e]%s\e\\" "$1" ;}
 
@@ -48,6 +37,10 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
         tput clear
     }
 fi
+
+alias ls='ls -AC --color=always --group-directories-first'
+alias ll='ls -lhA --color=always --group-directories-first'
+alias tree='tree -C'
 
 alias cp='cp -rv'
 alias mv='mv -v'
