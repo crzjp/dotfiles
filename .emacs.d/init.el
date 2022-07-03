@@ -198,15 +198,12 @@
 
 (global-set-key (kbd "C-c t") 'vterm)
 
+(straight-use-package 'diredfl)
+
 (with-eval-after-load 'dired
-  (setq xterm-color-preserve-properties nil
-        xterm-color-use-bold-for-bright t
-        dired-listing-switches "-lha --color=always --group-directories-first")
-  (add-hook 'dired-after-readin-hook
-            (lambda ()
-              (read-only-mode 0)
-              (xterm-color-colorize-buffer)))
-  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+  (setq dired-listing-switches "-lha --group-directories-first")
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+  (diredfl-global-mode))
 
 (global-set-key (kbd "C-x C-d") 'dired-jump)
 
