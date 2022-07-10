@@ -27,7 +27,7 @@ function trash {
     done
 }
 
-function h { curl -s cheat.sh/$1 ;}
+function h { curl -s cheat.sh/$1?style=stata-light ;}
 
 function vterm_printf { printf "\e]%s\e\\" "$1" ;}
 
