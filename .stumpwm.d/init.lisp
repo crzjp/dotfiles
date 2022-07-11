@@ -41,7 +41,7 @@
 
 (define-key *top-map* (kbd "Print") '*print*)
 
-(run-shell-command "xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'")
+(run-shell-command "hsetroot -extend $(shuf -n1 -e ~/media/pics/wallpapers/*)")
 (run-shell-command "pkill dunst ; dunst")
 (run-shell-command "urxvtd")
 
@@ -156,8 +156,8 @@
 (setf *maxsize-border-width* 0
       *normal-border-width* 0
       *transient-border-width* 0
-      *float-window-border* 2
-      *float-window-title-height* 2
+      *float-window-border* 3
+      *float-window-title-height* 3
       *window-border-style* :thin)
 
 (setf *message-window-gravity* :center
