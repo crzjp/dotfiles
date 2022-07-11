@@ -89,6 +89,8 @@
 
 (setq disabled-command-function nil)
 
+(global-set-key (kbd "M-&") 'with-editor-async-shell-command)
+
 (straight-use-package 'ace-window)
 
 (with-eval-after-load 'ace-window
@@ -167,10 +169,6 @@
   (insert
    (completing-read "Search History: "
                     (delete-dups (ring-elements eshell-history-ring)))))
-
-(defun crz/eshell-clear ()
-  (let ((inhibit-read-only t))
-    (erase-buffer)))
 
 (defun crz/eshell-alias-config ()
   (setq eshell-aliases-file "~/.emacs.d/eshell-aliases")
@@ -409,6 +407,8 @@
   (add-to-list 'erc-modules 'notifications)
   (add-to-list 'erc-modules 'hl-nicks))
 
+(defalias 'erc 'erc-tls)
+
 (with-eval-after-load 'gnus
   (setq gnus-select-method '(nnnil "")
         gnus-secondary-select-methods '((nnimap "mail.riseup.net")
@@ -423,3 +423,14 @@
                                      transmission-peers-mode)))
 
 (straight-use-package '0x0)
+
+(straight-use-package 'emms) 
+
+(with-eval-after-load 'emms
+  (setq emms-source-file-default-directory "~/media/musics/"
+        emms-browser-covers 'emms-browser-cache-thumbnail-async
+        emms-source-file-directory-tree-function
+        'emms-source-file-directory-tree-find)
+  (emms-all)
+  (emms-default-players)
+  (emms-history-load))

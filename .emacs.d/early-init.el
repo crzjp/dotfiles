@@ -18,7 +18,8 @@
 (setq native-comp-eln-load-path
       (list (expand-file-name "eln-cache" user-emacs-directory)))
 
-(setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil
+      load-prefer-newer t)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)

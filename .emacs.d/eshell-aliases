@@ -17,10 +17,10 @@ alias fgrep fgrep --color=always $*
 alias - cd -
 alias rm rm -rfvI $*
 alias cat cat -n $*
-alias c crz/eshell-clear
+alias c eshell/clear-scrollback
 
-alias h curl -s cheat.sh/$1
-alias ho curl -s cheat.sh/$1 > #<cheat.sh>
+alias h curl -s cheat.sh/$1?style=stata-light
+alias ho curl -s cheat.sh/$1?style=stata-light > #<cheat.sh>
 
 alias ping ping -c 3 gnu.org
 alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
