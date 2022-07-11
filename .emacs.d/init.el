@@ -99,6 +99,20 @@
 
 (global-set-key (kbd "M-o") 'ace-window)
 
+(straight-use-package 'popper)
+
+(with-eval-after-load 'popper
+  (setq popper-reference-buffers
+        '("\\*Async Shell Command\\*"
+          grep-mode)))
+
+(global-set-key (kbd "M-'") 'popper-toggle-latest)
+(global-set-key (kbd "C-'") 'popper-cycle)
+(global-set-key (kbd "C-M-'") 'popper-toggle-type)
+
+(popper-mode 1)
+(popper-echo-mode 1)
+
 (setq history-length 50
       history-delete-duplicates t)
 

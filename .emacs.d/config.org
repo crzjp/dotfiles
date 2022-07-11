@@ -229,7 +229,9 @@
 (global-set-key (kbd "M-&") 'with-editor-async-shell-command)
 #+end_src
 
-* Window movement
+* Window management
+
+** Movement
 
 #+begin_src emacs-lisp
 (straight-use-package 'ace-window)
@@ -239,6 +241,24 @@
         aw-ignore-current t))
 
 (global-set-key (kbd "M-o") 'ace-window)
+#+end_src
+
+** Popup
+
+#+begin_src emacs-lisp
+(straight-use-package 'popper)
+
+(with-eval-after-load 'popper
+  (setq popper-reference-buffers
+        '("\\*Async Shell Command\\*"
+          grep-mode)))
+
+(global-set-key (kbd "M-'") 'popper-toggle-latest)
+(global-set-key (kbd "C-'") 'popper-cycle)
+(global-set-key (kbd "C-M-'") 'popper-toggle-type)
+
+(popper-mode 1)
+(popper-echo-mode 1)
 #+end_src
 
 * Minibuffer
