@@ -124,6 +124,7 @@
     background = "#ffffff"
     foreground = "#000000"
     frame_color = "#315b00"
+    highlight = "#000000"
     timeout = 10
     #icon = /path/to/icon
 
@@ -131,6 +132,7 @@
     background = "#ffffff"
     foreground = "#000000"
     frame_color = "#70480f"
+    highlight = "#000000"
     timeout = 10
     #icon = /path/to/icon
 
@@ -138,5 +140,6 @@
     background = "#a60000"
     foreground = "#ffffff"
     frame_color = "#a60000"
+    highlight = "#000000"
     timeout = 0
     #icon = /path/to/icon
