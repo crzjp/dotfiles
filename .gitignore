@@ -1,5 +1,5 @@
-.config/cmus/*
-!.config/cmus/autosave
+.config/mpd/*
+!.config/mpd/mpd.conf
 
 .config/QtProject.conf
 .config/pulse

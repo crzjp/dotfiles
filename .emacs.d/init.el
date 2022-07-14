@@ -85,8 +85,6 @@
     (scroll-lock-mode 0)
     (setq-local cursor-type (or hide-cursor--original t))))
 
-(add-hook 'woman-mode-hook 'pager-mode)
-
 (setq disabled-command-function nil)
 
 (global-set-key (kbd "M-&") 'with-editor-async-shell-command)
@@ -335,7 +333,8 @@
 
 (defun crz/set-font-faces ()
   (set-face-attribute 'default nil :font crz/font)
-  (set-face-attribute 'fixed-pitch nil :font crz/font))
+  (set-face-attribute 'fixed-pitch nil :font crz/font)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Etoile 10"))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -441,10 +440,17 @@
 (straight-use-package 'emms) 
 
 (with-eval-after-load 'emms
-  (setq emms-source-file-default-directory "~/media/musics/"
+  (emms-all)
+  (setq emms-source-file-default-directory "~/media/musics"
+        emms-player-mpd-music-directory "~/media/musics"
         emms-browser-covers 'emms-browser-cache-thumbnail-async
         emms-source-file-directory-tree-function
-        'emms-source-file-directory-tree-find)
-  (emms-all)
-  (emms-default-players)
-  (emms-history-load))
+        'emms-source-file-directory-tree-find
+        emms-player-mpd-server-name "localhost"
+        emms-player-mpd-server-port "6600"
+        emms-mode-line-format " [%s]")
+  (add-to-list 'emms-info-functions 'emms-info-mpd)
+  (add-to-list 'emms-player-list 'emms-player-mpd)
+  (emms-player-mpd-sync-from-mpd)
+  (emms-player-mpd-connect)
+  (emms-playing-time-display-mode 0))

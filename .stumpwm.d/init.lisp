@@ -17,16 +17,14 @@
 
 (defvar *music*
   (let ((m (make-sparse-keymap)))
-    (define-key m (kbd "RET") "exec urxvtc -e cmus")
-    (define-key m (kbd "t") "exec cmus-remote -u")
-    (define-key m (kbd "n") "exec cmus-remote -n")
-    (define-key m (kbd "p") "exec cmus-remote -r")
-    (define-key m (kbd "s") "exec cmus-remote -S")
-    (define-key m (kbd "-") "exec cmus-remote -k -10s")
-    (define-key m (kbd "=") "exec cmus-remote -k +10s")
-    (define-key m (kbd "c") "exec song") m))
+    (define-key m (kbd "t") "exec mpc toggle")
+    (define-key m (kbd "n") "exec mpc next")
+    (define-key m (kbd "p") "exec mpc prev")
+    (define-key m (kbd "-") "exec mpc seek -10")
+    (define-key m (kbd "=") "exec mpc seek +10")
+    (define-key m (kbd "c") "exec nowplaying") m))
 
-(define-key *top-map* (kbd "s-c") '*music*)
+(define-key *top-map* (kbd "s-m") '*music*)
 
 (defvar *upload*
   (let ((m (make-sparse-keymap)))
@@ -43,7 +41,7 @@
 
 (run-shell-command "hsetroot -extend $(shuf -n1 -e ~/media/pics/wallpapers/*)")
 (run-shell-command "pkill dunst ; dunst")
-(run-shell-command "urxvtd")
+(run-shell-command "pidof urxvtd || urxvtd")
 
 (define-key *top-map* (kbd "s-RET") "exec urxvtc")
 (define-key *root-map* (kbd "l") "exec slock")

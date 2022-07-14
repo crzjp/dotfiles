@@ -78,7 +78,7 @@
   (load bootstrap-file nil 'nomessage))
 #+end_src
 
-* Defaults
+* Sane defaults
 
 ** Files
 
@@ -213,8 +213,6 @@
         (setq-local cursor-type nil))
     (scroll-lock-mode 0)
     (setq-local cursor-type (or hide-cursor--original t))))
-
-(add-hook 'woman-mode-hook 'pager-mode)
 #+end_src
 
 ** Enable disabled commands
@@ -395,28 +393,41 @@ alias v view-file $1
 alias vo view-file-other-window $1
 alias d dired $1
 alias do dired-other-window $1
+alias c eshell/clear-scrollback
 
 alias ll ls -lhA --color=always --group-directories-first $*
 alias ls ls -AC --color=always --group-directories-first $*
 alias tree tree -C $*
+
+alias - cd -
+alias rm rm -rfvI $*
+alias mkdir mkdir -p $*
+alias cat cat -n $*
 
 alias grep grep --color=always $*
 alias egrep egrep --color=always $*
 alias zgrep zgrep --color=always $*
 alias fgrep fgrep --color=always $*
 
-alias - cd -
-alias rm rm -rfvI $*
-alias cat cat -n $*
-alias c eshell/clear-scrollback
-
 alias h curl -s cheat.sh/$1?style=stata-light
 alias ho curl -s cheat.sh/$1?style=stata-light > #<cheat.sh>
 
-alias ping ping -c 3 gnu.org
-alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
 alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
+
+alias ping ping -c 3 gnu.org
+alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
+alias rice curl -sL http://git.io/rice
+
+alias pi sudo pacman -S $*
+alias ps pacman -Ss $*
+alias pr sudo pacman -Rsn $*
+alias pc sudo pacman -Rsn $(pacman -Qtdq)
+alias pf pacman -F $*
+alias pu paru
+alias ai paru -S $*
+alias as paru -Ss $*
+alias ar paru -Rsn $*
 #+end_src
 
 *** Defaults
@@ -631,7 +642,8 @@ alias qttr curl -s wttr.in/?0Q
 
 (defun crz/set-font-faces ()
   (set-face-attribute 'default nil :font crz/font)
-  (set-face-attribute 'fixed-pitch nil :font crz/font))
+  (set-face-attribute 'fixed-pitch nil :font crz/font)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Etoile 10"))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -793,11 +805,18 @@ alias qttr curl -s wttr.in/?0Q
 (straight-use-package 'emms) 
 
 (with-eval-after-load 'emms
-  (setq emms-source-file-default-directory "~/media/musics/"
+  (emms-all)
+  (setq emms-source-file-default-directory "~/media/musics"
+        emms-player-mpd-music-directory "~/media/musics"
         emms-browser-covers 'emms-browser-cache-thumbnail-async
         emms-source-file-directory-tree-function
-        'emms-source-file-directory-tree-find)
-  (emms-all)
-  (emms-default-players)
-  (emms-history-load))
+        'emms-source-file-directory-tree-find
+        emms-player-mpd-server-name "localhost"
+        emms-player-mpd-server-port "6600"
+        emms-mode-line-format " [%s]")
+  (add-to-list 'emms-info-functions 'emms-info-mpd)
+  (add-to-list 'emms-player-list 'emms-player-mpd)
+  (emms-player-mpd-sync-from-mpd)
+  (emms-player-mpd-connect)
+  (emms-playing-time-display-mode 0))
 #+end_src

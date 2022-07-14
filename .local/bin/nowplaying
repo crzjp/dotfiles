@@ -1,32 +1,32 @@
 #!/usr/bin/env sh
 
-for dep in cmus cmus-remote notify-send ; do
-    [ $(command -v $dep) ] || { echo \"$dep\" not found && exit 1; }
+for dep in mpd mpc notify-send ; do
+    [ $(command -v $dep) ] || { echo error: \"$dep\" not found && exit 1; }
 done
 
-content="/tmp/nowplaying"
-cmus-remote -Q > "$content" 2>&1
-
-status="$(awk '/status/{print $2}' $content)"
-position="$(awk '/position/{print $2}' $content)"
-
-artist_name="$(awk '/tag artist/{print substr($0, index($0, $3)); exit}' $content)"
-title_name="$(awk '/tag title/{print substr($0, index($0, $3))}' $content)"
-album_name="$(awk '/\yalbum\y/{print substr($0, index($0, $3)) ; exit}' $content)"
-
-album_path="$(awk '/\yalbum\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
-artist_path="$(awk '/artist/{a = substr($0, index($0, $3)) ; gsub(",.*","",a) ; gsub(" &.*","",a) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' $content)"
-title_path="$(awk '/^tag title/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a}' $content)"
-
-path="$HOME/media/musics/${artist_path}/${album_path}"
-
-album_cover="$path/${album_path}.jpg"
-
-if [ "$status" = "playing" ] ; then
-    if [ "$position" -le 3 ] ; then
-        notify-send -u low -i "$album_cover" \
-                    -h string:x-canonical-private-synchronous:cmus \
-                    "$title_name" "$artist_name\n$album_name"
-        cmusfm "$@"
+if ! pgrep -x mpd >/dev/null ; then
+    if tty -s ; then
+        echo "error: mpd is not running!"
+        exit 1
+    else
+        notify-send "Error" "mpd is not running!"
+        exit 1
     fi
+fi
+
+title=$(mpc current -f %title%)
+artist=$(mpc current -f %artist%)
+album=$(mpc current -f %album%)
+file=~/media/musics/$(mpc current -f %file%)
+path=${file%/*}
+cover=${file%/*}/${path##*/}.jpg
+
+if tty -s ; then
+    echo $title
+    echo $artist
+    echo $album
+else
+    notify-send -u low -i "$cover" \
+                -h string:x-canonical-private-synchronous:cmus \
+                "$title" "$artist\n$album"
 fi
