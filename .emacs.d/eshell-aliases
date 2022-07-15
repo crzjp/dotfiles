@@ -27,7 +27,7 @@ alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
 
 alias ping ping -c 3 gnu.org
-alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
+alias cpu *ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
 alias rice curl -sL http://git.io/rice
 
 alias pi sudo pacman -S $*

@@ -26,6 +26,8 @@
 
 (define-key *top-map* (kbd "s-m") '*music*)
 
+(run-shell-command "pidof mpdas || mpdas")
+
 (defvar *upload*
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "s") "exec shot us")

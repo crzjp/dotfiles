@@ -102,7 +102,8 @@
 (with-eval-after-load 'popper
   (setq popper-reference-buffers
         '("\\*Async Shell Command\\*"
-          grep-mode)))
+          grep-mode
+          debugger-mode)))
 
 (global-set-key (kbd "M-'") 'popper-toggle-latest)
 (global-set-key (kbd "C-'") 'popper-cycle)
@@ -262,6 +263,7 @@
                        (mode . eshell-mode)
                        (mode . term-mode)
                        (mode . shell-mode)))
+           ("Debug" (mode . debugger-mode))
            ("Agenda" (filename . "agenda.org"))
            ("Org" (mode . org-mode))
            ("Magit" (or (mode . magit-process-mode)

@@ -21,10 +21,11 @@ export PAGER=less
 
 export VISUAL="emacsclient -c -a ''"
 export EDITOR="emacsclient -nw -a ''"
-export BROWSER=palemoon
+export BROWSER=chrome
 export MANPAGER=less
 export RXVT_SOCKET="/tmp/urxvt-socket"
 
 eval `dircolors`
 
+[ -f "~/.bashrc" ] && . ~/.bashrc
 [ "$(tty)" = "/dev/tty1" ] && sx

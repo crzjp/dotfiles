@@ -45,6 +45,8 @@
     (define-key m (kbd "c") "exec nowplaying") m))
 
 (define-key *top-map* (kbd "s-m") '*music*)
+
+(run-shell-command "pidof mpdas || mpdas")
 #+end_src
 
 ** Screenshot

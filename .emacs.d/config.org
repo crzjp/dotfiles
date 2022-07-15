@@ -249,7 +249,8 @@
 (with-eval-after-load 'popper
   (setq popper-reference-buffers
         '("\\*Async Shell Command\\*"
-          grep-mode)))
+          grep-mode
+          debugger-mode)))
 
 (global-set-key (kbd "M-'") 'popper-toggle-latest)
 (global-set-key (kbd "C-'") 'popper-cycle)
@@ -416,7 +417,7 @@ alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
 
 alias ping ping -c 3 gnu.org
-alias cpu ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
+alias cpu *ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk NR<=20
 alias rice curl -sL http://git.io/rice
 
 alias pi sudo pacman -S $*
@@ -527,6 +528,7 @@ alias ar paru -Rsn $*
                        (mode . eshell-mode)
                        (mode . term-mode)
                        (mode . shell-mode)))
+           ("Debug" (mode . debugger-mode))
            ("Agenda" (filename . "agenda.org"))
            ("Org" (mode . org-mode))
            ("Magit" (or (mode . magit-process-mode)
