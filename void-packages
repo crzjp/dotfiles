@@ -20,3 +20,5 @@ telegram-desktop
 openntpd
 mpd mpc mpdas
 transmission
+alsa-utils
+bash-completion
