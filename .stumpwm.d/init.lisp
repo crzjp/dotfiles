@@ -42,8 +42,6 @@
 (define-key *top-map* (kbd "Print") '*print*)
 
 (run-shell-command "hsetroot -extend $(shuf -n1 -e ~/media/pics/wallpapers/*)")
-(run-shell-command "pkill dunst ; dunst")
-(run-shell-command "pidof urxvtd || urxvtd")
 
 (define-key *top-map* (kbd "s-RET") "exec urxvtc")
 (define-key *root-map* (kbd "l") "exec slock")
@@ -52,7 +50,7 @@
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "t") "exec telegram-desktop")
     (define-key m (kbd "g") "exec gimp")
-    (define-key m (kbd "b") "exec palemoon") m))
+    (define-key m (kbd "b") "exec chrome") m))
 
 (define-key *top-map* (kbd "s-a") '*apps*)
 
@@ -108,9 +106,8 @@
 
 (clear-window-placement-rules)
 
-(define-frame-preference "dev" (0 t t :class "Pale moon"))
+(define-frame-preference "dev" (0 t t :class "Chromium-browser"))
 (define-frame-preference "msg" (0 t t :class "TelegramDesktop"))
-(define-frame-preference "misc" (0 t t :title "cmus"))
 
 (define-key *root-map* (kbd "s-c") "quit-confirm")
 

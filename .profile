@@ -27,5 +27,5 @@ export RXVT_SOCKET="/tmp/urxvt-socket"
 
 eval `dircolors`
 
-[ -f "~/.bashrc" ] && . ~/.bashrc
+[ -f ~/.bashrc ] && . ~/.bashrc
 [ "$(tty)" = "/dev/tty1" ] && sx

@@ -57,15 +57,10 @@ alias ek="emacsclient -e '(kill-emacs)'"
 alias reboot="sudo reboot"
 alias poweroff="sudo poweroff"
 
-alias pi='sudo pacman -S'
-alias ps='pacman -Ss'
-alias pr='sudo pacman -Rsn'
-alias pc='sudo pacman -Rsn $(pacman -Qtdq)'
-alias pf='pacman -F'
-alias pu='paru'
-alias ai='paru -S'
-alias as='paru -Ss'
-alias ar='paru -Rsn'
+alias xi='sudo xbps-install'
+alias xqs='xbps-query -Rs'
+alias xr='sudo xbps-remove -Ro'
+alias xu='sudo xbps-install -Su'
 
 alias cat='cat -n'
 alias cpu="\ps -A --sort -rsz -o pid,comm,pmem,pcpu | awk 'NR<=20'"

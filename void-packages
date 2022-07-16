@@ -1,0 +1,22 @@
+git
+sbcl
+pfetch
+curl
+autoconf
+make
+iwd
+numlockx xsetroot hsetroot xset xrdb rxvt-unicode urxvt-perls
+sx
+unzip
+xf86-input-libinput
+xclip
+emacs-gtk3
+scrot
+dunst
+libpng-devel poppler-devel poppler-glib-devel zlib-devel pkgconf
+cairo-devel
+tree
+telegram-desktop
+openntpd
+mpd mpc mpdas
+transmission
