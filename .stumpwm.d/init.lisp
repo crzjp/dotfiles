@@ -41,7 +41,7 @@
 
 (define-key *top-map* (kbd "Print") '*print*)
 
-(run-shell-command "hsetroot -extend $(shuf -n1 -e ~/media/pics/wallpapers/*)")
+(run-shell-command "xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'")
 
 (define-key *top-map* (kbd "s-RET") "exec urxvtc")
 (define-key *root-map* (kbd "l") "exec slock")
