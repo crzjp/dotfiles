@@ -22,3 +22,9 @@ mpd mpc mpdas
 transmission
 alsa-utils
 bash-completion
+slock
+atool
+xz
+noto-fonts-cjk noto-fonts-emoji noto-fonts-ttf font-awesome
+ffmpeg
+ImageMagick
