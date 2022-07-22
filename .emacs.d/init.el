@@ -68,7 +68,8 @@
 
 (delete-selection-mode 1)
 
-(setq help-window-select t)
+(with-eval-after-load 'help
+  (setq help-window-select t))
 
 (defvar-local hide-cursor--original nil)
 
@@ -85,9 +86,16 @@
     (scroll-lock-mode 0)
     (setq-local cursor-type (or hide-cursor--original t))))
 
+(setenv "PAGER" "cat")
+
 (setq disabled-command-function nil)
 
 (global-set-key (kbd "M-&") 'with-editor-async-shell-command)
+
+(setq kill-do-not-save-duplicates t)
+
+(with-eval-after-load 'woman
+  (setq woman-fill-frame t))
 
 (straight-use-package 'ace-window)
 
@@ -147,6 +155,8 @@
 (with-eval-after-load 'org
   (define-key org-mode-map "\C-c\o" 'consult-org-heading))
 
+(straight-use-package 'pcmpl-args)
+
 (defun crz/eshell-history-config ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
   (setq eshell-history-size 1000
@@ -194,8 +204,7 @@
   (crz/eshell-colors-config)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
   (setq eshell-buffer-maximum-lines 1000
-        eshell-scroll-to-bottom-on-input t)
-  (setenv "PAGER" "cat"))
+        eshell-scroll-to-bottom-on-input t))
 
 (with-eval-after-load 'eshell
   (add-hook 'eshell-mode-hook 'crz/eshell-config))
@@ -214,6 +223,7 @@
 (with-eval-after-load 'dired
   (setq dired-listing-switches "-lha --group-directories-first")
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "f") 'dired-create-empty-file)
   (diredfl-global-mode))
 
 (global-set-key (kbd "C-x C-d") 'dired-jump)
@@ -269,14 +279,16 @@
            ("Magit" (or (mode . magit-process-mode)
                         (mode . magit-diff-mode)
                         (mode . magit-status-mode)))
-           ("PDF" (mode . pdf-view-mode))
+           ("Book" (or (mode . pdf-view-mode)
+                       (mode . nov-mode)))
            ("Dired" (mode . dired-mode))
            ("Chat" (mode . erc-mode))
            ("Help" (or (name . "\*Help\*")
                        (name . "\*Apropos\*")
                        (name . "\*info\*")
                        (mode . help-mode)
-                       (mode . woman-mode)))
+                       (mode . woman-mode)
+                       (mode . Man-mode)))
            ("Image" (mode . image-mode))
            ("Internal" (name . "^\*.*$"))
            ("Misc" (name . "^.*$")))))
@@ -355,31 +367,20 @@
 (straight-use-package '(org :type built-in))
 
 (with-eval-after-load 'org
-  (setq org-modules '(org-tempo)
-        org-agenda-start-with-log-mode t
-        org-log-done 'time
-        org-log-into-drawer t
-        org-agenda-files '("~/media/docs/agenda.org")
-        org-files-directory "~/media/docs/org"
-        org-startup-indented t
+  (setq org-files-directory "~/media/docs/org"
+        org-return-follows-link t))
+
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+(with-eval-after-load 'org
+  (setq org-startup-indented t
         org-startup-with-inline-images t
         org-image-actual-width '(600)
         org-startup-folded t
         org-hide-emphasis-markers t
-        org-return-follows-link t
-        org-ellipsis " ▾")
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("li" . "src lisp")))
-
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-
-(global-set-key (kbd "C-c a") 'org-agenda)
+        org-ellipsis " ▾"))
 
 (add-hook 'org-mode-hook 'visual-line-mode)
-
-(with-eval-after-load 'org-src
-  (setq org-src-window-setup 'current-window
-        org-edit-src-content-indentation 0))
 
 (straight-use-package 'org-superstar)
 
@@ -387,6 +388,21 @@
   (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
 
 (add-hook 'org-mode-hook 'org-superstar-mode)
+
+(with-eval-after-load 'org
+  (setq org-modules '(org-tempo)
+        org-src-window-setup 'current-window
+        org-edit-src-content-indentation 0)
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("li" . "src lisp")))
+
+(with-eval-after-load 'org
+  (setq org-agenda-start-with-log-mode t
+        org-log-done 'time
+        org-log-into-drawer t
+        org-agenda-files '("~/media/docs/agenda.org")))
+
+(global-set-key (kbd "C-c a") 'org-agenda)
 
 (straight-use-package 'magit)
 

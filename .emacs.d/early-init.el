@@ -1,10 +1,15 @@
 ;; -*- lexical-binding: t; -*-
 
+(defvar last-file-name-handler-alist file-name-handler-alist)
+
 (setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
+      gc-cons-percentage 0.6
+      file-name-handler-alist nil)
 
 (add-hook 'emacs-startup-hook
-          #'(lambda () (setq gc-cons-threshold (* 2 1000 1000))))
+          #'(lambda ()
+              (setq gc-cons-threshold (* 2 1000 1000)
+                    file-name-handler-alist last-file-name-handler-alist)))
 
 (setq user-emacs-directory "~/.cache/emacs/")
 
