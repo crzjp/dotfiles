@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+pk="$(paru -Q | wc -l)"
+pk="${pk##*\ }"
+
+case "$INSIDE_EMACS" in
+    *eshell*)
+        sh="eshell"
+        tm="emacs"
+        ;;
+    *vterm*)
+        sh="${SHELL##*/}"
+        tm="vterm"
+        ;;
+    *)
+        sh="${SHELL##*/}"
+        tm="${TERM%-*}"
+        ;;
+esac
+
+wm="$(awk '/exec/{print $NF}' $XDG_CONFIG_HOME/sx/sxrc)"
+
+echo -e "
+ \033[34mArch GNU/Linux\033[0m
+ pk \033[34m::\033[0m $pk
+ sh \033[34m::\033[0m $sh
+ tm \033[34m::\033[0m $tm
+ wm \033[34m::\033[0m $wm
+"

@@ -1,0 +1,34 @@
+alias f find-file $1
+alias fo find-file-other-window $1
+alias v view-file $1
+alias vo view-file-other-window $1
+alias d dired $1
+alias do dired-other-window $1
+alias c eshell/clear-scrollback
+
+alias ls ls -AC --color=always --group-directories-first $*
+alias ll ls -lhA --color=always --group-directories-first $*
+alias tree tree -C $*
+
+alias - cd -
+alias rm rm -rfI $*
+alias mkdir mkdir -p $*
+alias cat cat -n $*
+
+alias grep grep --color=always $*
+alias zgrep zgrep --color=always $*
+
+alias h curl -s cheat.sh/$1?style=stata-light
+alias ho curl -s cheat.sh/$1?style=stata-light > #<cheat.sh>
+
+alias wttr curl -s wttr.in
+alias qttr curl -s wttr.in/?0Q
+
+alias ping ping -c 3 gnu.org
+alias rice curl -sL http://git.io/rice
+
+alias pi paru -S $*
+alias pr paru -Rs $*
+alias ps paru -Ss $*
+alias pu paru -Syu
+alias pf paru -F $*

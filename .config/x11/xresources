@@ -1,0 +1,43 @@
+! -*- compile-command: "xrdb -load xresources" -*-
+
+URxvt*.perl-ext-common: default,matcher,clipboard
+URxvt*.scrollBar:       false
+URxvt*.internalBorder:  0
+URxvt*.iso14755:        false
+URxvt*.intensityStyles: true
+
+URxvt*.pointerBlank:      true
+URxvt*.pointerBlankDelay: 987654321
+
+URxvt.font:        xft:Iosevka Slab:size=10
+URxvt.letterSpace: -1
+URxvt.lineSpace:   0
+
+URxvt.clipboard.copycmd:  xclip -i -selection clipboard
+URxvt.clipboard.pastecmd: xclip -o -selection clipboard
+URxvt.keysym.M-c:         perl:clipboard:copy
+URxvt.keysym.M-v:         perl:clipboard:paste
+URxvt.keysym.M-C-v:       perl:clipboard:paste_escaped
+
+URxvt*.matcher.rend.0: Uline Bold fg6
+URxvt*.matcher.button: 1
+URxvt*.url-launcher:   chromium
+
+*.background: #ffffff
+*.foreground: #000000
+*.color0:     #000000
+*.color1:     #a60000
+*.color2:     #005e00
+*.color3:     #813e00
+*.color4:     #0031a9
+*.color5:     #721045
+*.color6:     #00538b
+*.color7:     #bfbfbf
+*.color8:     #595959
+*.color9:     #972500
+*.color10:    #315b00
+*.color11:    #70480f
+*.color12:    #2544bb
+*.color13:    #5317ac
+*.color14:    #005a5f
+*.color15:    #ffffff
