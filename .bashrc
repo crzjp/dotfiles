@@ -5,15 +5,7 @@ HISTFILESIZE=10000
 HISTSIZE=$HISTFILESIZE
 HISTFILE="$HOME/.history"
 
-PS1="\[\e[34;7;1m\] \w \[\e[0m\] "
-
-trash(){
-    for file in "$@"; do
-        mv -v "$file" /tmp
-    done
-}
-
-h(){ curl -s cheat.sh/$1?style=stata-light ;}
+PS1="\[\e[35;1m\]\w $ \[\e[0m\]"
 
 alias ls='ls -AC --color=auto --group-directories-first'
 alias ll='ls -lhA --color=auto --group-directories-first'
@@ -35,15 +27,8 @@ alias edk="emacsclient -e '(kill-emacs)'"
 alias reboot="sudo reboot"
 alias poweroff="sudo poweroff"
 
-alias pi="paru -S"
-alias pr="paru -Rs"
-alias ps="paru -Ss"
-alias pu="paru -Syu"
-alias pf="paru -F"
-
-alias cat='cat -n'
 alias ping='ping -c 3 gnu.org'
-alias rice='curl -sL http://git.io/rice'
 alias wttr='curl -s wttr.in'
 alias qttr='curl -s wttr.in/?0Q'
 alias which='command -v'
+alias free='top -d1 | head -n5'

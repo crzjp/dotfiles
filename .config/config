@@ -1,0 +1,2 @@
+host = /home/crzjp/.local/share/mpd/socket
+enable-colors = no

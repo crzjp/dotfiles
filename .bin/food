@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+rice(){ curl -sL http://git.io/rice ;}
+rice2(){ curl -sL rum.sh/ricebowl ;}
+
+case $1 in
+    rice)  rice ;;
+    rice2) rice2 ;;
+    *)
+        random=$(shuf -en1 rice rice2)
+        $random ;;
+esac

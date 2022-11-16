@@ -1,17 +1,13 @@
 #!/usr/bin/env sh
 
-for dep in mpd mpc notify-send ; do
+for dep in musicpd mpc notify-send ; do
     [ $(command -v $dep) ] || { echo error: \"$dep\" not found && exit 1; }
 done
 
-if ! pgrep -x mpd >/dev/null ; then
-    if tty -s ; then
-        echo "error: mpd is not running!"
-        exit 1
-    else
-        notify-send "Error" "mpd is not running!"
-        exit 1
-    fi
+if ! pgrep -x musicpd >/dev/null ; then
+    notify-send -h string:x-canonical-private-synchronous:mpd \
+        "Error" "mpd is not running!"
+    exit 1
 fi
 
 title=$(mpc current -f %title%)
@@ -19,14 +15,8 @@ artist=$(mpc current -f %artist%)
 album=$(mpc current -f %album%)
 file=~/media/musics/$(mpc current -f %file%)
 path=${file%/*}
-cover=${file%/*}/${path##*/}.jpg
+cover=$path/${path##*/}.jpg
 
-if tty -s ; then
-    echo $title
-    echo $artist
-    echo $album
-else
-    notify-send -u low -i "$cover" \
-                -h string:x-canonical-private-synchronous:cmus \
-                "$title" "$artist\n$album"
-fi
+notify-send -u low -i "$cover" \
+    -h string:x-canonical-private-synchronous:mpd \
+    "$title" "$artist\n$album"

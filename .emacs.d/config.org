@@ -651,6 +651,12 @@ alias pf paru -F $*
 
 * Language modes
 
+** LSP
+
+#+begin_src emacs-lisp
+(straight-use-package 'eglot)
+#+end_src
+
 ** Markdown
 
 #+begin_src emacs-lisp
@@ -658,6 +664,14 @@ alias pf paru -F $*
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+#+end_src
+
+** Go
+
+#+begin_src emacs-lisp
+(straight-use-package 'go-mode)
+
+(add-hook 'go-mode-hook 'eglot-ensure)
 #+end_src
 
 * Visual
@@ -865,7 +879,7 @@ alias pf paru -F $*
 
 ** PDF
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (straight-use-package
  '(pdf-tools :type git :host github :repo "vedang/pdf-tools"))
 
@@ -883,7 +897,7 @@ alias pf paru -F $*
 
 ** EPUB
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (straight-use-package 'nov.el)
 (straight-use-package 'esxml)
 

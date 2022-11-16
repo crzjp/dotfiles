@@ -9,7 +9,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 
 export PATH="$HOME/.bin:$PATH"
 
-export LESS='-F -R -J -M -W -X'
+export LESS='-FRJMWX'
 export LESSHISTFILE=/dev/null
 export LESS_TERMCAP_mb=$'\033[1;31m'
 export LESS_TERMCAP_md=$'\033[1;36m'

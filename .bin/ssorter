@@ -9,9 +9,9 @@ if [ "$1" = "s" ]; then
     for m in *.mp3 ; do
         file="/tmp/ssorter"
         ffprobe "$m" > "$file" 2>&1
-        title="$(awk '/\ytitle\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a; exit}' "$file")"
-        album="$(awk '/\yalbum\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' "$file")"
-        artist="$(awk '/\yartist\y/{a = substr($0, index($0, $3)) ; gsub(",.*","",a) ; gsub(" &.*","",a) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' "$file")"
+        title="$(gawk '/\ytitle\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a; exit}' "$file")"
+        album="$(gawk '/\yalbum\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' "$file")"
+        artist="$(gawk '/\yartist\y/{a = substr($0, index($0, $3)) ; gsub(",.*","",a) ; gsub(" &.*","",a) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' "$file")"
         final_path="${music_path}/${artist}/${album}"
         [ ! -d "$final_path" ] && mkdir -pv "$final_path"
         mv -v "$m" "${final_path}/${title}.mp3"
@@ -19,23 +19,23 @@ if [ "$1" = "s" ]; then
             ffmpeg -nostats -loglevel 0 -y -i ${final_path}/${title}.mp3 ${final_path}/${album}.jpg
     done
     printf "\n%s\n\n" "Done"
-elif [ "$1" = "t" ]; then
-    [ -z "$2" ] && echo "Wrong usage" && exit 1
-    for p in `ls -1 ./$2`; do
-        tar cfv "${p}.tar" "$2${p}"
-    done
-    printf "\n%s\n\n" "Done"
-elif [ "$1" = "T" ]; then
-    tar cfv "$(basename $2).tar" $2
-    printf "\n%s\n\n" "Done"
 elif [ "$1" = "m" ]; then
-    [ -z "$type" ] && echo "Wrong usage" && exit 1
-    [ -z "$name" ] && echo "Wrong usage" && exit 1
-    for p in *.mp3; do
-        ffmpeg -loglevel 8 -hide_banner -i "$p" -codec copy \
-               -metadata "${type}=${name}" "${type}_EDITED_${p}"
-        rm -rv -- "$p"
-    done
+    if [ "$type" = "image" ]; then
+        [ -z "$name" ] && echo "Missing image" && exit 1
+        for p in *.mp3; do
+            ffmpeg -loglevel 8 -hide_banner -i "$p" -i "$name" \
+                -map 0:0 -map 1:0 -c copy "${type}_EDITED_${p}"
+            rm -rv -- "$p"
+        done
+    else
+        [ -z "$type" ] && echo "Missing type (title, album, artist...)" && exit 1
+        [ -z "$name" ] && echo "Missing name" && exit 1
+        for p in *.mp3; do
+            ffmpeg -loglevel 8 -hide_banner -i "$p" -c copy \
+                -metadata "${type}=${name}" "${type}_EDITED_${p}"
+            rm -rv -- "$p"
+        done
+    fi
 else
     echo "Wrong usage"
     exit 1
