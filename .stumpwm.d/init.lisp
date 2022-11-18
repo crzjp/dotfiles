@@ -51,7 +51,7 @@
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "t") "exec telegram-desktop")
     (define-key m (kbd "g") "exec gimp")
-    (define-key m (kbd "b") "exec chromium") m))
+    (define-key m (kbd "b") "exec chrome") m))
 
 (define-key *top-map* (kbd "s-a") '*apps*)
 

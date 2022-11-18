@@ -10,7 +10,7 @@ URxvt*.pointerBlank:      true
 URxvt*.pointerBlankDelay: 987654321
 
 URxvt.font:        xft:Iosevka Slab:size=10
-URxvt.letterSpace: -1
+!URxvt.letterSpace: -1
 URxvt.lineSpace:   0
 
 URxvt.clipboard.copycmd:  xclip -i -selection clipboard

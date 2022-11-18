@@ -482,6 +482,24 @@
      "ffmpeg -stats -n -i '<<f>>' -qscale:a 0 '<<fne>>.mp3'"
      :utils "ffmpeg")))
 
+(straight-use-package 'pdf-tools)
+
+(with-eval-after-load 'pdf-tools
+  (setq pdf-view-continuous nil))
+
+(pdf-tools-install :noquery)
+
+(add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
+
+(straight-use-package 'pdf-view-restore)
+
+(add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
+
+(straight-use-package 'nov.el)
+(straight-use-package 'esxml)
+
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
 (straight-use-package 'erc-hl-nicks)
 
 (with-eval-after-load 'erc

@@ -23,7 +23,7 @@ export MANPAGER=less
 
 export VISUAL="emacsclient -c -a ''"
 export EDITOR="emacsclient -nw -a ''"
-export BROWSER=chromium
+export BROWSER=chrome
 export RXVT_SOCKET="/tmp/urxvt-socket"
 export GPG_TTY=$(tty)
 

@@ -475,6 +475,12 @@ alias d dired $1
 alias do dired-other-window $1
 alias c eshell/clear-scrollback
 
+alias xi sudo xbps-install $*
+alias xr sudo xbps-remove -Ro $*
+alias xu sudo xbps-install -Su
+alias xqs xbps-query -Rs $*
+alias xf xlocate $*
+
 alias ls ls -AC --color=always --group-directories-first $*
 alias ll ls -lhA --color=always --group-directories-first $*
 alias tree tree -C $*
@@ -487,20 +493,10 @@ alias cat cat -n $*
 alias grep grep --color=always $*
 alias zgrep zgrep --color=always $*
 
-alias h curl -s cheat.sh/$1?style=stata-light
-alias ho curl -s cheat.sh/$1?style=stata-light > #<cheat.sh>
-
 alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
-
 alias ping ping -c 3 gnu.org
-alias rice curl -sL http://git.io/rice
-
-alias pi paru -S $*
-alias pr paru -Rs $*
-alias ps paru -Ss $*
-alias pu paru -Syu
-alias pf paru -F $*
+alias free free -h
 #+end_src
 
 *** Defaults
@@ -879,9 +875,8 @@ alias pf paru -F $*
 
 ** PDF
 
-#+begin_src emacs-lisp :tangle no
-(straight-use-package
- '(pdf-tools :type git :host github :repo "vedang/pdf-tools"))
+#+begin_src emacs-lisp
+(straight-use-package 'pdf-tools)
 
 (with-eval-after-load 'pdf-tools
   (setq pdf-view-continuous nil))
@@ -897,7 +892,7 @@ alias pf paru -F $*
 
 ** EPUB
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (straight-use-package 'nov.el)
 (straight-use-package 'esxml)
 
