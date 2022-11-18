@@ -7,4 +7,6 @@ xrdb -load $HOME/.config/x11/xresources
 xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'
 
 eval "$(dbus-launch)"
-exec stumpwm
+pidof urxvtd || urxvtd &
+pidof emacs || emacs --daemon
+exec cwm -c $XDG_CONFIG_HOME/cwm/config
