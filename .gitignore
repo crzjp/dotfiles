@@ -10,4 +10,8 @@
 .config/dconf/
 .config/chromium/
 
+.config/mpdasrc
+.config/mpd/*
+!.config/mpd/mpd.conf
+
 .stumpwm.d/*log*

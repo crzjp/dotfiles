@@ -555,6 +555,7 @@
         emms-mode-line-format " [%s]")
   (add-to-list 'emms-info-functions 'emms-info-mpd)
   (add-to-list 'emms-player-list 'emms-player-mpd)
+  (add-hook 'emms-playlist-cleared-hook 'emms-player-mpd-clear)
   (emms-player-mpd-sync-from-mpd)
   (emms-player-mpd-connect)
   (emms-playing-time-display-mode 0))

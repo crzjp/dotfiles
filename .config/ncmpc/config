@@ -1,2 +1,3 @@
-host = /home/crzjp/.local/share/mpd/socket
+host = localhost
+port = 6600
 enable-colors = no
