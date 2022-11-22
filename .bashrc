@@ -5,7 +5,7 @@ HISTFILESIZE=10000
 HISTSIZE=$HISTFILESIZE
 HISTFILE="$HOME/.history"
 
-PS1="\[\e[34;7;1m\] \w \[\e[0m\] "
+PS1="[\w] "
 
 alias sudo='sudo --'
 
