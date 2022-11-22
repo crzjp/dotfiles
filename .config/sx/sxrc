@@ -4,9 +4,6 @@ numlockx on
 xsetroot -cursor_name left_ptr
 xset r rate 200 70
 xrdb -load $HOME/.config/x11/xresources
-xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'
 
 eval "$(dbus-launch)"
-pidof urxvtd || urxvtd &
-pidof emacs || emacs --daemon
-exec cwm -c $XDG_CONFIG_HOME/cwm/config
+exec stumpwm
