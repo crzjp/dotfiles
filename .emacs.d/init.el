@@ -203,10 +203,7 @@
 
 (defun crz/eshell-prompt ()
   (concat
-   (propertize " " 'face '(:background "#2544bb"))
-   (propertize (abbreviate-file-name (eshell/pwd))
-               'face '(:background "#2544bb" :foreground "#ffffff"))
-   (propertize " " 'face '(:background "#2544bb"))
+   "[" (abbreviate-file-name (eshell/pwd)) "]"
    (propertize "$" 'invisible t) " "))
 
 (defun crz/eshell-prompt-config ()
@@ -369,10 +366,8 @@
 
 (straight-use-package 'rainbow-mode)
 
-(setq-default cursor-type 'bar
+(setq-default cursor-type 'hbar
               cursor-in-non-selected-windows nil)
-
-(blink-cursor-mode 0)
 
 (with-eval-after-load 'tab-bar
   (setq tab-bar-new-button nil
@@ -468,6 +463,7 @@
    :repo "xenodium/dwim-shell-command"))
 
 (with-eval-after-load 'dwim-shell-command
+  (setq dwim-shell-command-default-command nil)
   (global-set-key (kbd "M-!") 'dwim-shell-command)
   (define-key dired-mode-map (kbd "!") 'dwim-shell-command))
 
