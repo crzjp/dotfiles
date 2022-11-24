@@ -349,14 +349,18 @@
 
 (straight-use-package 'eglot)
 
+(straight-use-package 'go-mode)
+
+(add-hook 'go-mode-hook 'eglot-ensure)
+
 (straight-use-package 'markdown-mode)
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
-(straight-use-package 'go-mode)
+(straight-use-package 'zig-mode)
 
-(add-hook 'go-mode-hook 'eglot-ensure)
+(add-hook 'zig-mode-hook 'eglot-ensure)
 
 (setq frame-resize-pixelwise t)
 

@@ -650,6 +650,14 @@ alias free free -h
 (straight-use-package 'eglot)
 #+end_src
 
+** Go
+
+#+begin_src emacs-lisp
+(straight-use-package 'go-mode)
+
+(add-hook 'go-mode-hook 'eglot-ensure)
+#+end_src
+
 ** Markdown
 
 #+begin_src emacs-lisp
@@ -659,12 +667,12 @@ alias free free -h
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 #+end_src
 
-** Go
+** Zig
 
 #+begin_src emacs-lisp
-(straight-use-package 'go-mode)
+(straight-use-package 'zig-mode)
 
-(add-hook 'go-mode-hook 'eglot-ensure)
+(add-hook 'zig-mode-hook 'eglot-ensure)
 #+end_src
 
 * Visual
