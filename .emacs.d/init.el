@@ -51,13 +51,6 @@
 
 (cd "~/")
 
-(setq-default buffer-file-coding-system 'utf-8-unix
-              default-file-name-coding-system 'utf-8-unix
-              default-keyboard-coding-system 'utf-8-unix
-              default-process-coding-system '(utf-8-unix . utf-8-unix)
-              default-sendmail-coding-system 'utf-8-unix
-              default-terminal-coding-system 'utf-8-unix)
-
 (global-auto-revert-mode 1)
 
 (setq global-auto-revert-non-file-buffers t)
@@ -445,7 +438,7 @@
   (setq org-agenda-start-with-log-mode t
         org-log-done 'time
         org-log-into-drawer t
-        org-agenda-files '("~/media/docs/agenda.org")))
+        org-agenda-files '("~/media/docs/notas/agenda.org")))
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 
@@ -553,7 +546,5 @@
         emms-mode-line-format " [%s]")
   (add-to-list 'emms-info-functions 'emms-info-mpd)
   (add-to-list 'emms-player-list 'emms-player-mpd)
-  (add-hook 'emms-playlist-cleared-hook 'emms-player-mpd-clear)
-  (emms-player-mpd-sync-from-mpd)
   (emms-player-mpd-connect)
   (emms-playing-time-display-mode 0))
