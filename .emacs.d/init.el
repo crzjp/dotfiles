@@ -452,10 +452,7 @@
 
 ;; (pinentry-start 1)
 
-(straight-use-package
- '(dwim-shell-command
-   :type git :host github
-   :repo "xenodium/dwim-shell-command"))
+(straight-use-package 'dwim-shell-command)
 
 (with-eval-after-load 'dwim-shell-command
   (setq dwim-shell-command-default-command nil)
@@ -539,8 +536,7 @@
   (setq emms-source-file-default-directory "~/media/musics"
         emms-player-mpd-music-directory "~/media/musics"
         emms-browser-covers 'emms-browser-cache-thumbnail-async
-        emms-source-file-directory-tree-function
-        'emms-source-file-directory-tree-find
+        emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find
         emms-player-mpd-server-name "localhost"
         emms-player-mpd-server-port "6600"
         emms-mode-line-format " [%s]")
