@@ -114,8 +114,7 @@
 
 (define-key *root-map* (kbd "r") "loadrc")
 
-(setf *time-format-string-default*
-      (format nil "%k:%M:%S~%%A~%%d %B~%%d/%m/%Y")
+(setf *time-format-string-default* (format nil "%k:%M:%S~%%A~%%d %B~%%d/%m/%Y")
       *timeout-wait* 10)
 
 (define-key *root-map* (kbd "d") "echo-date")
