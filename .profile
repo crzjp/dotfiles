@@ -1,7 +1,6 @@
 export LANG=en_US.UTF-8
 export QT_QPA_PLATFORMTHEME=qt5ct
 export GDK_CORE_DEVICE_EVENTS=1
-export DBUS_SESSION_BUS_ADDRESS
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -29,4 +28,4 @@ export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 [ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
-[ "$(tty)" = "/dev/tty1" ] && sx
+[ "$(tty)" = "/dev/tty1" ] && startx
