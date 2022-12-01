@@ -1,23 +1,12 @@
 ;; -*- lexical-binding: t; -*-
 
-(setq straight-check-for-modifications nil)
+(require 'package)
 
-(defvar bootstrap-version)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 
-(with-eval-after-load 'straight
-  (setq straight-vc-git-default-clone-depth 1))
+(package-initialize)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -101,7 +90,8 @@
     (scroll-lock-mode 0)
     (setq-local cursor-type (or hide-cursor--original t))))
 
-(straight-use-package 'ace-window)
+(unless (package-installed-p 'ace-window)
+  (package-install 'ace-window))
 
 (with-eval-after-load 'ace-window
   (setq aw-scope 'frame
@@ -109,7 +99,8 @@
 
 (global-set-key (kbd "M-o") 'ace-window)
 
-(straight-use-package 'popper)
+(unless (package-installed-p 'popper)
+  (package-install 'popper))
 
 (with-eval-after-load 'popper
   (setq popper-reference-buffers
@@ -132,17 +123,20 @@
 
 (setq enable-recursive-minibuffers t)
 
-(straight-use-package 'vertico)
+(unless (package-installed-p 'vertico)
+  (package-install 'vertico))
 
 (vertico-mode 1)
 
-(straight-use-package 'orderless)
+(unless (package-installed-p 'orderless)
+  (package-install 'orderless))
 
 (with-eval-after-load 'vertico
   (setq completion-styles '(orderless)
         orderless-matching-styles '(orderless-flex)))
 
-(straight-use-package 'consult)
+(unless (package-installed-p 'consult)
+  (package-install 'consult))
 
 (with-eval-after-load 'consult
   (consult-customize consult-recent-file :preview-key nil)
@@ -164,7 +158,8 @@
 
 (setq read-extended-command-predicate 'command-completion-default-include-p)
 
-(straight-use-package 'corfu)
+(unless (package-installed-p 'corfu)
+  (package-install 'corfu))
 
 (with-eval-after-load 'corfu
   (setq corfu-preview-current nil))
@@ -205,7 +200,8 @@
   (setq-local outline-regexp eshell-prompt-regexp)
   (define-key eshell-mode-map (kbd "C-c s") 'consult-outline))
 
-(straight-use-package 'xterm-color)
+(unless (package-installed-p 'xterm-color)
+  (package-install 'xterm-color))
 
 (defun crz/eshell-colors-config ()
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
@@ -235,14 +231,16 @@
 
 (global-set-key (kbd "C-c e") 'eshell)
 
-(straight-use-package 'vterm)
+(unless (package-installed-p 'vterm)
+  (package-install 'vterm))
 
 (with-eval-after-load 'vterm
   (setq vterm-kill-buffer-on-exit t))
 
 (global-set-key (kbd "C-c t") 'vterm)
 
-(straight-use-package 'diredfl)
+(unless (package-installed-p 'diredfl)
+  (package-install 'diredfl))
 
 (with-eval-after-load 'dired
   (setq dired-listing-switches "-lha --group-directories-first")
@@ -340,15 +338,18 @@
 
 (add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode)
 
-(straight-use-package 'eglot)
+(unless (package-installed-p 'eglot)
+  (package-install 'eglot))
 
 (add-hook 'c-mode-hook 'eglot-ensure)
 
-(straight-use-package 'go-mode)
+(unless (package-installed-p 'go-mode)
+  (package-install 'go-mode))
 
 (add-hook 'go-mode-hook 'eglot-ensure)
 
-(straight-use-package 'markdown-mode)
+(unless (package-installed-p 'markdown-mode)
+  (package-install 'markdown-mode))
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
@@ -359,7 +360,8 @@
 
 (column-number-mode 1)
 
-(straight-use-package 'rainbow-mode)
+(unless (package-installed-p 'rainbow-mode)
+  (package-install 'rainbow-mode))
 
 (setq-default cursor-type 'hbar
               cursor-in-non-selected-windows nil)
@@ -402,8 +404,6 @@
 
 (display-time-mode 1)
 
-(straight-use-package '(org :type built-in))
-
 (with-eval-after-load 'org
   (setq org-files-directory "~/media/docs/org"
         org-return-follows-link t))
@@ -420,7 +420,8 @@
 
 (add-hook 'org-mode-hook 'visual-line-mode)
 
-(straight-use-package 'org-superstar)
+(unless (package-installed-p 'org-superstar)
+  (package-install 'org-superstar))
 
 (with-eval-after-load 'org-superstar
   (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
@@ -442,17 +443,11 @@
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 
-(straight-use-package 'magit)
+(unless (package-installed-p 'magit)
+  (package-install 'magit))
 
-;; (with-eval-after-load 'magit
-;;   (setq epg-pinentry-mode 'loopback
-;;         epa-pinentry-mode 'loopback))
-
-;; (straight-use-package 'pinentry)
-
-;; (pinentry-start 1)
-
-(straight-use-package 'dwim-shell-command)
+(unless (package-installed-p 'dwim-shell-command)
+  (package-install 'dwim-shell-command))
 
 (with-eval-after-load 'dwim-shell-command
   (setq dwim-shell-command-default-command nil)
@@ -470,7 +465,8 @@
      "ffmpeg -stats -n -i '<<f>>' -qscale:a 0 '<<fne>>.mp3'"
      :utils "ffmpeg")))
 
-(straight-use-package 'pdf-tools)
+(unless (package-installed-p 'pdf-tools)
+  (package-install 'pdf-tools))
 
 (with-eval-after-load 'pdf-tools
   (setq pdf-view-continuous nil))
@@ -479,16 +475,21 @@
 
 (add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
-(straight-use-package 'pdf-view-restore)
+(unless (package-installed-p 'pdf-view-restore)
+  (package-install 'pdf-view-restore))
 
 (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
 
-(straight-use-package 'nov.el)
-(straight-use-package 'esxml)
+(unless (package-installed-p 'nov)
+  (package-install 'nov))
+
+(unless (package-installed-p 'esxml)
+  (package-install 'esxml))
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
-(straight-use-package 'erc-hl-nicks)
+(unless (package-installed-p 'erc-hl-nicks)
+  (package-install 'erc-hl-nicks))
 
 (with-eval-after-load 'erc
   (setq erc-accidental-paste-threshold-seconds nil
@@ -509,7 +510,8 @@
         gnus-secondary-select-methods '((nnimap "mail.riseup.net")
                                         (nnimap "mail.cock.li"))))
 
-(straight-use-package 'transmission)
+(unless (package-installed-p 'transmission)
+  (package-install 'transmission))
 
 (with-eval-after-load 'transmission
   (setq transmission-refresh-modes '(transmission-mode
@@ -517,7 +519,8 @@
                                      transmission-info-mode
                                      transmission-peers-mode)))
 
-(straight-use-package '0x0)
+(unless (package-installed-p '0x0)
+  (package-install '0x0))
 
 (with-eval-after-load '0x0
   (setq 0x0-servers '((0x0
@@ -529,7 +532,8 @@
                        :max-age 365
                        :max-size ,(* 1024 1024 512)))))
 
-(straight-use-package 'emms) 
+(unless (package-installed-p 'emms)
+  (package-install 'emms))
 
 (with-eval-after-load 'emms
   (emms-all)

@@ -43,8 +43,7 @@
 ** Package
 
 #+begin_src emacs-lisp :tangle early-init.el
-(setq package-enable-at-startup nil
-      load-prefer-newer t)
+(setq load-prefer-newer t)
 #+end_src
 
 ** Visual
@@ -67,24 +66,13 @@
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t; -*-
 
-(setq straight-check-for-modifications nil)
+(require 'package)
 
-(defvar bootstrap-version)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 
-(with-eval-after-load 'straight
-  (setq straight-vc-git-default-clone-depth 1))
+(package-initialize)
 #+end_src
 
 * Sane defaults
@@ -264,7 +252,8 @@
 ** Movement
 
 #+begin_src emacs-lisp
-(straight-use-package 'ace-window)
+(unless (package-installed-p 'ace-window)
+  (package-install 'ace-window))
 
 (with-eval-after-load 'ace-window
   (setq aw-scope 'frame
@@ -276,7 +265,8 @@
 ** Popup
 
 #+begin_src emacs-lisp
-(straight-use-package 'popper)
+(unless (package-installed-p 'popper)
+  (package-install 'popper))
 
 (with-eval-after-load 'popper
   (setq popper-reference-buffers
@@ -313,7 +303,8 @@
 ** Completion UI
 
 #+begin_src emacs-lisp
-(straight-use-package 'vertico)
+(unless (package-installed-p 'vertico)
+  (package-install 'vertico))
 
 (vertico-mode 1)
 #+end_src
@@ -321,7 +312,8 @@
 ** Completion style
 
 #+begin_src emacs-lisp
-(straight-use-package 'orderless)
+(unless (package-installed-p 'orderless)
+  (package-install 'orderless))
 
 (with-eval-after-load 'vertico
   (setq completion-styles '(orderless)
@@ -331,7 +323,8 @@
 ** Additional completion commands
 
 #+begin_src emacs-lisp
-(straight-use-package 'consult)
+(unless (package-installed-p 'consult)
+  (package-install 'consult))
 
 (with-eval-after-load 'consult
   (consult-customize consult-recent-file :preview-key nil)
@@ -363,7 +356,8 @@
 ** Defaults
 
 #+begin_src emacs-lisp
-(straight-use-package 'corfu)
+(unless (package-installed-p 'corfu)
+  (package-install 'corfu))
 
 (with-eval-after-load 'corfu
   (setq corfu-preview-current nil))
@@ -428,7 +422,8 @@
 *** Colors
 
 #+begin_src emacs-lisp
-(straight-use-package 'xterm-color)
+(unless (package-installed-p 'xterm-color)
+  (package-install 'xterm-color))
 
 (defun crz/eshell-colors-config ()
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
@@ -507,7 +502,8 @@ alias free free -h
 ** Vterm
 
 #+begin_src emacs-lisp
-(straight-use-package 'vterm)
+(unless (package-installed-p 'vterm)
+  (package-install 'vterm))
 
 (with-eval-after-load 'vterm
   (setq vterm-kill-buffer-on-exit t))
@@ -518,7 +514,8 @@ alias free free -h
 * Dired
 
 #+begin_src emacs-lisp
-(straight-use-package 'diredfl)
+(unless (package-installed-p 'diredfl)
+  (package-install 'diredfl))
 
 (with-eval-after-load 'dired
   (setq dired-listing-switches "-lha --group-directories-first")
@@ -636,7 +633,8 @@ alias free free -h
 ** LSP
 
 #+begin_src emacs-lisp
-(straight-use-package 'eglot)
+(unless (package-installed-p 'eglot)
+  (package-install 'eglot))
 #+end_src
 
 ** C
@@ -648,7 +646,8 @@ alias free free -h
 ** Go
 
 #+begin_src emacs-lisp
-(straight-use-package 'go-mode)
+(unless (package-installed-p 'go-mode)
+  (package-install 'go-mode))
 
 (add-hook 'go-mode-hook 'eglot-ensure)
 #+end_src
@@ -656,7 +655,8 @@ alias free free -h
 ** Markdown
 
 #+begin_src emacs-lisp
-(straight-use-package 'markdown-mode)
+(unless (package-installed-p 'markdown-mode)
+  (package-install 'markdown-mode))
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
@@ -685,7 +685,8 @@ alias free free -h
 ** Color codes
 
 #+begin_src emacs-lisp
-(straight-use-package 'rainbow-mode)
+(unless (package-installed-p 'rainbow-mode)
+  (package-install 'rainbow-mode))
 #+end_src
 
 ** Cursor
@@ -758,8 +759,6 @@ alias free free -h
 ** Defaults
 
 #+begin_src emacs-lisp
-(straight-use-package '(org :type built-in))
-
 (with-eval-after-load 'org
   (setq org-files-directory "~/media/docs/org"
         org-return-follows-link t))
@@ -786,7 +785,8 @@ alias free free -h
 *** Asteriscs
 
 #+begin_src emacs-lisp
-(straight-use-package 'org-superstar)
+(unless (package-installed-p 'org-superstar)
+  (package-install 'org-superstar))
 
 (with-eval-after-load 'org-superstar
   (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
@@ -820,15 +820,8 @@ alias free free -h
 * Magit
 
 #+begin_src emacs-lisp
-(straight-use-package 'magit)
-
-;; (with-eval-after-load 'magit
-;;   (setq epg-pinentry-mode 'loopback
-;;         epa-pinentry-mode 'loopback))
-
-;; (straight-use-package 'pinentry)
-
-;; (pinentry-start 1)
+(unless (package-installed-p 'magit)
+  (package-install 'magit))
 #+end_src
 
 * DWIM shell commands
@@ -836,7 +829,8 @@ alias free free -h
 ** Defaults
 
 #+begin_src emacs-lisp
-(straight-use-package 'dwim-shell-command)
+(unless (package-installed-p 'dwim-shell-command)
+  (package-install 'dwim-shell-command))
 
 (with-eval-after-load 'dwim-shell-command
   (setq dwim-shell-command-default-command nil)
@@ -864,7 +858,8 @@ alias free free -h
 ** PDF
 
 #+begin_src emacs-lisp
-(straight-use-package 'pdf-tools)
+(unless (package-installed-p 'pdf-tools)
+  (package-install 'pdf-tools))
 
 (with-eval-after-load 'pdf-tools
   (setq pdf-view-continuous nil))
@@ -873,7 +868,8 @@ alias free free -h
 
 (add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
-(straight-use-package 'pdf-view-restore)
+(unless (package-installed-p 'pdf-view-restore)
+  (package-install 'pdf-view-restore))
 
 (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
 #+end_src
@@ -881,8 +877,11 @@ alias free free -h
 ** EPUB
 
 #+begin_src emacs-lisp
-(straight-use-package 'nov.el)
-(straight-use-package 'esxml)
+(unless (package-installed-p 'nov)
+  (package-install 'nov))
+
+(unless (package-installed-p 'esxml)
+  (package-install 'esxml))
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 #+end_src
@@ -890,7 +889,8 @@ alias free free -h
 ** IRC
 
 #+begin_src emacs-lisp
-(straight-use-package 'erc-hl-nicks)
+(unless (package-installed-p 'erc-hl-nicks)
+  (package-install 'erc-hl-nicks))
 
 (with-eval-after-load 'erc
   (setq erc-accidental-paste-threshold-seconds nil
@@ -919,7 +919,8 @@ alias free free -h
 ** Torrent
 
 #+begin_src emacs-lisp
-(straight-use-package 'transmission)
+(unless (package-installed-p 'transmission)
+  (package-install 'transmission))
 
 (with-eval-after-load 'transmission
   (setq transmission-refresh-modes '(transmission-mode
@@ -931,7 +932,8 @@ alias free free -h
 ** 0x0
 
 #+begin_src emacs-lisp
-(straight-use-package '0x0)
+(unless (package-installed-p '0x0)
+  (package-install '0x0))
 
 (with-eval-after-load '0x0
   (setq 0x0-servers '((0x0
@@ -947,7 +949,8 @@ alias free free -h
 ** Music
 
 #+begin_src emacs-lisp
-(straight-use-package 'emms) 
+(unless (package-installed-p 'emms)
+  (package-install 'emms))
 
 (with-eval-after-load 'emms
   (emms-all)
