@@ -8,6 +8,9 @@
 
 (package-initialize)
 
+(setq user-full-name "João Paulo da Cruz"
+      user-mail-address "crzjp@riseup.net")
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (when (file-exists-p custom-file)
@@ -89,6 +92,26 @@
         (setq-local cursor-type nil))
     (scroll-lock-mode 0)
     (setq-local cursor-type (or hide-cursor--original t))))
+
+(unless (package-installed-p 'dwim-shell-command)
+  (package-install 'dwim-shell-command))
+
+(with-eval-after-load 'dwim-shell-command
+  (setq dwim-shell-command-default-command nil)
+  (global-set-key (kbd "M-!") 'dwim-shell-command)
+  (global-set-key (kbd "C-x K") 'dwim-shell-commands-kill-process)
+  (define-key dired-mode-map (kbd "!") 'dwim-shell-command))
+
+(run-with-idle-timer 2 nil 'require 'dwim-shell-command)
+(run-with-idle-timer 2 nil 'require 'dwim-shell-commands)
+
+(with-eval-after-load 'dwim-shell-command
+  (defun dwim-shell-commands-flac-to-mp3 ()
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Convert flac to mp3"
+     "ffmpeg -stats -n -i '<<f>>' -qscale:a 0 '<<fne>>.mp3'"
+     :utils "ffmpeg")))
 
 (unless (package-installed-p 'ace-window)
   (package-install 'ace-window))
@@ -445,25 +468,6 @@
 
 (unless (package-installed-p 'magit)
   (package-install 'magit))
-
-(unless (package-installed-p 'dwim-shell-command)
-  (package-install 'dwim-shell-command))
-
-(with-eval-after-load 'dwim-shell-command
-  (setq dwim-shell-command-default-command nil)
-  (global-set-key (kbd "M-!") 'dwim-shell-command)
-  (define-key dired-mode-map (kbd "!") 'dwim-shell-command))
-
-(run-with-idle-timer 2 nil 'require 'dwim-shell-command)
-(run-with-idle-timer 2 nil 'require 'dwim-shell-commands)
-
-(with-eval-after-load 'dwim-shell-command
-  (defun dwim-shell-commands-flac-to-mp3 ()
-    (interactive)
-    (dwim-shell-command-on-marked-files
-     "Convert flac to mp3"
-     "ffmpeg -stats -n -i '<<f>>' -qscale:a 0 '<<fne>>.mp3'"
-     :utils "ffmpeg")))
 
 (unless (package-installed-p 'pdf-tools)
   (package-install 'pdf-tools))
