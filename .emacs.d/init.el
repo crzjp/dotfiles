@@ -8,6 +8,10 @@
 
 (package-initialize)
 
+(defmacro pkg-install (package)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 (setq user-full-name "João Paulo da Cruz"
       user-mail-address "crzjp@riseup.net")
 
@@ -93,8 +97,7 @@
     (scroll-lock-mode 0)
     (setq-local cursor-type (or hide-cursor--original t))))
 
-(unless (package-installed-p 'dwim-shell-command)
-  (package-install 'dwim-shell-command))
+(pkg-install dwim-shell-command)
 
 (with-eval-after-load 'dwim-shell-command
   (setq dwim-shell-command-default-command nil)
@@ -113,8 +116,7 @@
      "ffmpeg -stats -n -i '<<f>>' -qscale:a 0 '<<fne>>.mp3'"
      :utils "ffmpeg")))
 
-(unless (package-installed-p 'ace-window)
-  (package-install 'ace-window))
+(pkg-install ace-window)
 
 (with-eval-after-load 'ace-window
   (setq aw-scope 'frame
@@ -122,8 +124,7 @@
 
 (global-set-key (kbd "M-o") 'ace-window)
 
-(unless (package-installed-p 'popper)
-  (package-install 'popper))
+(pkg-install popper)
 
 (with-eval-after-load 'popper
   (setq popper-reference-buffers
@@ -146,20 +147,17 @@
 
 (setq enable-recursive-minibuffers t)
 
-(unless (package-installed-p 'vertico)
-  (package-install 'vertico))
+(pkg-install vertico)
 
 (vertico-mode 1)
 
-(unless (package-installed-p 'orderless)
-  (package-install 'orderless))
+(pkg-install orderless)
 
 (with-eval-after-load 'vertico
   (setq completion-styles '(orderless)
         orderless-matching-styles '(orderless-flex)))
 
-(unless (package-installed-p 'consult)
-  (package-install 'consult))
+(pkg-install consult)
 
 (with-eval-after-load 'consult
   (consult-customize consult-recent-file :preview-key nil)
@@ -181,8 +179,7 @@
 
 (setq read-extended-command-predicate 'command-completion-default-include-p)
 
-(unless (package-installed-p 'corfu)
-  (package-install 'corfu))
+(pkg-install corfu)
 
 (with-eval-after-load 'corfu
   (setq corfu-preview-current nil))
@@ -223,8 +220,7 @@
   (setq-local outline-regexp eshell-prompt-regexp)
   (define-key eshell-mode-map (kbd "C-c s") 'consult-outline))
 
-(unless (package-installed-p 'xterm-color)
-  (package-install 'xterm-color))
+(pkg-install xterm-color)
 
 (defun crz/eshell-colors-config ()
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
@@ -254,16 +250,14 @@
 
 (global-set-key (kbd "C-c e") 'eshell)
 
-(unless (package-installed-p 'vterm)
-  (package-install 'vterm))
+(pkg-install vterm)
 
 (with-eval-after-load 'vterm
   (setq vterm-kill-buffer-on-exit t))
 
 (global-set-key (kbd "C-c t") 'vterm)
 
-(unless (package-installed-p 'diredfl)
-  (package-install 'diredfl))
+(pkg-install diredfl)
 
 (with-eval-after-load 'dired
   (setq dired-listing-switches "-lha --group-directories-first")
@@ -361,18 +355,17 @@
 
 (add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode)
 
-(unless (package-installed-p 'eglot)
-  (package-install 'eglot))
+(pkg-install eglot)
 
 (add-hook 'c-mode-hook 'eglot-ensure)
 
-(unless (package-installed-p 'go-mode)
-  (package-install 'go-mode))
+(pkg-install cider)
+
+(pkg-install go-mode)
 
 (add-hook 'go-mode-hook 'eglot-ensure)
 
-(unless (package-installed-p 'markdown-mode)
-  (package-install 'markdown-mode))
+(pkg-install markdown-mode)
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
@@ -383,8 +376,7 @@
 
 (column-number-mode 1)
 
-(unless (package-installed-p 'rainbow-mode)
-  (package-install 'rainbow-mode))
+(pkg-install rainbow-mode)
 
 (setq-default cursor-type 'hbar
               cursor-in-non-selected-windows nil)
@@ -443,8 +435,7 @@
 
 (add-hook 'org-mode-hook 'visual-line-mode)
 
-(unless (package-installed-p 'org-superstar)
-  (package-install 'org-superstar))
+(pkg-install org-superstar)
 
 (with-eval-after-load 'org-superstar
   (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
@@ -466,11 +457,9 @@
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 
-(unless (package-installed-p 'magit)
-  (package-install 'magit))
+(pkg-install magit)
 
-(unless (package-installed-p 'pdf-tools)
-  (package-install 'pdf-tools))
+(pkg-install pdf-tools)
 
 (with-eval-after-load 'pdf-tools
   (setq pdf-view-continuous nil))
@@ -479,21 +468,16 @@
 
 (add-to-list 'auto-mode-alist '("\\.[pP][dD][fF]\\'" . pdf-view-mode))
 
-(unless (package-installed-p 'pdf-view-restore)
-  (package-install 'pdf-view-restore))
+(pkg-install pdf-view-restore)
 
 (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
 
-(unless (package-installed-p 'nov)
-  (package-install 'nov))
-
-(unless (package-installed-p 'esxml)
-  (package-install 'esxml))
+(pkg-install nov)
+(pkg-install esxml)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
-(unless (package-installed-p 'erc-hl-nicks)
-  (package-install 'erc-hl-nicks))
+(pkg-install erc-hl-nicks)
 
 (with-eval-after-load 'erc
   (setq erc-accidental-paste-threshold-seconds nil
@@ -514,8 +498,7 @@
         gnus-secondary-select-methods '((nnimap "mail.riseup.net")
                                         (nnimap "mail.cock.li"))))
 
-(unless (package-installed-p 'transmission)
-  (package-install 'transmission))
+(pkg-install transmission)
 
 (with-eval-after-load 'transmission
   (setq transmission-refresh-modes '(transmission-mode
@@ -523,8 +506,7 @@
                                      transmission-info-mode
                                      transmission-peers-mode)))
 
-(unless (package-installed-p '0x0)
-  (package-install '0x0))
+(pkg-install 0x0)
 
 (with-eval-after-load '0x0
   (setq 0x0-servers '((0x0
@@ -536,8 +518,7 @@
                        :max-age 365
                        :max-size ,(* 1024 1024 512)))))
 
-(unless (package-installed-p 'emms)
-  (package-install 'emms))
+(pkg-install emms)
 
 (with-eval-after-load 'emms
   (emms-all)

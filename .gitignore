@@ -9,6 +9,7 @@
 .config/GIMP/
 .config/dconf/
 .config/chromium/
+.config/torbrowser/
 
 .config/mpdasrc
 .config/mpd/*
