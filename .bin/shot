@@ -1,13 +1,17 @@
 #!/usr/bin/env sh
 
+for dep in maim slop notify-send ; do
+    [ $(command -v $dep) ] || { echo error: \"$dep\" not found && exit 1; }
+done
+
 dirdate="$(date +'%Y-%m-%d')"
 picdate="$(date +'%H:%M:%S')"
 dir="$HOME/media/pics/shots/$dirdate"
 pic="$dir/$picdate.png"
 
 createdir(){ [ ! -d "$dir" ] && mkdir -pv "$dir" ;}
-screen(){ scrot "$pic" ;}
-area(){ scrot -s "$pic" ;}
+screen(){ maim "$pic" ;}
+area(){ maim -s "$pic" ;}
 abort(){ notify-send "Print" "Aborted" ; exit 1 ;}
 
 hidecursor(){
@@ -18,7 +22,7 @@ hidecursor(){
 }
 
 case "$1" in
-    s*)
+    s)
         createdir
         hidecursor "\033[?25l"
         screen || abort
@@ -26,25 +30,25 @@ case "$1" in
         notify-send -u low -i "$pic" "Print" "Saved to folder"
         hidecursor "\033[?25h"
         ;;
-    a*)
+    a)
         createdir
         area || abort
         xclip -selection c -t image/png "$pic"
         notify-send -u low -i "$pic" "Print" "Area saved to folder"
         ;;
-    us*)
+    us)
         createdir
         screen || abort
         curl -F file=@$pic http://0x0.st | xclip -selection c -i
         notify-send -u low -i "$pic" "Print" "Uploaded and url copied"
         ;;
-    ua*)
+    ua)
         createdir
         area || abort
         curl -F file=@$pic http://0x0.st | xclip -selection c -i
         notify-send -u low -i "$pic" "Print" "Area uploaded and url copied"
         ;;
     *)
-        exit 1
+        abort
         ;;
 esac
