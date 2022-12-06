@@ -361,10 +361,6 @@
 
 (pkg-install cider)
 
-(pkg-install go-mode)
-
-(add-hook 'go-mode-hook 'eglot-ensure)
-
 (pkg-install markdown-mode)
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
