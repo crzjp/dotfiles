@@ -28,3 +28,4 @@ alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
 alias ping ping -c 3 gnu.org
 alias free free -h
+alias mime file -b --mime-type $*
