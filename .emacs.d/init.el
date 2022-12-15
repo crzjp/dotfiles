@@ -344,6 +344,9 @@
                   (mode . woman-mode)
                   (mode . Man-mode)))
       ("Image" (mode . image-mode))
+      ("Music" (or (mode . mingus-playlist-mode)
+                   (mode . mingus-browse-mode)
+                   (mode . mingus-help-mode)))
       ("Games" (mode . gomoku-mode))
       ("Internal" (name . "^\*.*$"))
       ("Misc" (name . "^.*$")))))
@@ -529,18 +532,6 @@
       :max-age 365
       :max-size ,(* 1024 1024 512)))))
 
-(use-package emms
+(use-package mingus
   :custom
-  (emms-source-file-default-directory "~/media/musics")
-  (emms-player-mpd-music-directory "~/media/musics")
-  (emms-browser-covers 'emms-browser-cache-thumbnail-async)
-  (emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
-  (emms-player-mpd-server-name "localhost")
-  (emms-player-mpd-server-port "6600")
-  (emms-mode-line-format " [%s]")
-  :config
-  (emms-all)
-  (add-to-list 'emms-info-functions 'emms-info-mpd)
-  (add-to-list 'emms-player-list 'emms-player-mpd)
-  (emms-player-mpd-connect)
-  (emms-playing-time-display-mode 0))
+  (mingus-use-mouse-p nil))
