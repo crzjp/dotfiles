@@ -344,9 +344,7 @@
                   (mode . woman-mode)
                   (mode . Man-mode)))
       ("Image" (mode . image-mode))
-      ("Music" (or (mode . mingus-playlist-mode)
-                   (mode . mingus-browse-mode)
-                   (mode . mingus-help-mode)))
+      ("Music" (name . "\*Mingus.*"))
       ("Games" (mode . gomoku-mode))
       ("Internal" (name . "^\*.*$"))
       ("Misc" (name . "^.*$")))))
@@ -534,4 +532,6 @@
 
 (use-package mingus
   :custom
-  (mingus-use-mouse-p nil))
+  (mingus-use-mouse-p nil)
+  (mingus-mode-line-show-elapsed-time nil)
+  (mingus-mode-line-show-volume nil))

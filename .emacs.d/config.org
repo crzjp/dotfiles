@@ -644,9 +644,7 @@ alias mime file -b --mime-type $*
                   (mode . woman-mode)
                   (mode . Man-mode)))
       ("Image" (mode . image-mode))
-      ("Music" (or (mode . mingus-playlist-mode)
-                   (mode . mingus-browse-mode)
-                   (mode . mingus-help-mode)))
+      ("Music" (name . "\*Mingus.*"))
       ("Games" (mode . gomoku-mode))
       ("Internal" (name . "^\*.*$"))
       ("Misc" (name . "^.*$")))))
@@ -774,11 +772,15 @@ alias mime file -b --mime-type $*
 ** Theme
 
 #+begin_src emacs-lisp
-(setq modus-themes-subtle-line-numbers t
-      modus-themes-org-blocks 'gray-background
-      modus-themes-mode-line '(borderless))
-
-(load-theme 'modus-operandi t)
+(use-package modus-themes
+  :ensure nil
+  :defer 2
+  :custom
+  (modus-themes-subtle-line-numbers t)
+  (modus-themes-org-blocks 'gray-background)
+  (modus-themes-mode-line '(borderless))
+  :config
+  (load-theme 'modus-operandi t))
 #+end_src
 
 ** Dialog box
@@ -952,5 +954,7 @@ alias mime file -b --mime-type $*
 #+begin_src emacs-lisp
 (use-package mingus
   :custom
-  (mingus-use-mouse-p nil))
+  (mingus-use-mouse-p nil)
+  (mingus-mode-line-show-elapsed-time nil)
+  (mingus-mode-line-show-volume nil))
 #+end_src
