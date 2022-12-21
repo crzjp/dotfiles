@@ -56,4 +56,6 @@ cat > /etc/profile.d/freetype2.sh <<EOF
 export FREETYPE_PROPERTIES=“truetype:interpreter-version=38”
 EOF
 
+fc-cache -fv
+
 printf "\n%s\n\n" "Done"
