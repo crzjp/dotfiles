@@ -91,7 +91,7 @@
   (interactive "BName of buffer: ")
   (insert-and-inherit buffer-name))
 
-(global-set-key (kbd "C-x x b") 'crz/insert-buffer-name)
+(global-set-key (kbd "C-c b") 'crz/insert-buffer-name)
 
 (defvar-local hide-cursor--original nil)
 
@@ -174,10 +174,9 @@
   (consult-customize consult-org-heading :preview-key nil)
   :bind (("C-c r" . consult-recent-file)
          :map minibuffer-mode-map
-         ("C-s" . consult-history)
          ("C-r" . consult-history))
   :init
-  (setq completion-in-region-function
+  (setq-default completion-in-region-function
         (lambda (&rest args)
           (apply (if vertico-mode
                      'consult-completion-in-region
@@ -203,35 +202,46 @@
   :bind (:map corfu-map
          ("M-m" . corfu-move-to-minibuffer)))
 
-(defun corfu-send-shell (&rest _)
-  (cond
-   ((and (derived-mode-p 'eshell-mode) (fboundp 'eshell-send-input))
-    (eshell-send-input))
-   ((and (derived-mode-p 'comint-mode) (fboundp 'comint-send-input))
-    (comint-send-input))))
+(use-package eshell
+  :ensure nil
+  :config
+  (defun corfu-send-shell (&rest _)
+    (cond
+     ((and (derived-mode-p 'eshell-mode) (fboundp 'eshell-send-input))
+      (eshell-send-input))
+     ((and (derived-mode-p 'comint-mode) (fboundp 'comint-send-input))
+      (comint-send-input))))
+  (advice-add 'corfu-insert :after 'corfu-send-shell))
 
-(advice-add 'corfu-insert :after 'corfu-send-shell)
+(use-package esh-mode
+  :ensure nil
+  :hook (eshell-pre-command . eshell-save-some-history)
+  :custom
+  (eshell-history-size 1000)
+  (eshell-hist-ignoredups t)
+  :bind (:map eshell-mode-map
+         ("C-r" . consult-history)))
 
-(defun crz/eshell-history-config ()
-  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-  (setq eshell-history-size 1000
-        eshell-hist-ignoredups t)
-  (define-key eshell-mode-map (kbd "C-r") 'consult-history))
-
-(defun crz/eshell-prompt ()
-  (concat
-   "[" (abbreviate-file-name (eshell/pwd)) "]"
-   (propertize "$" 'invisible t) " "))
-
-(defun crz/eshell-prompt-config ()
-  (setq eshell-prompt-regexp "^[^$\n]*\\\$ "
-        eshell-prompt-function 'crz/eshell-prompt)
+(use-package em-prompt
+  :ensure nil
+  :after esh-mode
+  :custom
+  (eshell-prompt-regexp "^[^$\n]*\\\$ ")
+  (eshell-prompt-function
+   (lambda ()
+     (concat
+      "[" (abbreviate-file-name (eshell/pwd)) "]"
+      (propertize "$" 'invisible t) " ")))
+  :config
   (setq-local outline-regexp eshell-prompt-regexp)
-  (define-key eshell-mode-map (kbd "C-c s") 'consult-outline))
+  :bind (:map eshell-mode-map
+         ("C-c s" . consult-outline)))
 
 (use-package xterm-color)
 
-(defun crz/eshell-colors-config ()
+(use-package esh-mode
+  :ensure nil
+  :config
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
   (add-hook 'eshell-before-prompt-hook
@@ -240,24 +250,22 @@
   (setq xterm-color-use-bold-for-bright t)
   (setenv "TERM" "xterm-256color"))
 
-(defun crz/eshell-alias-config ()
-  (setq eshell-aliases-file "~/.emacs.d/eshell-aliases")
+(use-package em-alias
+  :ensure nil
+  :custom
+  (eshell-aliases-file "~/.emacs.d/eshell-aliases")
+  :config
   (eshell-read-aliases-list))
 
-(defun crz/eshell-config ()
-  (crz/eshell-history-config)
-  (crz/eshell-prompt-config)
-  (crz/eshell-alias-config)
-  (crz/eshell-colors-config)
-  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-  (setq eshell-buffer-maximum-lines 1000
-        eshell-scroll-to-bottom-on-input t
-        eshell-destroy-buffer-when-process-dies t))
-
-(use-package eshell
+(use-package esh-mode
   :ensure nil
-  :hook (eshell-mode . crz/eshell-config)
-  :bind ("C-c e" . eshell))
+  :bind ("C-c e" . eshell)
+  :custom
+  (eshell-buffer-maximum-lines 1000)
+  (eshell-scroll-to-bottom-on-input t)
+  (eshell-destroy-buffer-when-process-dies t)
+  :config
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer))
 
 (use-package vterm
   :custom
@@ -270,38 +278,39 @@
   :ensure nil
   :custom
   (dired-listing-switches "-lha --group-directories-first")
+  (dired-kill-when-opening-new-dired-buffer t)
   :config
   (diredfl-global-mode)
   :bind (("C-x C-d" . dired-jump)
          :map dired-mode-map
-         ("RET" . dired-find-alternate-file)
          ("f" . dired-create-empty-file)))
-
-(defun crz/human-readable-file-sizes-to-bytes (string)
-  "Convert a human-readable file size into bytes."
-  (cond
-   ((string-suffix-p "G" string t)
-    (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "M" string t)
-    (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "K" string t)
-    (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
-   (t
-    (string-to-number (substring string 0 (- (length string) 1))))))
-
-(defun crz/bytes-to-human-readable-file-sizes (bytes)
-  "Convert number of bytes to human-readable file size."
-  (cond
-   ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
-   ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
-   ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
-   ((> bytes 100000) (format "%10.0fK" (/ bytes 1000.0)))
-   ((> bytes 1000) (format "%10.1fK" (/ bytes 1000.0)))
-   (t (format "%10d" bytes))))
 
 (use-package ibuffer
   :ensure nil
   :config
+  
+  (defun crz/human-readable-file-sizes-to-bytes (string)
+    "Convert a human-readable file size into bytes."
+    (cond
+     ((string-suffix-p "G" string t)
+      (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
+     ((string-suffix-p "M" string t)
+      (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
+     ((string-suffix-p "K" string t)
+      (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
+     (t
+      (string-to-number (substring string 0 (- (length string) 1))))))
+  
+  (defun crz/bytes-to-human-readable-file-sizes (bytes)
+    "Convert number of bytes to human-readable file size."
+    (cond
+     ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
+     ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
+     ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
+     ((> bytes 100000) (format "%10.0fK" (/ bytes 1000.0)))
+     ((> bytes 1000) (format "%10.1fK" (/ bytes 1000.0)))
+     (t (format "%10d" bytes))))
+  
   (define-ibuffer-column size-h
     (:name "Size"
            :inline t
@@ -329,10 +338,7 @@
       ("Debug" (mode . debugger-mode))
       ("Agenda" (filename . "agenda.org"))
       ("Org" (mode . org-mode))
-      ("Magit" (or (mode . magit-process-mode)
-                   (mode . magit-diff-mode)
-                   (mode . magit-status-mode)
-                   (mode . magit-revision-mode)))
+      ("Magit" (name . "magit.*"))
       ("Book" (or (mode . pdf-view-mode)
                   (mode . nov-mode)))
       ("Dired" (mode . dired-mode))
@@ -416,11 +422,14 @@
                 (with-selected-frame frame (crz/set-font-faces))))
   (crz/set-font-faces))
 
-(setq modus-themes-subtle-line-numbers t
-      modus-themes-org-blocks 'gray-background
-      modus-themes-mode-line '(borderless))
-
-(load-theme 'modus-operandi t)
+(use-package modus-themes
+  :ensure nil
+  :custom
+  (modus-themes-subtle-line-numbers t)
+  (modus-themes-org-blocks 'gray-background)
+  (modus-themes-mode-line '(borderless))
+  :init
+  (load-theme 'modus-operandi t))
 
 (setq use-dialog-box nil)
 
