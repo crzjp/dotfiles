@@ -224,7 +224,8 @@
 
 (use-package em-prompt
   :ensure nil
-  :after esh-mode
+  :hook (eshell-mode . (lambda ()
+                         (setq-local outline-regexp eshell-prompt-regexp)))
   :custom
   (eshell-prompt-regexp "^[^$\n]*\\\$ ")
   (eshell-prompt-function
@@ -232,8 +233,6 @@
      (concat
       "[" (abbreviate-file-name (eshell/pwd)) "]"
       (propertize "$" 'invisible t) " ")))
-  :config
-  (setq-local outline-regexp eshell-prompt-regexp)
   :bind (:map eshell-mode-map
          ("C-c s" . consult-outline)))
 
@@ -261,7 +260,12 @@
   :ensure nil
   :bind (("C-c e" . eshell)
          :map eshell-mode-map
-         ("C-l" . (lambda () (interactive) (recenter 0))))
+         ("C-l" . (lambda ()
+                    (interactive)
+                    (let ((input (eshell-get-old-input)))
+                      (eshell/clear t)
+                      (eshell-emit-prompt)
+                      (insert input)))))
   :custom
   (eshell-buffer-maximum-lines 1000)
   (eshell-scroll-to-bottom-on-input t)
@@ -494,9 +498,9 @@
 (use-package pdf-tools
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :custom
-  (pdf-view-continuous nil)
-  :init
-  (pdf-tools-install :noquery))
+  (pdf-view-continuous nil))
+ ; :init
+ ; (pdf-tools-install :noquery))
 
 (use-package pdf-view-restore
   :hook (pdf-view-mode . pdf-view-restore-mode))
