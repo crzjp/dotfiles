@@ -518,7 +518,7 @@ alias xqs xbps-query -Rs $*
 alias xf xlocate $*
 
 alias ls ls -AC --color=always --group-directories-first $*
-alias ll ls -lhA --color=always --group-directories-first $*
+alias ll ls -AgGh --color=always --group-directories-first $*
 alias tree tree -C $*
 
 alias - cd -
@@ -541,7 +541,9 @@ alias mime file -b --mime-type $*
 #+begin_src emacs-lisp
 (use-package esh-mode
   :ensure nil
-  :bind ("C-c e" . eshell)
+  :bind (("C-c e" . eshell)
+         :map eshell-mode-map
+         ("C-l" . (lambda () (interactive) (recenter 0))))
   :custom
   (eshell-buffer-maximum-lines 1000)
   (eshell-scroll-to-bottom-on-input t)
@@ -556,6 +558,7 @@ alias mime file -b --mime-type $*
 (use-package vterm
   :custom
   (vterm-kill-buffer-on-exit t)
+  (vterm-clear-scrollback-when-clearing t)
   :bind ("C-c t" . vterm))
 #+end_src
 
@@ -567,7 +570,7 @@ alias mime file -b --mime-type $*
 (use-package dired
   :ensure nil
   :custom
-  (dired-listing-switches "-lha --group-directories-first")
+  (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t)
   :config
   (diredfl-global-mode)
@@ -648,7 +651,8 @@ alias mime file -b --mime-type $*
                   (name . "\*info\*")
                   (mode . help-mode)
                   (mode . woman-mode)
-                  (mode . Man-mode)))
+                  (mode . Man-mode)
+                  (mode . Custom-mode)))
       ("Image" (mode . image-mode))
       ("Music" (name . "\*Mingus.*"))
       ("Games" (mode . gomoku-mode))

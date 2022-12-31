@@ -13,7 +13,7 @@ alias xqs xbps-query -Rs $*
 alias xf xlocate $*
 
 alias ls ls -AC --color=always --group-directories-first $*
-alias ll ls -lhA --color=always --group-directories-first $*
+alias ll ls -AgGh --color=always --group-directories-first $*
 alias tree tree -C $*
 
 alias - cd -

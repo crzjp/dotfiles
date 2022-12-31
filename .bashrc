@@ -7,6 +7,12 @@ HISTFILE="$HOME/.history"
 
 PS1="[\w] "
 
+if [[ "$INSIDE_EMACS" = 'vterm' ]] \
+       && [[ -n ${EMACS_VTERM_PATH} ]] \
+       && [[ -f ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
+	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
+fi
+
 alias sudo='sudo --'
 
 alias xi='sudo xbps-install'
@@ -16,7 +22,7 @@ alias xqs='xbps-query -Rs'
 alias xf='xlocate'
 
 alias ls='ls -AC --color=auto --group-directories-first'
-alias ll='ls -lhA --color=auto --group-directories-first'
+alias ll='ls -AgGh --color=auto --group-directories-first'
 alias tree='tree -C'
 
 alias cp='cp -v'

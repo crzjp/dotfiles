@@ -259,7 +259,9 @@
 
 (use-package esh-mode
   :ensure nil
-  :bind ("C-c e" . eshell)
+  :bind (("C-c e" . eshell)
+         :map eshell-mode-map
+         ("C-l" . (lambda () (interactive) (recenter 0))))
   :custom
   (eshell-buffer-maximum-lines 1000)
   (eshell-scroll-to-bottom-on-input t)
@@ -270,6 +272,7 @@
 (use-package vterm
   :custom
   (vterm-kill-buffer-on-exit t)
+  (vterm-clear-scrollback-when-clearing t)
   :bind ("C-c t" . vterm))
 
 (use-package diredfl)
@@ -277,7 +280,7 @@
 (use-package dired
   :ensure nil
   :custom
-  (dired-listing-switches "-lha --group-directories-first")
+  (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t)
   :config
   (diredfl-global-mode)
@@ -348,7 +351,8 @@
                   (name . "\*info\*")
                   (mode . help-mode)
                   (mode . woman-mode)
-                  (mode . Man-mode)))
+                  (mode . Man-mode)
+                  (mode . Custom-mode)))
       ("Image" (mode . image-mode))
       ("Music" (name . "\*Mingus.*"))
       ("Games" (mode . gomoku-mode))
