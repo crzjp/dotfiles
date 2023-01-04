@@ -162,12 +162,3 @@
       *message-window-padding* 10)
 
 (setf *mouse-focus-policy* :click)
-
-(setf *mode-line-background-color* col9
-      *mode-line-foreground-color* col0
-      *time-modeline-string* "%F %H:%M")
-
-(setf *screen-mode-line-format* "[%n] %W ^> %d")
-
-;; (when *initializing*
-;;   (mode-line))

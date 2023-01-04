@@ -17,6 +17,12 @@
         use-package-always-defer t
         use-package-expand-minimally t))
 
+(use-package auto-package-update
+  :hook
+  (auto-package-update-before . (lambda () (package-refresh-contents)))
+  :custom
+  (auto-package-update-delete-old-versions t))
+
 (setq user-full-name "João Paulo da Cruz"
       user-mail-address "crzjp@riseup.net")
 
@@ -86,47 +92,6 @@
   :ensure nil
   :custom
   (woman-fill-frame t))
-
-(defun crz/insert-buffer-name (buffer-name)
-  (interactive "BName of buffer: ")
-  (insert-and-inherit buffer-name))
-
-(global-set-key (kbd "C-c b") 'crz/insert-buffer-name)
-
-(defvar-local hide-cursor--original nil)
-
-(define-minor-mode pager-mode
-  "View buffer as a pager."
-  :global nil
-  :lighter " Pager"
-  (if pager-mode
-      (progn
-        (scroll-lock-mode 1)
-        (setq-local hide-cursor--original
-                    cursor-type)
-        (setq-local cursor-type nil))
-    (scroll-lock-mode 0)
-    (setq-local cursor-type (or hide-cursor--original t))))
-
-(use-package dwim-shell-command
-  :defer 2
-  :config
-  (require 'dwim-shell-commands)
-  :custom
-  (dwim-shell-command-default-command nil)
-  :bind (("M-!" . dwim-shell-command)
-         ("C-x K" . dwim-shell-commands-kill-process)
-         :map dired-mode-map
-         ("!" . dwim-shell-command)))
-
-(use-package dwim-shell-command
-  :config
-  (defun dwim-shell-commands-flac-to-mp3 ()
-    (interactive)
-    (dwim-shell-command-on-marked-files
-     "Convert flac to mp3"
-     "ffmpeg -stats -n -i '<<f>>' -qscale:a 0 '<<fne>>.mp3'"
-     :utils "ffmpeg")))
 
 (use-package ace-window
   :custom
@@ -274,10 +239,12 @@
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer))
 
 (use-package vterm
+  :bind (("C-c t" . vterm)
+         :map vterm-mode-map
+         ("C-q" . vterm-send-next-key))
   :custom
   (vterm-kill-buffer-on-exit t)
-  (vterm-clear-scrollback-when-clearing t)
-  :bind ("C-c t" . vterm))
+  (vterm-clear-scrollback-when-clearing t))
 
 (use-package diredfl)
 
@@ -482,7 +449,8 @@
   :config
   (add-to-list 'org-modules 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("li" . "src lisp")))
+  (add-to-list 'org-structure-template-alist '("li" . "src lisp"))
+  (add-to-list 'org-structure-template-alist '("sh" . "src sh")))
 
 (use-package org
   :ensure nil
@@ -494,6 +462,26 @@
   :bind ("C-c a" . org-agenda))
 
 (use-package magit)
+
+(use-package dwim-shell-command
+  :defer 2
+  :config
+  (require 'dwim-shell-commands)
+  :custom
+  (dwim-shell-command-default-command nil)
+  :bind (("M-!" . dwim-shell-command)
+         ("C-c k" . dwim-shell-commands-kill-process)
+         :map dired-mode-map
+         ("!" . dwim-shell-command)))
+
+(use-package dwim-shell-command
+  :config
+  (defun dwim-shell-commands-flac-to-mp3 ()
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Convert flac to mp3"
+     "ffmpeg -stats -n -i '<<f>>' -qscale:a 0 '<<fne>>.mp3'"
+     :utils "ffmpeg")))
 
 (use-package pdf-tools
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)

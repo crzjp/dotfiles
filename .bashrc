@@ -13,13 +13,14 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
 	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
 fi
 
-alias sudo='sudo --'
-
 alias xi='sudo xbps-install'
 alias xr='sudo xbps-remove -Ro'
 alias xu='sudo xbps-install -Su'
 alias xqs='xbps-query -Rs'
 alias xf='xlocate'
+
+alias reboot="sudo reboot"
+alias poweroff="sudo poweroff"
 
 alias ls='ls -AC --color=auto --group-directories-first'
 alias ll='ls -AgGh --color=auto --group-directories-first'
@@ -39,9 +40,6 @@ alias e="emacsclient -nwa ''"
 alias ed="emacs --daemon"
 alias edk="emacsclient -e '(kill-emacs)'"
 alias mg='mg -n'
-
-alias reboot="sudo reboot"
-alias poweroff="sudo poweroff"
 
 alias ping='ping -c 3 gnu.org'
 alias wttr='curl -s wttr.in'

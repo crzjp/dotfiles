@@ -240,14 +240,14 @@
 
 * Mode-line
 
-#+begin_src lisp
+#+begin_src lisp :tangle no
 (setf *mode-line-background-color* col9
       ,*mode-line-foreground-color* col0
       ,*time-modeline-string* "%F %H:%M")
 
 (setf *screen-mode-line-format* "[%n] %W ^> %d")
 
-;; (when *initializing*
-;;   (mode-line))
+(when *initializing*
+  (mode-line))
 #+end_src
 

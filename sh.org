@@ -1,0 +1,168 @@
+#+title: Shell configuration files
+
+* Shell
+:properties:
+:header-args: :tangle .bashrc
+:end:
+
+** History
+
+#+begin_src sh
+shopt -s histappend
+
+HISTCONTROL="ignoreboth:erasedups"
+HISTFILESIZE=10000
+HISTSIZE=$HISTFILESIZE
+HISTFILE="$HOME/.history"
+#+end_src
+
+** Prompt
+
+#+begin_src sh
+PS1="[\w] "
+#+end_src
+
+** Vterm config
+
+#+begin_src sh
+if [[ "$INSIDE_EMACS" = 'vterm' ]] \
+       && [[ -n ${EMACS_VTERM_PATH} ]] \
+       && [[ -f ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
+	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
+fi
+#+end_src
+
+** Aliases
+
+*** Package management
+
+#+begin_src sh
+alias xi='sudo xbps-install'
+alias xr='sudo xbps-remove -Ro'
+alias xu='sudo xbps-install -Su'
+alias xqs='xbps-query -Rs'
+alias xf='xlocate'
+#+end_src
+
+*** Power management
+
+#+begin_src sh
+alias reboot="sudo reboot"
+alias poweroff="sudo poweroff"
+#+end_src
+
+*** Listing files
+
+#+begin_src sh
+alias ls='ls -AC --color=auto --group-directories-first'
+alias ll='ls -AgGh --color=auto --group-directories-first'
+alias tree='tree -C'
+#+end_src
+
+*** Files/Dirs management
+
+#+begin_src sh
+alias cp='cp -v'
+alias mv='mv -v'
+alias rm='rm -rfvI'
+alias mkdir='mkdir -pv'
+#+end_src
+
+*** Grep
+
+#+begin_src sh
+alias grep='grep --color=always'
+alias egrep='egrep --color=always'
+alias fgrep='fgrep --color=always'
+alias zgrep='zgrep --color=always'
+#+end_src
+
+*** Emacs
+
+#+begin_src sh
+alias e="emacsclient -nwa ''"
+alias ed="emacs --daemon"
+alias edk="emacsclient -e '(kill-emacs)'"
+alias mg='mg -n'
+#+end_src
+
+*** Misc
+
+#+begin_src sh
+alias ping='ping -c 3 gnu.org'
+alias wttr='curl -s wttr.in'
+alias qttr='curl -s wttr.in/?0Q'
+alias which='command -v'
+alias free='free -h'
+alias mime='file -b --mime-type'
+#+end_src
+
+* Profile
+:properties:
+:header-args: :tangle .profile
+:end:
+
+** Essentials
+
+#+begin_src sh
+export LANG=en_US.UTF-8
+export QT_QPA_PLATFORMTHEME=qt5ct
+export GDK_CORE_DEVICE_EVENTS=1
+#+end_src
+
+** XDG and PATH
+
+#+begin_src sh
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
+export PATH="$HOME/.bin:$HOME/.local/bin:$PATH"
+#+end_src
+
+** Pager
+
+#+begin_src sh
+export LESS='-FRJMWX'
+export LESSHISTFILE=/dev/null
+export LESS_TERMCAP_mb=$'\033[1;31m'
+export LESS_TERMCAP_md=$'\033[1;36m'
+export LESS_TERMCAP_me=$'\033[0m'
+export LESS_TERMCAP_so=$'\033[01;7;34m'
+export LESS_TERMCAP_se=$'\033[0m'
+export LESS_TERMCAP_us=$'\033[1;32m'
+export LESS_TERMCAP_ue=$'\033[0m'
+export PAGER=less
+export MANPAGER=less
+#+end_src
+
+** Programs
+
+#+begin_src sh
+export VISUAL="emacsclient -c -a ''"
+export EDITOR="emacsclient -nw -a ''"
+export BROWSER=chrome
+export RXVT_SOCKET="/tmp/urxvt-socket"
+export GPG_TTY=$(tty)
+#+end_src
+
+** Start session
+
+#+begin_src sh
+eval "$(dircolors)"
+[ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
+[ "$(tty)" = "/dev/tty1" ] && startx
+#+end_src
+
+* Readline
+
+#+begin_src conf-space :tangle .inputrc
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set colored-stats on
+set mark-symlinked-directories on
+
+set editing-mode emacs
+set show-mode-in-prompt on
+set emacs-mode-string \1\e[3 q\2
+#+end_src
