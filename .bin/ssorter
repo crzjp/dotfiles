@@ -15,8 +15,8 @@ if [ "$1" = "s" ]; then
         final_path="${music_path}/${artist}/${album}"
         [ ! -d "$final_path" ] && mkdir -pv "$final_path"
         mv -v "$m" "${final_path}/${title}.mp3"
-        [ ! -e ${final_path}/${album}.jpg ] && \
-            ffmpeg -nostats -loglevel 0 -y -i ${final_path}/${title}.mp3 ${final_path}/${album}.jpg
+        [ ! -e ${final_path}/cover.jpg ] && \
+            ffmpeg -nostats -loglevel 0 -y -i ${final_path}/${title}.mp3 ${final_path}/cover.jpg
     done
     printf "\n%s\n\n" "Done"
 elif [ "$1" = "m" ]; then

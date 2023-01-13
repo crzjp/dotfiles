@@ -61,7 +61,7 @@
       inhibit-x-resources t)
 #+end_src
 
-* Package installer
+* Package
 
 ** Installer and manager
 
@@ -90,8 +90,6 @@
 
 #+begin_src emacs-lisp
 (use-package auto-package-update
-  :hook
-  (auto-package-update-before . (lambda () (package-refresh-contents)))
   :custom
   (auto-package-update-delete-old-versions t))
 #+end_src
@@ -176,9 +174,9 @@
 ** Automatically revert buffers
 
 #+begin_src emacs-lisp
-(global-auto-revert-mode 1)
-
 (setq global-auto-revert-non-file-buffers t)
+
+(global-auto-revert-mode 1)
 #+end_src
 
 ** Delete by moving to trash

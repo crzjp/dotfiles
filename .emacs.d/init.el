@@ -18,8 +18,6 @@
         use-package-expand-minimally t))
 
 (use-package auto-package-update
-  :hook
-  (auto-package-update-before . (lambda () (package-refresh-contents)))
   :custom
   (auto-package-update-delete-old-versions t))
 
@@ -60,9 +58,9 @@
 
 (cd "~/")
 
-(global-auto-revert-mode 1)
-
 (setq global-auto-revert-non-file-buffers t)
+
+(global-auto-revert-mode 1)
 
 (setq delete-by-moving-to-trash t
       trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
