@@ -1,0 +1,291 @@
+#+title: My i3 config
+#+property: header-args :tangle config
+
+* Variables and modifiers
+
+#+begin_src conf
+set $mod   Mod4
+set $exec  exec --no-startup-id
+set $execa exec_always --no-startup-id
+
+set $ws1  "1"
+set $ws2  "2"
+set $ws3  "3"
+set $ws4  "4"
+set $ws5  "5"
+set $ws6  "6"
+set $ws7  "7"
+set $ws8  "8"
+set $ws9  "9"
+set $ws10 "10"
+
+floating_modifier $mod
+tiling_drag       modifier titlebar
+#+end_src
+
+* Keybinds
+
+** Reload the configuration file
+
+#+begin_src conf
+bindsym $mod+Shift+r reload
+#+end_src
+
+** Restart i3
+
+#+begin_src conf
+bindsym $mod+Mod1+r restart
+#+end_src
+
+** Exit i3
+
+This logs you out of your X session.
+
+#+begin_src conf
+bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to end your X session?' -B 'Yes, exit' 'i3-msg exit'"
+#+end_src
+
+** Focus
+
+*** Moving focus
+
+#+begin_src conf
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+#+end_src
+
+*** Move focused window
+
+#+begin_src conf
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+#+end_src
+
+*** Kill focused window
+
+#+begin_src conf
+bindsym $mod+q kill
+#+end_src
+
+*** Change focus between tiling/floating windows
+
+#+begin_src conf
+bindsym $mod+space focus mode_toggle
+#+end_src
+
+*** Focus the parent container
+
+#+begin_src conf
+bindsym $mod+a focus parent
+#+end_src
+
+*** Focus the child container
+
+#+begin_src conf
+bindsym $mod+Shift+a focus child
+#+end_src
+
+** Workspaces
+
+*** Switch to workspace
+
+#+begin_src conf
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+#+end_src
+
+*** Switch to last focused workspace
+
+#+begin_src conf
+bindsym $mod+Tab workspace back_and_forth
+#+end_src
+
+*** Move focused container to workspace
+
+#+begin_src conf
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+#+end_src
+
+** Layouts
+
+*** Split in horizontal orientation
+
+#+begin_src conf
+bindsym $mod+h split h
+#+end_src
+
+*** Split in vertical orientation
+
+#+begin_src conf
+bindsym $mod+v split v
+#+end_src
+
+*** Enter fullscreen mode for the focused container
+
+#+begin_src conf
+bindsym $mod+f fullscreen toggle
+#+end_src
+
+*** Change container layout
+
+#+begin_src conf
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+#+end_src
+
+*** Toggle tiling/floating
+
+#+begin_src conf
+bindsym $mod+Shift+space floating toggle
+#+end_src
+
+** Resizing
+
+You can also use the mouse for that.
+
+#+begin_src conf
+mode "resize" {
+     bindsym Left  resize shrink width  10 px or 10 ppt
+     bindsym Down  resize grow   height 10 px or 10 ppt
+     bindsym Up    resize shrink height 10 px or 10 ppt
+     bindsym Right resize grow   width  10 px or 10 ppt
+
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+     bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+#+end_src
+
+** Scratchpad
+
+*** Move focused window to it
+
+#+begin_src conf
+bindsym $mod+Shift+minus move scratchpad
+#+end_src
+
+*** Show/hide the scratchpad window
+
+If there are multiple scratchpad windows, this command cycles through them.
+
+#+begin_src conf
+bindsym $mod+minus scratchpad show
+#+end_src
+
+** Programs
+
+*** Program launcher
+
+#+begin_src conf
+bindsym $mod+d $exec dmenu_run -fn "Iosevka Slab:size=10"
+#+end_src
+
+*** Terminal emulator
+
+#+begin_src conf
+bindsym $mod+Return $exec urxvtc
+#+end_src
+
+*** Volume
+
+#+begin_src conf
+bindsym $mod+F12 $exec amixer sset Master 5%+
+bindsym $mod+F11 $exec amixer sset Master 5%-
+bindsym $mod+F10 $exec amixer sset Master toggle
+#+end_src
+
+*** Emacs
+
+#+begin_src conf
+bindsym $mod+x $exec emacsclient -ca ''
+#+end_src
+
+*** Music
+
+#+begin_src conf
+mode "music" {
+     bindsym t     $exec mpc toggle, mode "default"
+     bindsym c     $exec nowplaying, mode "default"
+     bindsym n     $exec mpc next,   mode "default"
+     bindsym p     $exec mpc prev,   mode "default"
+     bindsym minus $exec mpc seek -10
+     bindsym equal $exec mpc seek +10
+     
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+}
+
+bindsym $mod+m mode "music"
+#+end_src
+
+* Visual
+
+** Font
+
+#+begin_src conf
+font pango:Iosevka Slab 10
+#+end_src
+
+** Borders
+
+*** Smart borders
+
+#+begin_src conf
+smart_borders on
+#+end_src
+
+*** Border style
+
+#+begin_src conf
+default_border pixel 3
+#+end_src
+
+*** Colors
+
+Some of these stays untouched
+
+#+begin_src conf
+# class                 border  backgr. text    indicator child_border
+client.focused          #000000 #000000 #ffffff #2e9ef4   #000000
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #ffffff #ffffff #888888 #292d2e   #ffffff
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.background       #ffffff
+#+end_src
+
+* Autostart
+
+#+begin_src conf
+$execa numlockx on
+$execa xsetroot -cursor_name left_ptr
+$execa xset r rate 200 70
+$execa xrdb -load $HOME/.Xresources
+$execa xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'
+$execa pidof urxvtd || urxvtd -q -o -f
+$exec  pidof emacs || emacs --daemon
+#+end_src
