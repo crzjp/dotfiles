@@ -248,6 +248,12 @@
   (woman-fill-frame t))
 #+end_src
 
+** Unbind the anoying chord
+
+#+begin_src emacs-lisp
+(global-unset-key (kbd "C-z"))
+#+end_src
+
 * Window management
 
 ** Movement

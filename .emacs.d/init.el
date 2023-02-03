@@ -91,6 +91,8 @@
   :custom
   (woman-fill-frame t))
 
+(global-unset-key (kbd "C-z"))
+
 (use-package ace-window
   :custom
   (aw-scope 'frame)
