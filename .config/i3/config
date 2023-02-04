@@ -117,14 +117,14 @@ mode "music" {
 
 bindsym $mod+m mode "music"
 
-font pango:Iosevka Slab 10
+font pango:Iosevka Slab 0
 
 smart_borders on
 
 default_border pixel 3
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #000000 #000000 #ffffff #2e9ef4   #000000
+client.focused          #5317ac #5317ac #ffffff #2e9ef4   #000000
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #ffffff #ffffff #888888 #292d2e   #ffffff
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
