@@ -404,7 +404,7 @@
   (modus-themes-org-blocks 'gray-background)
   (modus-themes-mode-line '(borderless))
   :init
-  (load-theme 'modus-operandi t))
+  (load-theme 'modus-vivendi t))
 
 (setq use-dialog-box nil)
 

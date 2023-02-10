@@ -121,25 +121,25 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    background = "#ffffff"
-    foreground = "#000000"
-    frame_color = "#315b00"
+    background = "#000000"
+    foreground = "#ffffff"
+    frame_color = "#44bc44"
     highlight = "#000000"
     timeout = 10
     #icon = /path/to/icon
 
 [urgency_normal]
-    background = "#ffffff"
-    foreground = "#000000"
-    frame_color = "#70480f"
+    background = "#000000"
+    foreground = "#ffffff"
+    frame_color = "#d0bc00"
     highlight = "#000000"
     timeout = 10
     #icon = /path/to/icon
 
 [urgency_critical]
-    background = "#a60000"
-    foreground = "#ffffff"
-    frame_color = "#a60000"
+    background = "#ff8059"
+    foreground = "#000000"
+    frame_color = "#ff8059"
     highlight = "#000000"
     timeout = 0
     #icon = /path/to/icon

@@ -1,5 +1,6 @@
 export LANG=en_US.UTF-8
-export QT_QPA_PLATFORMTHEME=qt5ct
+#export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORMTHEME=gtk2
 export GDK_CORE_DEVICE_EVENTS=1
 
 export XDG_CONFIG_HOME="$HOME/.config"

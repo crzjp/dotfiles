@@ -5,6 +5,8 @@
 
 #+begin_src conf
 set $mod   Mod4
+set $font Iosevka Slab
+
 set $exec  exec --no-startup-id
 set $execa exec_always --no-startup-id
 
@@ -54,6 +56,9 @@ bindsym $mod+Left  focus left
 bindsym $mod+Down  focus down
 bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
+
+bindsym $mod+backslash focus left
+bindsym $mod+z         focus right
 #+end_src
 
 *** Move focused window
@@ -242,12 +247,49 @@ mode "music" {
 bindsym $mod+m mode "music"
 #+end_src
 
+*** Screenshot
+
+#+begin_src conf
+mode "screenshot" {
+     bindsym s      $exec shot s,  mode "default"
+     bindsym a      $exec shot a,  mode "default"
+     bindsym $mod+s $exec shot us, mode "default"
+     bindsym $mod+a $exec shot ua, mode "default"
+     
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+}
+
+bindsym $mod+Print mode "screenshot"
+#+end_src
+
 * Visual
+
+** Colors
+
+#+begin_src conf
+set_from_resource $black    URxvt*.color0  #000000
+set_from_resource $red      URxvt*.color1  #ff8059
+set_from_resource $green    URxvt*.color2  #44bc44
+set_from_resource $yellow   URxvt*.color3  #d0bc00
+set_from_resource $blue     URxvt*.color4  #2fafff
+set_from_resource $magenta  URxvt*.color5  #feacd0
+set_from_resource $cyan     URxvt*.color6  #00d3d0
+set_from_resource $white    URxvt*.color7  #bfbfbf
+set_from_resource $bblack   URxvt*.color8  #595959
+set_from_resource $bred     URxvt*.color9  #ef8b50
+set_from_resource $bgreen   URxvt*.color10 #70b900
+set_from_resource $byellow  URxvt*.color11 #c0c530
+set_from_resource $bblue    URxvt*.color12 #79a8ff
+set_from_resource $bmagenta URxvt*.color13 #b6a0ff
+set_from_resource $bcyan    URxvt*.color14 #6ae4b9
+set_from_resource $bwhite   URxvt*.color15 #ffffff
+#+end_src
 
 ** Font
 
 #+begin_src conf
-font pango:Iosevka Slab 0
+font pango:$font 0
 #+end_src
 
 ** Borders
@@ -269,13 +311,49 @@ default_border pixel 3
 Some of these stays untouched
 
 #+begin_src conf
-# class                 border  backgr. text    indicator child_border
-client.focused          #5317ac #5317ac #ffffff #2e9ef4   #000000
-client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-client.unfocused        #ffffff #ffffff #888888 #292d2e   #ffffff
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
-client.background       #ffffff
+# class                 border    backgr.   text    indicator child_border
+client.focused          $bmagenta $bmagenta $black  $blue     $bmagenta
+client.focused_inactive #333333   #5f676a   #ffffff #484e50   #5f676a
+client.unfocused        $black    $black    $white  $white    $black
+client.urgent           #2f343a   #900000   #ffffff #900000   #900000
+client.placeholder      #000000   #0c0c0c   #ffffff #000000   #0c0c0c
+client.background       $bwhite
+#+end_src
+
+** Bar
+
+#+begin_src conf
+bar {
+    font pango:$font 9
+    position bottom
+    status_command i3status-rs
+    colors {
+        separator $black
+        background $black
+        statusline $yellow
+        focused_workspace $bmagenta $black $white
+        active_workspace #333333 #333333 #ffffff
+        inactive_workspace $black $black $white
+        urgent_workspace $red $red $black
+    }
+}
+#+end_src
+
+#+begin_src conf-toml :tangle bar.toml
+icons_format = ""
+
+[theme]
+name = "plain"
+[theme.overrides]
+idle_bg = "#000000"
+idle_fg = "#bfbfbf"
+separator = ""
+
+[[block]]
+block = "time"
+interval = 5
+format = " %a %d/%m %R"
+on_click = "notify-send -u low -h string:x-canonical-private-synchronous:cal \"$(cal)\""
 #+end_src
 
 * Autostart
@@ -285,7 +363,8 @@ $execa numlockx on
 $execa xsetroot -cursor_name left_ptr
 $execa xset r rate 200 70
 $execa xrdb -load $HOME/.Xresources
-$execa xsetroot -mod 20 20 -bg '#d7d7d7' -fg '#999999'
+$execa hsetroot -fill $HOME/.dotfiles/wallpaper.jpg
+
 $execa pidof urxvtd || urxvtd -q -o -f
 $exec  pidof emacs || emacs --daemon
 #+end_src
