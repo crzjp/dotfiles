@@ -21,8 +21,8 @@ export LESS_TERMCAP_ue=$'\033[0m'
 export PAGER=less
 export MANPAGER=less
 
-export VISUAL="emacsclient -c -a ''"
-export EDITOR="emacsclient -nw -a ''"
+export VISUAL=nvim
+export EDITOR=nvim
 export BROWSER=chrome
 export RXVT_SOCKET="/tmp/urxvt-socket"
 export GPG_TTY=$(tty)

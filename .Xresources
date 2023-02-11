@@ -68,3 +68,6 @@ Xft.hinting:   true
 Xft.hintstyle: hintslight
 Xft.rgba:      rgb
 Xft.lcdfilter: lcddefault
+
+! st
+st.font: Iosevka Slab:size=10

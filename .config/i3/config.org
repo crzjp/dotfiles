@@ -212,7 +212,7 @@ bindsym $mod+d $exec dmenu_run -fn "Iosevka Slab:size=10"
 *** Terminal emulator
 
 #+begin_src conf
-bindsym $mod+Return $exec urxvtc
+bindsym $mod+Return $exec xst
 #+end_src
 
 *** Volume
@@ -260,7 +260,7 @@ mode "screenshot" {
      bindsym Escape mode "default"
 }
 
-bindsym $mod+Print mode "screenshot"
+bindsym Print mode "screenshot"
 #+end_src
 
 * Visual
