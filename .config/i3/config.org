@@ -326,7 +326,7 @@ client.background       $bwhite
 bar {
     font pango:$font 9
     position bottom
-    tray_output false
+    tray_output none
     status_command i3status-rs $HOME/.config/i3/bar.toml
     colors {
         separator $black

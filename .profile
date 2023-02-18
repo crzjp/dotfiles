@@ -1,6 +1,5 @@
 export LANG=en_US.UTF-8
-#export QT_QPA_PLATFORMTHEME=qt5ct
-export QT_QPA_PLATFORMTHEME=gtk2
+export QT_QPA_PLATFORMTHEME=qt5ct
 export GDK_CORE_DEVICE_EVENTS=1
 
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -21,8 +20,8 @@ export LESS_TERMCAP_ue=$'\033[0m'
 export PAGER=less
 export MANPAGER=less
 
-export VISUAL=nvim
-export EDITOR=nvim
+export VISUAL="emacsclient -c -a ''"
+export EDITOR="emacsclient -nw -a ''"
 export BROWSER=chrome
 export RXVT_SOCKET="/tmp/urxvt-socket"
 export GPG_TTY=$(tty)

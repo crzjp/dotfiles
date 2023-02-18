@@ -5,7 +5,6 @@
 .config/mpv/watch_later/
 .config/transmission*
 .config/configstore/
-.config/gtk-2.0
 .config/GIMP/
 .config/dconf/
 .config/chromium/
@@ -15,4 +14,7 @@
 .config/mpd/*
 !.config/mpd/mpd.conf
 
-.stumpwm.d/*log*
+.config/qt5ct/*
+.config/qt6ct/*
+!.config/qt5ct/qt5ct.conf
+!.config/qt6ct/qt6ct.conf

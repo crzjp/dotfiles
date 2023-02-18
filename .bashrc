@@ -41,9 +41,6 @@ alias ed="emacs --daemon"
 alias edk="emacsclient -e '(kill-emacs)'"
 alias mg='mg -n'
 
-alias n=nvim
-alias v=nvim
-
 alias ping='ping -c 3 gnu.org'
 alias wttr='curl -s wttr.in'
 alias qttr='curl -s wttr.in/?0Q'
