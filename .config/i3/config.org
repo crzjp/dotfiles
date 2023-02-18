@@ -4,7 +4,7 @@
 * Variables and modifiers
 
 #+begin_src conf
-set $mod   Mod4
+set $mod  Mod4
 set $font Iosevka Slab
 
 set $exec  exec --no-startup-id
@@ -36,7 +36,7 @@ bindsym $mod+Shift+r reload
 ** Restart i3
 
 #+begin_src conf
-bindsym $mod+Mod1+r restart
+bindsym $mod+Control+r restart
 #+end_src
 
 ** Exit i3
@@ -212,7 +212,7 @@ bindsym $mod+d $exec dmenu_run -fn "Iosevka Slab:size=10"
 *** Terminal emulator
 
 #+begin_src conf
-bindsym $mod+Return $exec xst
+bindsym $mod+Return $exec urxvtc
 #+end_src
 
 *** Volume
@@ -326,7 +326,8 @@ client.background       $bwhite
 bar {
     font pango:$font 9
     position bottom
-    status_command i3status-rs
+    tray_output false
+    status_command i3status-rs $HOME/.config/i3/bar.toml
     colors {
         separator $black
         background $black
@@ -360,7 +361,8 @@ on_click = "notify-send -u low -h string:x-canonical-private-synchronous:cal \"$
 
 #+begin_src conf
 $execa numlockx on
-$execa xsetroot -cursor_name left_ptr
+#$execa xsetroot -cursor_name left_ptr
+$execa setxkbmap br abnt2
 $execa xset r rate 200 70
 $execa xrdb -load $HOME/.Xresources
 $execa hsetroot -fill $HOME/.dotfiles/wallpaper.jpg

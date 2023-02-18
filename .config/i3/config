@@ -1,4 +1,4 @@
-set $mod   Mod4
+set $mod  Mod4
 set $font Iosevka Slab
 
 set $exec  exec --no-startup-id
@@ -20,7 +20,7 @@ tiling_drag       modifier titlebar
 
 bindsym $mod+Shift+r reload
 
-bindsym $mod+Mod1+r restart
+bindsym $mod+Control+r restart
 
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to end your X session?' -B 'Yes, exit' 'i3-msg exit'"
 
@@ -100,13 +100,13 @@ bindsym $mod+minus scratchpad show
 
 bindsym $mod+d $exec dmenu_run -fn "Iosevka Slab:size=10"
 
-bindsym $mod+Return $exec xst
+bindsym $mod+Return $exec urxvtc
 
 bindsym $mod+F12 $exec amixer sset Master 5%+
 bindsym $mod+F11 $exec amixer sset Master 5%-
 bindsym $mod+F10 $exec amixer sset Master toggle
 
-#bindsym $mod+x $exec emacsclient -ca ''
+bindsym $mod+x $exec emacsclient -ca ''
 
 mode "music" {
      bindsym t     $exec mpc toggle, mode "default"
@@ -168,7 +168,8 @@ client.background       $bwhite
 bar {
     font pango:$font 9
     position bottom
-    status_command i3status-rs
+    tray_output false
+    status_command i3status-rs $HOME/.config/i3/bar.toml
     colors {
         separator $black
         background $black
@@ -181,10 +182,11 @@ bar {
 }
 
 $execa numlockx on
-$execa xsetroot -cursor_name left_ptr
+#$execa xsetroot -cursor_name left_ptr
+$execa setxkbmap br abnt2
 $execa xset r rate 200 70
 $execa xrdb -load $HOME/.Xresources
 $execa hsetroot -fill $HOME/.dotfiles/wallpaper.jpg
 
-#$execa pidof urxvtd || urxvtd -q -o -f
-#$exec  pidof emacs || emacs --daemon
+$execa pidof urxvtd || urxvtd -q -o -f
+$exec  pidof emacs || emacs --daemon

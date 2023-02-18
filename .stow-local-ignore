@@ -2,6 +2,7 @@
 \.gitignore
 \.gitmodules
 \.stumpwm.d
+.gtkrc-2.0
 sh.org
 wallpaper.jpg
 etc
