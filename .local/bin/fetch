@@ -2,7 +2,7 @@
 
 pk="$(xbps-query -l | wc -l)"
 pk="${pk##*\ }"
-wm="$(awk '/exec/{print $NF}' $HOME/.xinitrc)"
+wm="$(awk '/exec/{print $NF}' $XINITRC)"
 cl="[32;1m"
 cr="[0m"
 

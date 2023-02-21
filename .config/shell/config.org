@@ -2,18 +2,20 @@
 
 * Shell
 :properties:
-:header-args: :tangle .bashrc
+:header-args: :tangle bashrc
 :end:
 
 ** History
 
 #+begin_src sh
+# -*- mode: sh -*-
+
 shopt -s histappend
 
 HISTCONTROL="ignoreboth:erasedups"
 HISTFILESIZE=10000
 HISTSIZE=$HISTFILESIZE
-HISTFILE="$HOME/.history"
+HISTFILE="$XDG_CACHE_HOME/bash_history"
 #+end_src
 
 ** Prompt
@@ -56,7 +58,7 @@ alias poweroff="sudo poweroff"
 #+begin_src sh
 alias ls='ls -AC --color=auto --group-directories-first'
 alias ll='ls -AgGh --color=auto --group-directories-first'
-alias tree='tree -C'
+alias lt='tree -C'
 #+end_src
 
 *** Files/Dirs management
@@ -95,32 +97,46 @@ alias qttr='curl -s wttr.in/?0Q'
 alias which='command -v'
 alias free='free -h'
 alias mime='file -b --mime-type'
+alias xload="xrdb -load $XDG_CONFIG_HOME/x11/xresources"
 #+end_src
 
 * Profile
 :properties:
-:header-args: :tangle .profile
+:header-args: :tangle profile
 :end:
 
 ** Essentials
 
 #+begin_src sh
+# -*- mode: sh -*-
+
 export LANG=en_US.UTF-8
 export QT_QPA_PLATFORMTHEME=qt5ct
 export GDK_CORE_DEVICE_EVENTS=1
 #+end_src
 
-** XDG and PATH
+** PATH and XDG
 
 #+begin_src sh
+export PATH="$HOME/.bin:$HOME/.local/bin:$PATH"
+export PATH="$PATH:$HOME/.cargo/bin"
+
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
-export PATH="$HOME/.bin:$HOME/.local/bin:$PATH"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export RXVT_SOCKET="$XDG_CACHE_HOME/urxvtd"
+
+export XAUTHORITY="$XDG_DATA_DIR/xorg/Xauthority"
+export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 #+end_src
 
-** Pager
+** Programs
+
+*** Pager
 
 #+begin_src sh
 export LESS='-FRJMWX'
@@ -136,27 +152,34 @@ export PAGER=less
 export MANPAGER=less
 #+end_src
 
-** Programs
+*** Userland
 
 #+begin_src sh
 export VISUAL="emacsclient -c -a ''"
 export EDITOR="emacsclient -nw -a ''"
 export BROWSER=chrome
-export RXVT_SOCKET="/tmp/urxvt-socket"
 export GPG_TTY=$(tty)
+#+end_src
+
+*** Shell
+
+#+begin_src sh
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+export ENV="$XDG_CONFIG_HOME/shell/bashrc"
 #+end_src
 
 ** Start session
 
 #+begin_src sh
 eval "$(dircolors)"
-[ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
+
+[ -f "$ENV" ] && source $ENV
 [ "$(tty)" = "/dev/tty1" ] && startx
 #+end_src
 
 * Readline
 
-#+begin_src conf-space :tangle .inputrc
+#+begin_src conf-space :tangle inputrc
 set show-all-if-ambiguous on
 set completion-ignore-case on
 set colored-stats on

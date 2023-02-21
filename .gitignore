@@ -18,3 +18,6 @@
 .config/qt6ct/*
 !.config/qt5ct/qt5ct.conf
 !.config/qt6ct/qt6ct.conf
+
+.local/*
+!.local/bin/
