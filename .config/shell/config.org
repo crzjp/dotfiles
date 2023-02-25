@@ -118,20 +118,22 @@ export GDK_CORE_DEVICE_EVENTS=1
 ** PATH and XDG
 
 #+begin_src sh
-export PATH="$HOME/.bin:$HOME/.local/bin:$PATH"
-export PATH="$PATH:$HOME/.cargo/bin"
-
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:$CARGO_HOME/bin"
+
+export XAUTHORITY="$XDG_DATA_HOME/xorg/Xauthority"
+export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
+
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export RXVT_SOCKET="$XDG_CACHE_HOME/urxvtd"
-
-export XAUTHORITY="$XDG_DATA_DIR/xorg/Xauthority"
-export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 #+end_src
 
 ** Programs
@@ -174,7 +176,7 @@ export ENV="$XDG_CONFIG_HOME/shell/bashrc"
 eval "$(dircolors)"
 
 [ -f "$ENV" ] && source $ENV
-[ "$(tty)" = "/dev/tty1" ] && startx
+[ "$(tty)" = "/dev/tty1" ] && startx > $XDG_DATA_HOME/xorg/${USER}-xorg.log 2>&1
 #+end_src
 
 * Readline
