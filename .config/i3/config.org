@@ -212,8 +212,7 @@ bindsym $mod+d $exec dmenu_run -fn "Iosevka Slab:size=10"
 *** Terminal emulator
 
 #+begin_src conf
-#bindsym $mod+Return $exec urxvtc
-bindsym $mod+Return $exec emacsclient -ca '' -e '(eshell)'
+bindsym $mod+Shift+Return $exec emacsclient -ca '' -e '(eshell)'
 #+end_src
 
 *** Volume
@@ -227,21 +226,21 @@ bindsym $mod+F10 $exec amixer sset Master toggle
 *** Emacs
 
 #+begin_src conf
-bindsym $mod+x $exec emacsclient -ca ''
+bindsym $mod+Return $exec emacsclient -ca ''
 #+end_src
 
 *** Music
 
 #+begin_src conf
 mode "music" {
-     bindsym t     $exec mpc toggle, mode "default"
-     bindsym c     $exec nowplaying, mode "default"
-     bindsym n     $exec mpc next,   mode "default"
-     bindsym p     $exec mpc prev,   mode "default"
-     bindsym minus $exec mpc seek -10
-     bindsym equal $exec mpc seek +10
+     bindsym t      $exec mpc toggle,  mode "default"
+     bindsym c      $exec nowplaying,  mode "default"
+     bindsym n      $exec mpc next,    mode "default"
+     bindsym p      $exec mpc prev,    mode "default"
+     bindsym minus  $exec mpc seek -10
+     bindsym equal  $exec mpc seek +10
+     bindsym Return $exec emacsclient -ca '' -e '(mingus)', mode "default"
      
-     bindsym Return mode "default"
      bindsym Escape mode "default"
 }
 
@@ -362,12 +361,10 @@ on_click = "notify-send -u low -h string:x-canonical-private-synchronous:cal \"$
 
 #+begin_src conf
 $execa numlockx on
-#$execa xsetroot -cursor_name left_ptr
 $execa setxkbmap br abnt2
 $execa xset r rate 200 70
 $execa xrdb -load $XDG_CONFIG_HOME/x11/xresources
 $execa hsetroot -fill $HOME/.dotfiles/wallpaper.jpg
 
-$execa pidof urxvtd || urxvtd -q -o -f
 $exec  pidof emacs || emacs --daemon
 #+end_src

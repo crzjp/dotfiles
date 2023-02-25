@@ -100,24 +100,23 @@ bindsym $mod+minus scratchpad show
 
 bindsym $mod+d $exec dmenu_run -fn "Iosevka Slab:size=10"
 
-#bindsym $mod+Return $exec urxvtc
-bindsym $mod+Return $exec emacsclient -ca '' -e '(eshell)'
+bindsym $mod+Shift+Return $exec emacsclient -ca '' -e '(eshell)'
 
 bindsym $mod+F12 $exec amixer sset Master 5%+
 bindsym $mod+F11 $exec amixer sset Master 5%-
 bindsym $mod+F10 $exec amixer sset Master toggle
 
-bindsym $mod+x $exec emacsclient -ca ''
+bindsym $mod+Return $exec emacsclient -ca ''
 
 mode "music" {
-     bindsym t     $exec mpc toggle, mode "default"
-     bindsym c     $exec nowplaying, mode "default"
-     bindsym n     $exec mpc next,   mode "default"
-     bindsym p     $exec mpc prev,   mode "default"
-     bindsym minus $exec mpc seek -10
-     bindsym equal $exec mpc seek +10
+     bindsym t      $exec mpc toggle,  mode "default"
+     bindsym c      $exec nowplaying,  mode "default"
+     bindsym n      $exec mpc next,    mode "default"
+     bindsym p      $exec mpc prev,    mode "default"
+     bindsym minus  $exec mpc seek -10
+     bindsym equal  $exec mpc seek +10
+     bindsym Return $exec emacsclient -ca '' -e '(mingus)', mode "default"
      
-     bindsym Return mode "default"
      bindsym Escape mode "default"
 }
 
@@ -183,11 +182,9 @@ bar {
 }
 
 $execa numlockx on
-#$execa xsetroot -cursor_name left_ptr
 $execa setxkbmap br abnt2
 $execa xset r rate 200 70
 $execa xrdb -load $XDG_CONFIG_HOME/x11/xresources
 $execa hsetroot -fill $HOME/.dotfiles/wallpaper.jpg
 
-$execa pidof urxvtd || urxvtd -q -o -f
 $exec  pidof emacs || emacs --daemon
