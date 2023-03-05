@@ -37,7 +37,7 @@ URxvt*.color13:    #b6a0ff
 URxvt*.color14:    #6ae4b9
 URxvt*.color15:    #ffffff
 
-URxvt*.font:       xft:Iosevka Slab:size=10,xft:Noto Sans Mono CJK JP
+URxvt*.font: xft:Iosevka Slab:size=10,xft:Noto Sans Mono CJK JP
 
 URxvt*.perl-ext-common: default,matcher,clipboard
 URxvt*.scrollBar:       false
