@@ -39,7 +39,7 @@
 
 (define-key *top-map* (kbd "Print") '*print*)
 
-(define-key *top-map* (kbd "s-RET") "exec urxvtc")
+(define-key *top-map* (kbd "s-RET") "exec urxvtc || { urxvtd -q -o -f && urxvtc ;}")
 (define-key *root-map* (kbd "l") "exec slock")
 
 (defvar *apps*
@@ -145,14 +145,14 @@
 (defvar col15 "#ffffff")
 
 (setf *colors*
-      `(,col0   ;; 0 black
-        ,col1   ;; 1 red
-        ,col2   ;; 2 green
-        ,col3   ;; 3 yellow
-        ,col4   ;; 4 blue
-        ,col5   ;; 5 magenta
-        ,col6   ;; 6 cyan
-        ,col7)) ;; 7 white
+      `(,col0    ;; 0 black
+        ,col1    ;; 1 red
+        ,col2    ;; 2 green
+        ,col3    ;; 3 yellow
+        ,col4    ;; 4 blue
+        ,col13   ;; 5 magenta
+        ,col6    ;; 6 cyan
+        ,col7))  ;; 7 white
 
 (update-color-map (current-screen))
 

@@ -22,4 +22,4 @@
 .local/*
 !.local/bin/
 
-.stumpwm.d/stumpwm.log
+.stumpwm.d/*log*
