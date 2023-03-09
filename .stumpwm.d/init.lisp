@@ -22,7 +22,8 @@
     (define-key m (kbd "p") "exec mpc prev")
     (define-key m (kbd "-") "exec mpc seek -10")
     (define-key m (kbd "=") "exec mpc seek +10")
-    (define-key m (kbd "c") "exec nowplaying") m))
+    (define-key m (kbd "c") "exec nowplaying")
+    (define-key m (kbd "RET") "exec emacsclient -ca '' -e '(mingus)'") m))
 
 (define-key *top-map* (kbd "s-m") '*music*)
 
