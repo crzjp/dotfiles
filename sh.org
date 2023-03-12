@@ -2,14 +2,12 @@
 
 * Shell
 :properties:
-:header-args: :tangle bashrc
+:header-args: :tangle .bashrc
 :end:
 
 ** History
 
 #+begin_src sh
-# -*- mode: sh -*-
-
 shopt -s histappend
 
 HISTCONTROL="ignoreboth:erasedups"
@@ -97,19 +95,17 @@ alias qttr='curl -s wttr.in/?0Q'
 alias which='command -v'
 alias free='free -h'
 alias mime='file -b --mime-type'
-alias xload="xrdb -load $XDG_CONFIG_HOME/x11/xresources"
+alias xload="xrdb -load $HOME/.Xresources"
 #+end_src
 
 * Profile
 :properties:
-:header-args: :tangle profile
+:header-args: :tangle .profile
 :end:
 
 ** Essentials
 
 #+begin_src sh
-# -*- mode: sh -*-
-
 export LANG=en_US.UTF-8
 export QT_QPA_PLATFORMTHEME=qt5ct
 export GDK_CORE_DEVICE_EVENTS=1
@@ -128,12 +124,10 @@ export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$CARGO_HOME/bin"
 
-export XAUTHORITY="$XDG_DATA_HOME/xorg/Xauthority"
-export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
-
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-export RXVT_SOCKET="$XDG_CACHE_HOME/urxvtd"
+export RXVT_SOCKET="/tmp/urxvt-socket"
+export XAUTHORITY="/tmp/Xauthority"
 #+end_src
 
 ** Programs
@@ -163,25 +157,18 @@ export BROWSER=chrome
 export GPG_TTY=$(tty)
 #+end_src
 
-*** Shell
-
-#+begin_src sh
-export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
-export ENV="$XDG_CONFIG_HOME/shell/bashrc"
-#+end_src
-
 ** Start session
 
 #+begin_src sh
 eval "$(dircolors)"
 
-[ -f "$ENV" ] && source $ENV
+[ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
 [ "$(tty)" = "/dev/tty1" ] && startx > $XDG_DATA_HOME/xorg/${USER}-xorg.log 2>&1
 #+end_src
 
 * Readline
 
-#+begin_src conf-space :tangle inputrc
+#+begin_src conf-space :tangle .inputrc
 set show-all-if-ambiguous on
 set completion-ignore-case on
 set colored-stats on
