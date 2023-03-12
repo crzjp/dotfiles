@@ -125,7 +125,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$CARGO_HOME/bin"
 
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
-export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export RXVT_SOCKET="/tmp/urxvt-socket"
 export XAUTHORITY="/tmp/Xauthority"
 #+end_src
