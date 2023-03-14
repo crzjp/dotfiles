@@ -23,3 +23,6 @@
 !.local/bin/
 
 .stumpwm.d/*log*
+
+.gnupg/*
+!.gnupg/gpg-agent.conf

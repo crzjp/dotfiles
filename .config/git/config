@@ -1,6 +1,6 @@
 [user]
 	email = crzjp@riseup.net
 	name = João Paulo da Cruz
-	signingkey = C23A20D1A538AC95
+	signingkey = D2C61863131956B1
 [commit]
 	gpgSign = true
