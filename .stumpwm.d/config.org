@@ -27,7 +27,8 @@
     (define-key m (kbd "RET") "exec emacsclient -ca ''")
     (define-key m (kbd "d") "exec emacsclient -ca '' -e '(dired nil)'")
     (define-key m (kbd "e") "exec emacsclient -ca '' -e '(eshell)'")
-    (define-key m (kbd "a") "exec emacsclient -ca '' -e '(org-agenda)'") m))
+    (define-key m (kbd "a") "exec emacsclient -ca '' -e '(org-agenda)'")
+    (define-key m (kbd "t") "exec emacsclient -ca '' -e '(vterm)'") m))
 
 (define-key *top-map* (kbd "s-e") '*emacs*)
 #+end_src
