@@ -39,6 +39,11 @@ elif [ "$1" = "m" ]; then
                 -map 0:0 -map 1:0 -c copy "${type}_EDITED_${p}"
             rm -rv -- "$p"
         done
+    elif [ "$type" = "title" ]; then
+        [ -z "$name" ] && echo "Missing title name" && exit 1
+        ffmpeg -loglevel 8 -hide_banner -i "$2" -c copy \
+               -metadata "title=${name}" "title_EDITED_${2}"
+        rm -rv -- "$2"
     else
         [ -z "$type" ] && echo "Missing type (title, album, artist...)" && exit 1
         [ -z "$name" ] && echo "Missing name" && exit 1
