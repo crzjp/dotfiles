@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 music_path="$HOME/media/musics"
-cd "$music_path"
 
 [ ! `command -v ffprobe` ] && echo "ffmpeg: not found" && exit 1
 
@@ -10,7 +9,11 @@ if [ "$1" = "s" ]; then
         file="/tmp/ssorter"
         ffprobe "$m" > "$file" 2>&1
         title="$(awk '/\ytitle\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a; exit}' "$file")"
-        album="$(awk '/\yalbum\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' "$file")"
+        if [ ! -z "$album" ]; then
+            album="$album"
+        else
+            album="$(awk '/\yalbum\y/{a = substr($0, index($0, $3)) ; gsub(" ", "_", a) ; gsub("[^[:upper:][:lower:][:digit:]_]", "", a) ; print a ; exit}' "$file")"
+        fi
         if [ ! -z "$artist" ]; then
             artist="$artist"
         else
@@ -53,6 +56,12 @@ elif [ "$1" = "m" ]; then
             rm -rv -- "$p"
         done
     fi
+elif [ "$1" = "d" ]; then
+    for p in *.mp3; do
+        ffmpeg -loglevel 8 -hide_banner -i "$p" \
+               -map 0:a -c:a copy -map_metadata -1 "tags_deleted_${p}"
+        rm -rv -- "$p"
+    done
 else
     echo "Wrong usage"
     exit 1
