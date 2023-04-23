@@ -10,11 +10,11 @@ dir="$HOME/media/pics/shots/$dirdate"
 pic="$dir/$picdate.png"
 
 createdir(){ [ ! -d "$dir" ] && mkdir -pv "$dir" ;}
-screen(){ maim "$pic" ;}
-area(){ maim -s "$pic" ;}
+screen(){ maim -u "$pic" ;}
+area(){ maim -us "$pic" ;}
 abort(){ notify-send "Print" "Aborted" ; exit 1 ;}
 
-hidecursor(){
+togglecursor(){
     for term in /dev/pts/[0-9]*; do
         [ -w "$term" ] && printf "%b" "$1" > "$term"
     done
@@ -24,11 +24,11 @@ hidecursor(){
 case "$1" in
     s)
         createdir
-        hidecursor "\033[?25l"
+        togglecursor "\033[?25l"
         screen || abort
         xclip -selection c -t image/png "$pic"
         notify-send -u low -i "$pic" "Print" "Saved to folder"
-        hidecursor "\033[?25h"
+        togglecursor "\033[?25h"
         ;;
     a)
         createdir
