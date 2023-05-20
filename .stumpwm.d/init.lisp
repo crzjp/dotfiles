@@ -47,8 +47,8 @@
 (defvar *apps*
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "t") "exec telegram-desktop")
-    (define-key m (kbd "g") "exec gimp")
-    (define-key m (kbd "b") "exec chrome") m))
+    (define-key m (kbd "b") "exec chrome")
+    (define-key m (kbd "g") "exec gimp") m))
 
 (define-key *top-map* (kbd "s-a") '*apps*)
 
@@ -57,8 +57,8 @@
 (run-shell-command "xset r rate 200 70")
 
 (run-shell-command "xsetroot -cursor_name left_ptr")
+(run-shell-command "xsetroot -mod 20 20 -bg '#000000' -fg '#101010'")
 (run-shell-command "xrdb -load $HOME/.Xresources")
-(run-shell-command "hsetroot -fill $HOME/.dotfiles/wallpaper.jpg")
 
 (run-shell-command "pidof urxvtd || urxvtd -q -o -f")
 (run-shell-command "pidof emacs || emacs --daemon")

@@ -14,7 +14,8 @@ title=$(mpc current -f %title%)
 artist=$(mpc current -f %artist%)
 album=$(mpc current -f %album%)
 file=~/media/musics/$(mpc current -f %file%)
-cover=${file%/*}/cover.jpg
+cover=${file%/*}/Cover.jpg
+[ ! -f "$cover" ] && cover=${file%/*}/cover.jpg
 
 notify-send -u low -i "$cover" \
     -h string:x-canonical-private-synchronous:mpd \
