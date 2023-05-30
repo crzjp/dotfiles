@@ -6,8 +6,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
-export PATH="$HOME/.local/bin:$PATH"
-
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
 #export XAUTHORITY="/tmp/Xauthority"
 
@@ -17,6 +15,7 @@ eval "$(guix package --search-paths \
 -p /run/current-system/profile)"
 
 export PATH=/run/setuid-programs:$PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 export LESS='-FRJMWX'
 export LESSHISTFILE=/dev/null

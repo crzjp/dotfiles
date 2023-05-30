@@ -10,7 +10,7 @@
 .config/chromium/
 .config/torbrowser/
 .config/gdb/
-.config/guix/current/
+.config/guix/current
 
 .config/mpdasrc
 .config/mpd/*

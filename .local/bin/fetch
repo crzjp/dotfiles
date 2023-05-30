@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
-pk="$(xbps-query -l | wc -l)"
-pk="${pk##*\ }"
-wm="$(awk '/exec/{print $NF}' $HOME/.xinitrc)"
-cl="[32;1m"
+pk="$(guix package --list-installed | wc -l)"
+#pk="${pk##*\ }"
+wm="$(awk '/exec/{print $NF}' $XDG_CONFIG_HOME/sx/sxrc)"
+cl="[33;1m"
 cr="[0m"
 
 case "$INSIDE_EMACS" in
@@ -23,7 +23,7 @@ esac
 
 cat <<EOF
 
-  ${cl}Void GNU/Linux${cr}
+  ${cl}GNU Guix SD${cr}
   pk ${cl}::${cr} $pk
   sh ${cl}::${cr} $sh
   tm ${cl}::${cr} $tm

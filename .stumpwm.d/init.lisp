@@ -116,6 +116,7 @@
 (clear-window-placement-rules)
 
 (define-frame-preference "dev" (0 t t :class "Nyxt"))
+(define-frame-preference "dev" (0 t t :class "icecat-default"))
 (define-frame-preference "msg" (0 t t :class "TelegramDesktop"))
 
 (define-key *root-map* (kbd "s-c") "quit-confirm")
