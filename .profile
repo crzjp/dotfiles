@@ -6,15 +6,17 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
-export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
-
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$PATH:$CARGO_HOME/bin"
 
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
-export RXVT_SOCKET="/tmp/urxvt-socket"
-export XAUTHORITY="/tmp/Xauthority"
+#export XAUTHORITY="/tmp/Xauthority"
+
+eval "$(guix package --search-paths \
+-p $HOME/.config/guix/current \
+-p $HOME/.guix-profile \
+-p /run/current-system/profile)"
+
+export PATH=/run/setuid-programs:$PATH
 
 export LESS='-FRJMWX'
 export LESSHISTFILE=/dev/null
@@ -30,10 +32,10 @@ export MANPAGER=less
 
 export VISUAL="emacsclient -c -a ''"
 export EDITOR="emacsclient -nw -a ''"
-export BROWSER=chrome
+export BROWSER=nyxt
 export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 
 [ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
-[ "$(tty)" = "/dev/tty1" ] && startx > $XDG_DATA_HOME/xorg/${USER}-xorg.log 2>&1
+[ "$(tty)" = "/dev/tty1" ] && sx

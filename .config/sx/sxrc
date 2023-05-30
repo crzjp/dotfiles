@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#exec dbus-launch --exit-with-session stumpwm
+#exec stumpwm
+xhost +SI:localuser:$USER
+exec dbus-run-session -- stumpwm

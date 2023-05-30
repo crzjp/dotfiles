@@ -1,3 +1,5 @@
+source /etc/bashrc
+
 shopt -s histappend
 
 HISTCONTROL="ignoreboth:erasedups"
@@ -13,11 +15,9 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
 	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
 fi
 
-alias xi='sudo xbps-install'
-alias xr='sudo xbps-remove -Ro'
-alias xu='sudo xbps-install -Su'
-alias xqs='xbps-query -Rs'
-alias xf='xlocate'
+alias gi='guix install'
+alias gr='guix remove'
+alias gs='guix search'
 
 alias reboot="sudo reboot"
 alias poweroff="sudo poweroff"
