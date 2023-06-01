@@ -6,7 +6,6 @@
 ;; to the 'guix system reconfigure' command to effect your
 ;; changes.
 
-
 ;; Indicate which modules to import to access the variables
 ;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux))
@@ -20,6 +19,18 @@
   MatchDevicePath \"/dev/input/event*\"
   MatchIsKeyboard \"on\"
 EndSection
+")
+
+(define %alsa-asound-config
+  "pcm_slave.slavej {
+  pcm \"hw:0\"
+  channels 2
+  rate 44100
+}
+pcm.plugj {
+  type plug
+  slave slavej
+}
 ")
 
 (operating-system
@@ -61,20 +72,13 @@ EndSection
                    (xorg-configuration
                     (keyboard-layout keyboard-layout)
                     (extra-config (list %xorg-libinput-config))))
-                    ;; (modules '("xf86-video-intel"
-                    ;;            "xf86-input-evdev"
-                    ;;            "xf86-input-keyboard"
-                    ;;            "xf86-input-libinput"
-                    ;;            "xf86-input-synaptics"
-                    ;;            "xf86-input-mouse"))))
-          ;(service elogind-service-type)
-          ;(service dbus-root-service-type)
-          ;(service avahi-service-type)
-
+          ;; (service alsa-service-type
+          ;;          (alsa-configuration
+          ;;           (pulseaudio? #f)
+          ;;           (extra-options %alsa-asound-config)))
           ;; This is the default list of services we
           ;; are appending to.
           ;%desktop-services
-
           (modify-services %base-services
                            (guix-service-type config =>
                                               (guix-configuration

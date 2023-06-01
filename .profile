@@ -2,12 +2,12 @@ export LANG=en_US.UTF-8
 export QT_QPA_PLATFORMTHEME=qt5ct
 export GDK_CORE_DEVICE_EVENTS=1
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+#export XDG_DATA_HOME=$HOME/.guix-profile/share
+#export XDG_DATA_HOME=$HOME/.local/share:$XDG_DATA_DIRS
 
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
-#export XAUTHORITY="/tmp/Xauthority"
 
 eval "$(guix package --search-paths \
 -p $HOME/.config/guix/current \
@@ -31,7 +31,7 @@ export MANPAGER=less
 
 export VISUAL="emacsclient -c -a ''"
 export EDITOR="emacsclient -nw -a ''"
-export BROWSER=nyxt
+export BROWSER=chromium
 export GPG_TTY=$(tty)
 
 eval "$(dircolors)"

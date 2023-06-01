@@ -52,7 +52,7 @@ alias gs='guix search'
 
 #+begin_src sh
 alias reboot="sudo reboot"
-alias poweroff="sudo poweroff"
+alias poweroff="sudo shutdown"
 #+end_src
 
 *** Listing files
@@ -118,12 +118,12 @@ export GDK_CORE_DEVICE_EVENTS=1
 ** XDG
 
 #+begin_src sh
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+#export XDG_DATA_HOME=$HOME/.guix-profile/share
+#export XDG_DATA_HOME=$HOME/.local/share:$XDG_DATA_DIRS
 
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
-#export XAUTHORITY="/tmp/Xauthority"
 #+end_src
 
 ** Guix and PATH
@@ -161,7 +161,7 @@ export MANPAGER=less
 #+begin_src sh
 export VISUAL="emacsclient -c -a ''"
 export EDITOR="emacsclient -nw -a ''"
-export BROWSER=nyxt
+export BROWSER=chromium
 export GPG_TTY=$(tty)
 #+end_src
 

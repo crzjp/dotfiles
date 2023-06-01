@@ -4,7 +4,7 @@
 
 (define-key *top-map* (kbd "s-F12") "exec amixer sset Master 5%+")
 (define-key *top-map* (kbd "s-F11") "exec amixer sset Master 5%-")
-(define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
+;(define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
 
 (defvar *emacs*
   (let ((m (make-sparse-keymap)))
@@ -47,7 +47,7 @@
 (defvar *apps*
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "t") "exec telegram-desktop")
-    (define-key m (kbd "b") "exec nyxt")
+    (define-key m (kbd "b") "exec chromium")
     (define-key m (kbd "g") "exec gimp") m))
 
 (define-key *top-map* (kbd "s-a") '*apps*)
@@ -115,8 +115,7 @@
 
 (clear-window-placement-rules)
 
-(define-frame-preference "dev" (0 t t :class "Nyxt"))
-(define-frame-preference "dev" (0 t t :class "icecat-default"))
+(define-frame-preference "dev" (0 t t :class "Chromium-browser"))
 (define-frame-preference "msg" (0 t t :class "TelegramDesktop"))
 
 (define-key *root-map* (kbd "s-c") "quit-confirm")
