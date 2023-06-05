@@ -157,62 +157,81 @@ Public key
 
 ** Modules
 
-#+begin_src scheme :noweb yes
+#+begin_src scheme
 (use-modules (gnu home)
-             (gnu packages)
-             (gnu packages wm)
              (gnu services)
+             (gnu packages)
+             (guix gexp)
              (gnu home services)
              (gnu home services xdg)
-             (guix gexp))
+             (gnu packages wm)
+             (gnu packages emacs)
+             (gnu packages emacs-xyz)
+             (gnu packages fonts)
+             (gnu packages fontutils)
+             (gnu packages version-control)
+             (gnu packages xdisorg)
+             (gnu packages curl)
+             (gnu packages dunst)
+             (gnu packages chromium)
+             (gnu packages gnome)
+             (gnu packages gnome-xyz)
+             (gnu packages text-editors)
+             (gnu packages mpd)
+             (gnu packages video)
+             (gnu packages ssh)
+             (gnu packages lisp)
+             (gnu packages xorg)
+             (gnu packages suckless)
+             (gnu packages telegram)
+             (gnu packages gnupg))
 #+end_src
 
 ** Packages
 
-#+begin_src scheme :noweb yes
+#+begin_src scheme
 (home-environment
- (packages (specifications->packages
-            (list "curl"
-                  "dunst"
-                  "emacs"
-                  "emacs-pdf-tools"
-                  "emacs-vterm"
-                  "font-awesome"
-                  "font-google-noto"
-                  "font-google-noto-emoji"
-                  "font-google-noto-sans-cjk"
-                  "font-google-noto-serif-cjk"
-                  "font-iosevka"
-                  "font-iosevka-aile"
-                  "fontconfig"
-                  "git"
-                  "gnupg"
-                  "libnotify"
-                  "maim"
-                  "materia-theme"
-                  "mg"
-                  "mpd"
-                  "mpd-mpc"
-                  "mpv"
-                  "numlockx"
-                  "openssh"
-                  "pinentry-emacs"
-                  "sbcl"
-                  "sbcl-stumpwm-ttf-fonts"
-                  "setxkbmap"
-                  "slock"
-                  "slop"
-                  "stumpwm"
-                  `(,stumpwm "lib")
-                  "sx"
-                  "telegram-desktop"
-                  "ungoogled-chromium"
-                  "xclip"
-                  "xhost"
-                  "xrdb"
-                  "xset"
-                  "xsetroot"
-                  "youtube-dl")))
+ (packages (list curl
+                 dunst
+                 emacs
+                 emacs-pdf-tools
+                 emacs-vterm
+                 font-awesome
+                 font-google-noto
+                 font-google-noto-emoji
+                 font-google-noto-sans-cjk
+                 font-google-noto-serif-cjk
+                 font-iosevka
+                 font-iosevka-aile
+                 fontconfig
+                 git
+                 gnupg
+                 libnotify
+                 maim
+                 materia-theme
+                 mg
+                 mpd
+                 mpd-mpc
+                 mpv
+                 numlockx
+                 openssh
+                 pinentry-emacs
+                 sbcl
+                 sbcl-stumpwm-ttf-fonts
+                 setxkbmap
+                 slock
+                 slop
+                 stumpwm
+                 `(,stumpwm "lib")
+                 sx
+                 telegram-desktop
+                 ungoogled-chromium
+                 xclip
+                 xhost
+                 xrdb
+                 xset
+                 xsetroot
+                 youtube-dl))
 #+end_src
 
 ** Services
