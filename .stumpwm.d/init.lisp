@@ -173,6 +173,16 @@
       *float-window-title-height* 3
       *window-border-style* :thin)
 
+(require :ttf-fonts)
+
+(setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
+
+(setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
+
+(xft:cache-fonts)
+
+(set-font (make-instance 'xft:font :family "Iosevka" :size 10))
+
 (setf *message-window-gravity* :center
       *input-window-gravity* :center
       *message-window-padding* 10)

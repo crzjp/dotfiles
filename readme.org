@@ -1,0 +1,400 @@
+#+title: My desktop configuration
+#+property: header-args :mkdirp t
+
+* Fonts definition
+
+Monospace
+
+#+begin_src fundamental :noweb-ref definition-font-mono
+Iosevka 10
+#+end_src
+
+Serif
+
+#+begin_src fundamental :noweb-ref definition-font-serif
+Iosevka Aile 10
+#+end_src
+
+* GnuPG
+
+#+begin_src conf-space :tangle .gnupg/gpg-agent.conf
+pinentry-program /home/crzjp/.guix-profile/bin/pinentry-emacs
+allow-emacs-pinentry
+allow-loopback-pinentry
+#+end_src
+
+* Music player
+
+#+begin_src conf :tangle .config/mpd/mpd.conf
+music_directory    "~/musics"
+playlist_directory "~/.config/mpd/playlists"
+db_file            "~/.config/mpd/database"
+log_file           "~/.config/mpd/log"
+pid_file           "~/.config/mpd/pid"
+state_file         "~/.config/mpd/state"
+sticker_file       "~/.config/mpd/sticker.sql"
+
+auto_update "yes"
+
+input {
+    plugin "curl"
+#   proxy "proxy.isp.com:8080"
+#   proxy_user "user"
+#   proxy_password "password"
+}
+
+audio_output {
+	type		"alsa"
+	name		"My ALSA Device"
+#	device		"hw:0,0"	# optional
+#	mixer_type      "hardware"	# optional
+#	mixer_device	"default"	# optional
+#	mixer_control	"PCM"		# optional
+#	mixer_index	"0"		# optional
+}
+#+end_src
+
+* Git
+
+#+begin_src conf :tangle .config/git/config
+[user]
+	email = crzjp@riseup.net
+	name = João Paulo da Cruz
+	signingkey = D2C61863131956B1
+[commit]
+	gpgSign = true
+#+end_src
+
+* Notifications
+
+#+begin_src conf :tangle .config/dunst/dunstrc :noweb yes
+# -*- mode: conf -*-
+[global]
+    ### Display ###
+    monitor = 0
+    follow = mouse
+    width = (0,1010)
+    height = (0,385)
+    origin = top-right
+    offset = 7x7
+    indicate_hidden = yes
+    shrink = yes
+    transparency = 0
+    notification_height = 0
+    separator_height = 0
+    padding = 5
+    horizontal_padding = 5
+    frame_width = 2
+    frame_color = "#000000"
+    separator_color = 0
+    sort = yes
+    idle_threshold = 0
+    ### Text ###
+    font = <<definition-font-serif>>
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    show_age_threshold = 60
+    word_wrap = yes
+    ellipsize = middle
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = yes
+    ### Icons ###
+    icon_position = left
+    max_icon_size = 80
+    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    padding = 5
+    ### History ###
+    sticky_history = yes
+    history_length = 20
+    ### Misc/Advanced ###
+    dmenu = /usr/bin/dmenu -p dunst:
+    browser = /usr/bin/firefox -new-tab
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    startup_notification = false
+    verbosity = mesg
+    corner_radius = 0
+    ### Legacy
+    force_xinerama = false
+    ### mouse
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+[experimental]
+    per_monitor_dpi = false
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+period
+[urgency_low]
+    background = "#000000"
+    foreground = "#ffffff"
+    frame_color = "#44bc44"
+    highlight = "#000000"
+    timeout = 10
+    #icon = /path/to/icon
+[urgency_normal]
+    background = "#000000"
+    foreground = "#ffffff"
+    frame_color = "#d0bc00"
+    highlight = "#000000"
+    timeout = 10
+    #icon = /path/to/icon
+[urgency_critical]
+    background = "#ff8059"
+    foreground = "#000000"
+    frame_color = "#ff8059"
+    highlight = "#000000"
+    timeout = 0
+    #icon = /path/to/icon
+#+end_src
+
+* Shell
+
+** Shell
+:properties:
+:header-args:sh: :tangle .bashrc
+:end:
+
+*** Source system-wide file
+
+#+begin_src sh
+source /etc/bashrc
+#+end_src
+
+*** History
+
+#+begin_src sh
+shopt -s histappend
+
+HISTCONTROL="ignoreboth:erasedups"
+HISTFILESIZE=10000
+HISTSIZE=$HISTFILESIZE
+HISTFILE="$XDG_CACHE_HOME/bash_history"
+#+end_src
+
+*** Prompt
+
+#+begin_src sh
+PS1="[\w] "
+#+end_src
+
+*** Vterm config
+
+#+begin_src sh
+if [[ "$INSIDE_EMACS" = 'vterm' ]] \
+       && [[ -n ${EMACS_VTERM_PATH} ]] \
+       && [[ -f ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
+	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
+fi
+#+end_src
+
+*** Aliases
+
+**** Package management
+
+#+begin_src sh
+alias gi='guix install'
+alias gr='guix remove'
+alias gs='guix search'
+#+end_src
+
+**** Power management
+
+#+begin_src sh
+alias reboot="sudo reboot"
+alias poweroff="sudo shutdown"
+#+end_src
+
+**** Listing files
+
+#+begin_src sh
+alias ls='ls -AC --color=auto --group-directories-first'
+alias ll='ls -AgGh --color=auto --group-directories-first'
+alias lt='tree -C'
+#+end_src
+
+**** Files/Dirs management
+
+#+begin_src sh
+alias cp='cp -v'
+alias mv='mv -v'
+alias rm='rm -rfvI'
+alias mkdir='mkdir -pv'
+#+end_src
+
+**** Grep
+
+#+begin_src sh
+alias grep='grep --color=always'
+alias egrep='egrep --color=always'
+alias fgrep='fgrep --color=always'
+alias zgrep='zgrep --color=always'
+#+end_src
+
+**** Emacs
+
+#+begin_src sh
+alias e="emacsclient -nwa ''"
+alias ed="emacs --daemon"
+alias edk="emacsclient -e '(kill-emacs)'"
+alias mg='mg -n'
+#+end_src
+
+**** Misc
+
+#+begin_src sh
+alias ping='ping -c 3 gnu.org'
+alias wttr='curl -s wttr.in'
+alias qttr='curl -s wttr.in/?0Q'
+alias which='command -v'
+alias free='free -h'
+alias mime='file -b --mime-type'
+alias xload="xrdb -load $HOME/.Xresources"
+#+end_src
+
+** Profile
+:properties:
+:header-args:sh: :tangle .bash_profile
+:end:
+
+*** Essentials
+
+#+begin_src sh
+export LANG=en_US.UTF-8
+export QT_QPA_PLATFORMTHEME=qt5ct
+export GDK_CORE_DEVICE_EVENTS=1
+#+end_src
+
+*** XDG
+
+#+begin_src sh
+#export XDG_CONFIG_HOME=$HOME/.config
+#export XDG_CACHE_HOME=$HOME/.cache
+#export XDG_DATA_HOME=$HOME/.guix-profile/share
+export XDG_DATA_HOME=$HOME/.local/share
+
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
+#+end_src
+
+*** Guix and PATH
+
+#+begin_src sh
+eval "$(guix package --search-paths \
+-p $HOME/.config/guix/current \
+-p $HOME/.guix-profile \
+-p /run/current-system/profile)"
+
+export PATH=/run/setuid-programs:$PATH
+export PATH="$HOME/.local/bin:$PATH"
+#+end_src
+
+*** Programs
+
+**** Pager
+
+#+begin_src sh
+export LESS='-FRJMWX'
+export LESSHISTFILE=/dev/null
+export LESS_TERMCAP_mb=$'\033[1;31m'
+export LESS_TERMCAP_md=$'\033[1;36m'
+export LESS_TERMCAP_me=$'\033[0m'
+export LESS_TERMCAP_so=$'\033[01;7;34m'
+export LESS_TERMCAP_se=$'\033[0m'
+export LESS_TERMCAP_us=$'\033[1;32m'
+export LESS_TERMCAP_ue=$'\033[0m'
+export PAGER=less
+export MANPAGER=less
+#+end_src
+
+**** Userland
+
+#+begin_src sh
+export VISUAL="emacsclient -c -a ''"
+export EDITOR="emacsclient -nw -a ''"
+export BROWSER=chromium
+export GPG_TTY=$(tty)
+#+end_src
+
+*** Start session
+
+#+begin_src sh
+eval "$(dircolors)"
+
+[ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
+[ "$(tty)" = "/dev/tty1" ] && sx
+#+end_src
+
+** Readline
+
+#+begin_src conf :tangle .inputrc
+# -*- mode: conf -*-
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set colored-stats on
+set mark-symlinked-directories on
+
+set editing-mode emacs
+set show-mode-in-prompt on
+set emacs-mode-string \1\e[3 q\2
+#+end_src
+
+* Themes
+
+Noweb reference
+
+#+begin_src conf :noweb-ref config-gtk :noweb yes
+gtk-theme-name="Materia-dark-compact"
+gtk-icon-theme-name="Adwaita-dark"
+gtk-font-name="<<definition-font-serif>>"
+gtk-cursor-theme-name="Adwaita"
+gtk-cursor-theme-size=0
+gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=0
+gtk-menu-images=0
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle="hintslight"
+gtk-xft-rgba="rgb"
+gtk-application-prefer-dark-theme=true
+gtk-key-theme-name=Emacs
+#+end_src
+
+GTK 2
+
+#+begin_src conf :tangle .config/gtk-2.0/settings.ini :noweb yes
+<<config-gtk>>
+#+end_src
+
+GTK 3
+
+#+begin_src conf :tangle .config/gtk-3.0/settings.ini :noweb yes
+[Settings]
+<<config-gtk>>
+#+end_src
+
+* Video player
+
+#+begin_src conf :tangle .config/mpv/mpv.conf
+ytdl-format=bestvideo[height<=?480]+bestaudio/best
+sub-auto=fuzzy
+ytdl-raw-options=ignore-config=,sub-format=en,write-sub=
+#+end_src
+
+* Xorg
+
+#+begin_src sh :tangle .config/sx/sxrc :tangle-mode (identity #o777)
+#!/bin/sh
+
+xhost +SI:localuser:$USER
+exec dbus-run-session -- stumpwm
+#+end_src
