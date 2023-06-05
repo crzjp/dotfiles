@@ -4,27 +4,27 @@
              (guix gexp)
              (gnu home services)
              (gnu home services xdg)
-             (gnu packages wm)
+             (gnu packages chromium)
+             (gnu packages curl)
+             (gnu packages dunst)
              (gnu packages emacs)
              (gnu packages emacs-xyz)
              (gnu packages fonts)
              (gnu packages fontutils)
-             (gnu packages version-control)
-             (gnu packages xdisorg)
-             (gnu packages curl)
-             (gnu packages dunst)
-             (gnu packages chromium)
              (gnu packages gnome)
              (gnu packages gnome-xyz)
-             (gnu packages text-editors)
-             (gnu packages mpd)
-             (gnu packages video)
-             (gnu packages ssh)
+             (gnu packages gnupg)
              (gnu packages lisp)
-             (gnu packages xorg)
+             (gnu packages mpd)
+             (gnu packages ssh)
              (gnu packages suckless)
              (gnu packages telegram)
-             (gnu packages gnupg))
+             (gnu packages text-editors)
+             (gnu packages version-control)
+             (gnu packages video)
+             (gnu packages xdisorg)
+             (gnu packages xorg)
+             (gnu packages wm))
 
 (home-environment
  (packages (list curl
@@ -53,18 +53,14 @@
                  openssh
                  pinentry-emacs
                  sbcl
-                 sbcl-stumpwm-ttf-fonts
-                 setxkbmap
                  slock
                  slop
                  stumpwm
-                 `(,stumpwm "lib")
                  sx
                  telegram-desktop
                  ungoogled-chromium
                  xclip
                  xhost
-                 xrdb
                  xset
                  xsetroot
                  youtube-dl))

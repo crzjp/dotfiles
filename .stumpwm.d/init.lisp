@@ -53,14 +53,11 @@
 (define-key *top-map* (kbd "s-a") '*apps*)
 
 (run-shell-command "numlockx on")
-;(run-shell-command "setxkbmap br abnt2")
 (run-shell-command "xset r rate 200 70")
 
 (run-shell-command "xsetroot -cursor_name left_ptr")
 (run-shell-command "xsetroot -mod 20 20 -bg '#000000' -fg '#101010'")
-(run-shell-command "xrdb -load $HOME/.Xresources")
 
-;(run-shell-command "pidof urxvtd || urxvtd -q -o -f")
 (run-shell-command "pidof emacs || emacs --daemon")
 
 (setf *window-format* "%n%s%25t")
@@ -172,16 +169,6 @@
       *float-window-border* 3
       *float-window-title-height* 3
       *window-border-style* :thin)
-
-(require :ttf-fonts)
-
-(setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
-
-(setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
-
-(xft:cache-fonts)
-
-(set-font (make-instance 'xft:font :family "Iosevka" :size 10))
 
 (setf *message-window-gravity* :center
       *input-window-gravity* :center

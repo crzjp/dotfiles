@@ -4,10 +4,9 @@ for dep in maim slop notify-send ; do
     [ $(command -v $dep) ] || { echo error: \"$dep\" not found && exit 1; }
 done
 
-dirdate="$(date +'%Y-%m-%d')"
-picdate="$(date +'%H:%M:%S')"
-dir="$HOME/media/pics/shots/$dirdate"
-pic="$dir/$picdate.png"
+date="$(date +'%Y-%m-%d_%H:%M:%S')"
+dir="$HOME/pictures/screenshots"
+pic="$dir/$ate.png"
 
 createdir(){ [ ! -d "$dir" ] && mkdir -pv "$dir" ;}
 screen(){ maim -u "$pic" ;}

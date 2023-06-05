@@ -5,7 +5,8 @@ export GDK_CORE_DEVICE_EVENTS=1
 #export XDG_CONFIG_HOME=$HOME/.config
 #export XDG_CACHE_HOME=$HOME/.cache
 #export XDG_DATA_HOME=$HOME/.guix-profile/share
-export XDG_DATA_HOME=$HOME/.local/share
+#export XDG_DATA_HOME=$HOME/.local/share
+export XDG_RUNTIME_DIR=/tmp/$(id -u)
 
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
 
@@ -16,6 +17,8 @@ eval "$(guix package --search-paths \
 
 export PATH=/run/setuid-programs:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+
+#source $HOME/.profile
 
 export LESS='-FRJMWX'
 export LESSHISTFILE=/dev/null

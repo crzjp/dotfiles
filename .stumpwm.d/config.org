@@ -1,4 +1,4 @@
-#+title: StumpWM config
+#+title: My StumpWM configuration
 #+property: header-args :tangle init.lisp
 
 * Prefix key
@@ -85,14 +85,11 @@
 
 #+begin_src lisp
 (run-shell-command "numlockx on")
-;(run-shell-command "setxkbmap br abnt2")
 (run-shell-command "xset r rate 200 70")
 
 (run-shell-command "xsetroot -cursor_name left_ptr")
 (run-shell-command "xsetroot -mod 20 20 -bg '#000000' -fg '#101010'")
-(run-shell-command "xrdb -load $HOME/.Xresources")
 
-;(run-shell-command "pidof urxvtd || urxvtd -q -o -f")
 (run-shell-command "pidof emacs || emacs --daemon")
 #+end_src
 
@@ -242,20 +239,6 @@
       ,*float-window-border* 3
       ,*float-window-title-height* 3
       ,*window-border-style* :thin)
-#+end_src
-
-** Font
-
-#+begin_src lisp
-(require :ttf-fonts)
-
-(setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
-
-(setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
-
-(xft:cache-fonts)
-
-(set-font (make-instance 'xft:font :family "Iosevka" :size 10))
 #+end_src
 
 ** Message window

@@ -12,6 +12,8 @@
 .config/gdb/
 .config/guix/current
 .config/pavucontrol.ini
+.config/fontconfig/
+.config/user-dirs.*
 
 .config/mpdasrc
 .config/mpd/*
