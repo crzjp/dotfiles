@@ -10,6 +10,7 @@
             (list "curl"
                   "dunst"
                   "emacs"
+                  "emacs-flymake-shellcheck"
                   "emacs-pdf-tools"
                   "emacs-vterm"
                   "font-awesome"

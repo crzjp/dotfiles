@@ -544,6 +544,16 @@
          ("README\\.md\\'" . gfm-mode)))
 #+end_src
 
+** Shell
+
+Requires =shellcheck= package.
+
+#+begin_src emacs-lisp
+(use-package flymake-shellcheck
+  :ensure nil
+  :hook (sh-mode . flymake-shellcheck-load))
+#+end_src
+
 * Magit
 
 #+begin_src emacs-lisp
