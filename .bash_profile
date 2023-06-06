@@ -1,18 +1,13 @@
 export LANG=en_US.UTF-8
-export QT_QPA_PLATFORMTHEME=qt5ct
 export GDK_CORE_DEVICE_EVENTS=1
 
-#export XDG_CONFIG_HOME=$HOME/.config
-#export XDG_CACHE_HOME=$HOME/.cache
-#export XDG_DATA_HOME=$HOME/.guix-profile/share
-#export XDG_DATA_HOME=$HOME/.local/share
 export XDG_RUNTIME_DIR=/tmp/$(id -u)
-
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/settings.ini"
+export GTK2_RC_FILES="$HOME/.config/gtk-2.0/settings.ini"
 
 eval "$(guix package --search-paths \
 -p $HOME/.config/guix/current \
 -p $HOME/.guix-profile \
+-p $HOME/.guix-home/profile \
 -p /run/current-system/profile)"
 
 export PATH=/run/setuid-programs:$PATH

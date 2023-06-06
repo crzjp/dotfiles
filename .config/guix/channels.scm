@@ -1,4 +1,8 @@
-(list (channel
+(use-modules (guix ci))
+
+(list (channel-with-substitutes-available
+       %default-guix-channel "https://ci.guix.gnu.org")
+      (channel
        (name 'guix)
        (url "https://git.savannah.gnu.org/git/guix.git")
        (introduction
