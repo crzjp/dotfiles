@@ -2,7 +2,7 @@
 
 pk="$(guix package --list-installed | wc -l)"
 #pk="${pk##*\ }"
-wm="$(awk '/exec/{print $NF}' $XDG_CONFIG_HOME/sx/sxrc)"
+wm="$(awk '/exec/{print $NF}' ~/.config/sx/sxrc)"
 cl="[33;1m"
 cr="[0m"
 

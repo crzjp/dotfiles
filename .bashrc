@@ -1,11 +1,11 @@
-source /etc/bashrc
+[ -f /etc/bashrc ] && source /etc/bashrc
 
 shopt -s histappend
 
-HISTCONTROL="ignoreboth:erasedups"
+HISTCONTROL=ignoreboth:erasedups
 HISTFILESIZE=10000
 HISTSIZE=$HISTFILESIZE
-HISTFILE="$XDG_CACHE_HOME/bash_history"
+HISTFILE=$HOME/.bash_history
 
 PS1="[\w] "
 

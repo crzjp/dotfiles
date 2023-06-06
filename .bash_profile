@@ -11,9 +11,9 @@ eval "$(guix package --search-paths \
 -p /run/current-system/profile)"
 
 export PATH=/run/setuid-programs:$PATH
-export PATH="$HOME/.local/bin:$PATH"
+export PATH=$HOME/.local/bin:$PATH
 
-#source $HOME/.profile
+[ -f ~/.profile ] && source ~/.profile
 
 export LESS='-FRJMWX'
 export LESSHISTFILE=/dev/null
@@ -27,12 +27,12 @@ export LESS_TERMCAP_ue=$'\033[0m'
 export PAGER=less
 export MANPAGER=less
 
-export VISUAL="emacsclient -c -a ''"
-export EDITOR="emacsclient -nw -a ''"
+export VISUAL=emacsclient
+export EDITOR=emacsclient
 export BROWSER=chromium
 export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 
-[ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
+[ -f ~/.bashrc ] && source ~/.bashrc
 [ "$(tty)" = "/dev/tty1" ] && sx

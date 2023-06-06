@@ -8,7 +8,7 @@
 ** Source system-wide file
 
 #+begin_src sh
-source /etc/bashrc
+[ -f /etc/bashrc ] && source /etc/bashrc
 #+end_src
 
 ** History
@@ -16,10 +16,10 @@ source /etc/bashrc
 #+begin_src sh
 shopt -s histappend
 
-HISTCONTROL="ignoreboth:erasedups"
+HISTCONTROL=ignoreboth:erasedups
 HISTFILESIZE=10000
 HISTSIZE=$HISTFILESIZE
-HISTFILE="$XDG_CACHE_HOME/bash_history"
+HISTFILE=$HOME/.bash_history
 #+end_src
 
 ** Prompt
@@ -131,9 +131,9 @@ eval "$(guix package --search-paths \
 -p /run/current-system/profile)"
 
 export PATH=/run/setuid-programs:$PATH
-export PATH="$HOME/.local/bin:$PATH"
+export PATH=$HOME/.local/bin:$PATH
 
-#source $HOME/.profile
+[ -f ~/.profile ] && source ~/.profile
 #+end_src
 
 ** Programs
@@ -157,8 +157,8 @@ export MANPAGER=less
 *** Userland
 
 #+begin_src sh
-export VISUAL="emacsclient -c -a ''"
-export EDITOR="emacsclient -nw -a ''"
+export VISUAL=emacsclient
+export EDITOR=emacsclient
 export BROWSER=chromium
 export GPG_TTY=$(tty)
 #+end_src
@@ -168,7 +168,7 @@ export GPG_TTY=$(tty)
 #+begin_src sh
 eval "$(dircolors)"
 
-[ -f "$HOME/.bashrc" ] && source $HOME/.bashrc
+[ -f ~/.bashrc ] && source ~/.bashrc
 [ "$(tty)" = "/dev/tty1" ] && sx
 #+end_src
 
