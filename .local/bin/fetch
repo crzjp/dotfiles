@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
-pk="$(guix package --list-installed | wc -l)"
-#pk="${pk##*\ }"
+pk="$(guix package -I | wc -l)"
 wm="$(awk '/exec/{print $NF}' ~/.config/sx/sxrc)"
 cl="[33;1m"
 cr="[0m"
@@ -14,6 +13,10 @@ case "$INSIDE_EMACS" in
     *vterm*)
         sh="${SHELL##*/}"
         tm="vterm"
+        ;;
+    *comint*)
+        sh="${SHELL##*/}"
+        tm="emacs"
         ;;
     *)
         sh="${SHELL##*/}"
