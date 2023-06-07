@@ -8,8 +8,10 @@
 
 (package-initialize)
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
   (package-install 'use-package))
 
 (eval-and-compile
@@ -298,13 +300,14 @@
   :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
 
-(use-package magit
-  :bind ("C-c g" . magit-status))
-
 (use-package pinentry
   :after magit
   :config
-  (setq epg-pinentry-mode 'loopback)
+  (setq epg-pinentry-mode 'loopback))
+
+(use-package magit
+  :bind ("C-c g" . magit-status)
+  :config
   (pinentry-start))
 
 ;(use-package esxml)
