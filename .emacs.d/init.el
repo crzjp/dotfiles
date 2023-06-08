@@ -387,11 +387,6 @@
   (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
   (add-to-list 'org-structure-template-alist '("sh" . "src sh")))
 
-(use-package org-superstar
-  :hook (org-mode . org-superstar-mode)
-  :config
-  (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
-
 (use-package org
   :ensure nil
   :hook (org-mode . visual-line-mode)
@@ -402,6 +397,8 @@
         org-startup-folded t
         org-hide-emphasis-markers t
         org-ellipsis " ▾"))
+
+(use-package org-modern)
 
 (use-package proced
   :ensure nil

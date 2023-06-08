@@ -685,17 +685,6 @@ Requires =shellcheck= package.
 
 ** Visual
 
-*** Asteriscs
-
-#+begin_src emacs-lisp
-(use-package org-superstar
-  :hook (org-mode . org-superstar-mode)
-  :config
-  (setq org-superstar-headline-bullets-list '(9673 9675 10040)))
-#+end_src
-
-*** Defaults
-
 #+begin_src emacs-lisp
 (use-package org
   :ensure nil
@@ -707,6 +696,8 @@ Requires =shellcheck= package.
         org-startup-folded t
         org-hide-emphasis-markers t
         org-ellipsis " ▾"))
+
+(use-package org-modern)
 #+end_src
 
 * Proced
