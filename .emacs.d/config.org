@@ -97,8 +97,8 @@
 
 #+begin_src emacs-lisp
 (use-package auto-package-update
-  :config
-  (setq auto-package-update-delete-old-versions t))
+  :custom
+  (auto-package-update-delete-old-versions t))
 #+end_src
 
 * Sane defaults
@@ -206,8 +206,8 @@
 #+begin_src emacs-lisp
 (use-package help
   :ensure nil
-  :config
-  (setq help-window-select t))
+  :custom
+  (help-window-select t))
 #+end_src
 
 ** Man pages
@@ -215,8 +215,8 @@
 #+begin_src emacs-lisp
 (use-package woman
   :ensure nil
-  :config
-  (setq woman-fill-frame t))
+  :custom
+  (woman-fill-frame t))
 #+end_src
 
 ** Pager environment variable
@@ -278,14 +278,14 @@
 (use-package corfu
   :defer 1
   :bind (:map corfu-map
-         ("M-m" . corfu-move-to-minibuffer))
+         ("M-m" . (lambda ()
+                    (interactive)
+                    (let ((completion-extra-properties corfu--extra)
+                          completion-cycle-threshold completion-cycling)
+                      (apply #'consult-completion-in-region completion-in-region--data)))))
+  :custom
+  (corfu-preview-current nil)
   :config
-  (defun corfu-move-to-minibuffer ()
-    (interactive)
-    (let ((completion-extra-properties corfu--extra)
-          completion-cycle-threshold completion-cycling)
-      (apply #'consult-completion-in-region completion-in-region--data)))
-  (setq corfu-preview-current nil)
   (global-corfu-mode 1))
 #+end_src
 
@@ -296,19 +296,29 @@
 #+begin_src emacs-lisp
 (use-package consult
   :after vertico
+  :demand nil
   :bind (("C-c r" . consult-recent-file)
          :map minibuffer-mode-map
          ("C-r" . consult-history))
   :config
   (consult-customize consult-recent-file :preview-key nil)
   (consult-customize consult-org-heading :preview-key nil)
-  :init
   (setq-default completion-in-region-function
-        (lambda (&rest args)
-          (apply (if vertico-mode
-                     'consult-completion-in-region
-                   'completion--in-region)
-                 args))))
+                (lambda (&rest args)
+                  (apply (if vertico-mode
+                             'consult-completion-in-region
+                           'completion--in-region)
+                         args))))
+#+end_src
+
+*** Anotations
+
+#+begin_src emacs-lisp
+(use-package marginalia
+  :after vertico
+  :demand nil
+  :config
+  (marginalia-mode 1))
 #+end_src
 
 *** Completion style
@@ -316,10 +326,9 @@
 #+begin_src emacs-lisp
 (use-package orderless
   :after vertico
-  :demand nil
-  :config
-  (setq completion-styles '(orderless)
-        orderless-matching-styles '(orderless-initialism orderless-flex)))
+  :custom
+  (completion-styles '(orderless))
+  (orderless-matching-styles '(orderless-initialism orderless-flex)))
 #+end_src
 
 *** Completion UI
@@ -333,6 +342,26 @@
   (vertico-mode 1))
 #+end_src
 
+Disabled fido config to a (probably) future more polished version.
+
+#+begin_src emacs-lisp :tangle no
+(setq completion-styles '(initials flex))
+
+(use-package icomplete
+  :ensure nil
+  :defer 1
+  :bind (:map icomplete-fido-mode-map
+         ("<tab>" . icomplete-force-complete)
+         ("RET" . icomplete-force-complete-and-exit))
+  :hook (icomplete-minibuffer-setup
+         . (lambda ()
+             (setq-local truncate-lines t
+                         completion-styles '(initials flex))))
+  :custom-face (icomplete-selected-match ((t (:extend t))))
+  :config
+  (fido-vertical-mode 1))
+#+end_src
+  
 *** Hide some commands
 
 #+begin_src emacs-lisp
@@ -359,59 +388,58 @@
 * Dired
 
 #+begin_src emacs-lisp
-(use-package diredfl)
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
 
 (use-package dired
   :ensure nil
   :bind (("C-x C-d" . dired-jump)
          :map dired-mode-map
          ("f" . dired-create-empty-file))
-  :config
-  (setq dired-listing-switches "-agGh --group-directories-first"
-        dired-kill-when-opening-new-dired-buffer t)
-  (diredfl-global-mode))
+  :custom
+  (dired-listing-switches "-agGh --group-directories-first")
+  (dired-kill-when-opening-new-dired-buffer t))
 #+end_src
 
 * DWIM shell commands
 
 ** Defaults
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb yes
 (use-package dwim-shell-command
   :defer 2
   :bind (([remap shell-command] . dwim-shell-command)
          ("C-c k" . dwim-shell-commands-kill-process)
          :map dired-mode-map
          ("!" . dwim-shell-command))
+  :custom
+  (dwim-shell-command-default-command nil)
   :config
-  (setq dwim-shell-command-default-command nil)
+  <<dwim-shell-commands-flac-to-mp3>>
+  <<dwim-shell-commands-wallpaper-set-fill>>
   (require 'dwim-shell-commands))
 #+end_src
 
 ** Convert flac file(s) to mp3
 
-#+begin_src emacs-lisp
-(use-package dwim-shell-command
-  :config
-  (defun dwim-shell-commands-flac-to-mp3 ()
-    (interactive)
-    (dwim-shell-command-on-marked-files
-     "Convert flac to mp3"
-     "ffmpeg -stats -n -i '<<f>>' -ab 320k -map_metadata 0 -id3v2_version 3 '<<fne>>.mp3'"
-     :utils "ffmpeg")))
+#+begin_src emacs-lisp :tangle no :noweb-ref dwim-shell-commands-flac-to-mp3
+(defun dwim-shell-commands-flac-to-mp3 ()
+  (interactive)
+  (dwim-shell-command-on-marked-files
+   "Convert flac to mp3"
+   "ffmpeg -stats -n -i '<<f>>' -ab 320k -map_metadata 0 -id3v2_version 3 '<<fne>>.mp3'"
+   :utils "ffmpeg"))
 #+end_src
 
 ** Set wallpaper
 
-#+begin_src emacs-lisp
-(use-package dwim-shell-command
-  :config
-  (defun dwim-shell-commands-wallpaper-set-fill ()
-    (interactive)
-    (dwim-shell-command-on-marked-files
-     "Set wallpaper with fill parameter"
-     "hsetroot -fill '<<f>>'"
-     :utils "hsetroot")))
+#+begin_src emacs-lisp :tangle no :noweb-ref dwim-shell-commands-wallpaper-set-fill
+(defun dwim-shell-commands-wallpaper-set-fill ()
+  (interactive)
+  (dwim-shell-command-on-marked-files
+   "Set wallpaper with fill parameter"
+   "hsetroot -fill '<<f>>'"
+   :utils "hsetroot"))
 #+end_src
 
 * Ibuffer
@@ -421,20 +449,21 @@
 #+begin_src emacs-lisp
 (use-package ibuffer
   :ensure nil
-  :bind ([remap list-buffers] . ibuffer)
+  :bind (([remap list-buffers] . ibuffer)
+         ("C-c b" . ibuffer))
   :hook (ibuffer-mode . ibuffer-auto-mode)
-  :config
-  (setq ibuffer-formats
-        '((mark modified read-only locked " "
-                (name 20 20 :left :elide)
-                " "
-                (size-h 11 -1 :right)
-                " "
-                (mode 16 16 :left :elide)
-                " " filename-and-process)
-          (mark " "
-                (name 16 -1)
-                " " filename))))
+  :custom
+  (ibuffer-formats
+   '((mark modified read-only locked " "
+           (name 20 20 :left :elide)
+           " "
+           (size-h 11 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark " "
+           (name 16 -1)
+           " " filename))))
 #+end_src
 
 ** Groups
@@ -443,40 +472,40 @@
 (use-package ibuffer
   :ensure nil
   :hook (ibuffer-mode . (lambda () (ibuffer-switch-to-saved-filter-groups "Default")))
-  :config
-  (setq ibuffer-saved-filter-groups
-        '(("Default"
-           ("Modified" (and (modified . t)
-                            (visiting-file . t)))
-           ("Term" (or (mode . vterm-mode)
-                       (mode . eshell-mode)
-                       (mode . term-mode)
-                       (mode . shell-mode)))
-           ("Debug" (mode . debugger-mode))
-           ("Agenda" (filename . "agenda.org"))
-           ("Org" (mode . org-mode))
-           ("Magit" (name . "magit.*"))
-           ("Book" (or (mode . pdf-view-mode)
-                       (mode . nov-mode)))
-           ("Dired" (mode . dired-mode))
-           ("Chat" (mode . erc-mode))
-           ("Help" (or (name . "\*Help\*")
-                       (name . "\*Apropos\*")
-                       (name . "\*info\*")
-                       (mode . help-mode)
-                       (mode . woman-mode)
-                       (mode . Man-mode)
-                       (mode . Custom-mode)))
-           ("Image" (mode . image-mode))
-           ("Music" (or (mode . mingus-help-mode)
-                        (mode . mingus-playlist-mode)
-                        (mode . mingus-browse-mode)))
-           ("Torrent" (or (mode . transmission-mode)
-                          (mode . transmission-files-mode)))
-           ("Games" (mode . gomoku-mode))
-           ("Internal" (name . "^\*.*$"))
-           ("Misc" (name . "^.*$"))))
-        ibuffer-show-empty-filter-groups nil))
+  :custom
+  (ibuffer-saved-filter-groups
+   '(("Default"
+      ("Modified" (and (modified . t)
+                       (visiting-file . t)))
+      ("Term" (or (mode . vterm-mode)
+                  (mode . eshell-mode)
+                  (mode . term-mode)
+                  (mode . shell-mode)))
+      ("Debug" (mode . debugger-mode))
+      ("Agenda" (filename . "agenda.org"))
+      ("Org" (mode . org-mode))
+      ("Magit" (name . "magit.*"))
+      ("Book" (or (mode . pdf-view-mode)
+                  (mode . nov-mode)))
+      ("Dired" (mode . dired-mode))
+      ("Chat" (mode . erc-mode))
+      ("Help" (or (name . "\*Help\*")
+                  (name . "\*Apropos\*")
+                  (name . "\*info\*")
+                  (mode . help-mode)
+                  (mode . woman-mode)
+                  (mode . Man-mode)
+                  (mode . Custom-mode)))
+      ("Image" (mode . image-mode))
+      ("Music" (or (mode . mingus-help-mode)
+                   (mode . mingus-playlist-mode)
+                   (mode . mingus-browse-mode)))
+      ("Torrent" (or (mode . transmission-mode)
+                     (mode . transmission-files-mode)))
+      ("Games" (mode . gomoku-mode))
+      ("Internal" (name . "^\*.*$"))
+      ("Misc" (name . "^.*$")))))
+  (ibuffer-show-empty-filter-groups nil))
 #+end_src
 
 ** Human readable size column
@@ -528,8 +557,8 @@
 
 #+begin_src emacs-lisp
 (use-package sly
-  :config
-  (setq inferior-lisp-program (executable-find "sbcl")))
+  :custom
+  (inferior-lisp-program (executable-find "sbcl")))
 #+end_src
 
 ** LSP
@@ -561,8 +590,8 @@ Requires =shellcheck= package.
 #+begin_src emacs-lisp
 (use-package pinentry
   :after magit
-  :config
-  (setq epg-pinentry-mode 'loopback))
+  :custom
+  (epg-pinentry-mode 'loopback))
 
 (use-package magit
   :bind ("C-c g" . magit-status)
@@ -588,14 +617,15 @@ Requires =shellcheck= package.
 
 (use-package erc
   :ensure nil
+  :custom
+  (erc-accidental-paste-threshold-seconds nil)
+  (erc-nick "crzjp")
+  (erc-fill-column (- (window-width) 1))
+  (erc-fill-function 'erc-fill-static)
+  (erc-fill-static-center 20)
+  (erc-image-inline-rescale 200)
+  (erc-prompt (lambda () (concat "[" (buffer-name) "]")))
   :config
-  (setq erc-accidental-paste-threshold-seconds nil
-        erc-nick "crzjp"
-        erc-fill-column (- (window-width) 1)
-        erc-fill-function 'erc-fill-static
-        erc-fill-static-center 20
-        erc-image-inline-rescale 200
-        erc-prompt (lambda () (concat "[" (buffer-name) "]")))
   (add-to-list 'erc-modules 'autojoin)
   (add-to-list 'erc-modules 'notifications)
   (add-to-list 'erc-modules 'hl-nicks))
@@ -605,10 +635,10 @@ Requires =shellcheck= package.
 
 #+begin_src emacs-lisp
 (use-package mingus
-  :config
-  (setq mingus-use-mouse-p nil
-        mingus-mode-line-show-elapsed-time nil
-        mingus-mode-line-show-volume nil))
+  :custom
+  (mingus-use-mouse-p nil)
+  (mingus-mode-line-show-elapsed-time nil)
+  (mingus-mode-line-show-volume nil))
 #+end_src
 
 ** PDF
@@ -618,9 +648,10 @@ Requires =shellcheck= package.
   :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
-  :config
-  (setq pdf-view-continuous nil)
-  (pdf-loader-install))
+  :custom
+  (pdf-view-continuous nil))
+  ;:config
+  ;(pdf-loader-install))
 
 (use-package pdf-view-restore
   :hook (pdf-view-mode . pdf-view-restore-mode))
@@ -630,12 +661,12 @@ Requires =shellcheck= package.
 
 #+begin_src emacs-lisp
 (use-package transmission
-  :config
-  (setq transmission-refresh-modes
-        '(transmission-mode
-          transmission-files-mode
-          transmission-info-mode
-          transmission-peers-mode)))
+  :custom
+  (transmission-refresh-modes
+   '(transmission-mode
+     transmission-files-mode
+     transmission-info-mode
+     transmission-peers-mode)))
 #+end_src
 
 * Org
@@ -646,11 +677,11 @@ Requires =shellcheck= package.
 (use-package org
   :ensure nil
   :bind ("C-c a" . org-agenda)
-  :config
-  (setq org-agenda-start-with-log-mode t
-        org-log-done 'time
-        org-log-into-drawer t
-        org-agenda-files '("~/media/docs/notas/agenda.org")))
+  :custom
+  (org-agenda-start-with-log-mode t)
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+  (org-agenda-files '("~/media/docs/notas/agenda.org")))
 #+end_src
 
 ** Defaults
@@ -661,9 +692,10 @@ Requires =shellcheck= package.
   :mode ("\\.org$" . org-mode)
   :bind (:map org-mode-map
          ("C-c o" . consult-org-heading))
+  :custom
+  (org-files-directory "~/media/docs/org")
+  (org-return-follows-link t)
   :config
-  (setq org-files-directory "~/media/docs/org"
-        org-return-follows-link t)
   (add-to-list 'org-export-backends 'md))
 #+end_src
 
@@ -672,10 +704,11 @@ Requires =shellcheck= package.
 #+begin_src emacs-lisp
 (use-package org
   :ensure nil
+  :custom
+  (org-src-window-setup 'current-window)
+  (org-src-preserve-indentation t)
+  (org-edit-src-content-indentation 0)
   :config
-  (setq org-src-window-setup 'current-window
-        org-src-preserve-indentation t
-        org-edit-src-content-indentation 0)
   (add-to-list 'org-modules 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("li" . "src lisp"))
@@ -689,13 +722,13 @@ Requires =shellcheck= package.
 (use-package org
   :ensure nil
   :hook (org-mode . visual-line-mode)
-  :config
-  (setq org-startup-indented t
-        org-startup-with-inline-images t
-        org-image-actual-width '(600)
-        org-startup-folded t
-        org-hide-emphasis-markers t
-        org-ellipsis " ▾"))
+  :custom
+  (org-startup-indented t)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(600))
+  (org-startup-folded t)
+  (org-hide-emphasis-markers t)
+  (org-ellipsis "…"))
 
 (use-package org-modern)
 #+end_src
@@ -707,8 +740,8 @@ Requires =shellcheck= package.
   :ensure nil
   :bind ("C-c p" . proced)
   :hook (proced-mode . (lambda () (proced-toggle-auto-update 1)))
-  :config
-  (setq proced-auto-update-interval 2))
+  :custom
+  (proced-auto-update-interval 2))
 #+end_src
 
 * Shells
@@ -722,8 +755,9 @@ Requires =shellcheck= package.
 #+begin_src emacs-lisp
 (use-package em-alias
   :ensure nil
+  :custom
+  (eshell-aliases-file "~/.emacs.d/eshell-aliases")
   :config
-  (setq eshell-aliases-file "~/.emacs.d/eshell-aliases")
   (eshell-read-aliases-list))
 #+end_src
 
@@ -800,10 +834,11 @@ alias xload xrdb -load $HOME/.Xresources
                       (eshell/clear t)
                       (eshell-emit-prompt)
                       (insert input)))))
+  :custom
+  (eshell-buffer-maximum-lines 1000)
+  (eshell-scroll-to-bottom-on-input t)
+  (eshell-destroy-buffer-when-process-dies t)
   :config
-  (setq eshell-buffer-maximum-lines 1000
-        eshell-scroll-to-bottom-on-input t
-        eshell-destroy-buffer-when-process-dies t)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer))
 #+end_src
 
@@ -815,9 +850,9 @@ alias xload xrdb -load $HOME/.Xresources
   :bind (:map eshell-mode-map
          ("C-r" . consult-history))
   :hook (eshell-pre-command . eshell-save-some-history)
-  :config
-  (setq eshell-history-size 1000
-        eshell-hist-ignoredups t))
+  :custom
+  (eshell-history-size 1000)
+  (eshell-hist-ignoredups t))
 #+end_src
 
 *** Prompt
@@ -828,12 +863,22 @@ alias xload xrdb -load $HOME/.Xresources
   :bind (:map eshell-mode-map
          ("C-c s" . consult-outline))
   :hook (eshell-mode . (lambda () (setq-local outline-regexp eshell-prompt-regexp)))
-  :config
-  (setq eshell-prompt-regexp "^[^$\n]*\\\$ "
-        eshell-prompt-function (lambda ()
-                                 (concat
-                                  "[" (abbreviate-file-name (eshell/pwd)) "]"
-                                  (propertize "$" 'invisible t) " "))))
+  :custom
+  (eshell-prompt-regexp "^[^$\n]*\\\$ ")
+  (eshell-prompt-function (lambda ()
+                            (concat
+                             "[" (abbreviate-file-name (eshell/pwd)) "]"
+                             (propertize "$" 'invisible t) " "))))
+#+end_src
+
+** Shell
+
+#+begin_src emacs-lisp
+(use-package comint
+  :ensure nil
+  :bind ("C-c s" . shell)
+  :custom
+  (comint-prompt-read-only t))
 #+end_src
 
 ** Vterm
@@ -844,9 +889,9 @@ alias xload xrdb -load $HOME/.Xresources
   :bind (("C-c t" . vterm)
          :map vterm-mode-map
          ("C-q" . vterm-send-next-key))
-  :config
-  (setq vterm-kill-buffer-on-exit t
-        vterm-clear-scrollback-when-clearing t))
+  :custom
+  (vterm-kill-buffer-on-exit t)
+  (vterm-clear-scrollback-when-clearing t))
 #+end_src
 
 * Visual
@@ -882,9 +927,10 @@ alias xload xrdb -load $HOME/.Xresources
 (use-package time
   :ensure nil
   :defer 2
+  :custom
+  (display-time-default-load-average nil)
+  (display-time-24hr-format t)
   :config
-  (setq display-time-default-load-average nil
-        display-time-24hr-format t)
   (display-time-mode 1))
 #+end_src
 
@@ -924,14 +970,14 @@ alias xload xrdb -load $HOME/.Xresources
   :ensure nil
   :bind (("C-<tab>" . tab-recent)
          ("C-x t b" . tab-switch))
-  :config
-  (setq tab-bar-new-button nil
-        tab-bar-close-button nil
-        tab-bar-back-button nil
-        tab-bar-border nil
-        tab-bar-tab-name-function 'tab-bar-tab-name-truncated
-        tab-bar-tab-name-truncated-max 15
-        tab-bar-show 1))
+  :custom
+  (tab-bar-new-button nil)
+  (tab-bar-close-button nil)
+  (tab-bar-back-button nil)
+  (tab-bar-border nil)
+  (tab-bar-tab-name-function 'tab-bar-tab-name-truncated)
+  (tab-bar-tab-name-truncated-max 15)
+  (tab-bar-show 1))
 #+end_src
 
 ** Theme
@@ -953,9 +999,9 @@ alias xload xrdb -load $HOME/.Xresources
 #+begin_src emacs-lisp
 (use-package ace-window
   :bind ("M-o" . ace-window)
-  :config
-  (setq aw-scope 'frame
-        aw-ignore-current t))
+  :custom
+  (aw-scope 'frame)
+  (aw-ignore-current t))
 #+end_src
 
 ** Popup
@@ -966,12 +1012,13 @@ alias xload xrdb -load $HOME/.Xresources
   :bind (("M-'" . popper-toggle-latest)
          ("C-'" . popper-cycle)
          ("C-M-'" . popper-toggle-type))
+  :custom
+  (popper-window-height 17)
+  (popper-reference-buffers '("\\*Async Shell Command\\*"
+                              "\\*DWIM shell command\\* done"
+                              grep-mode
+                              debugger-mode))
   :config
-  (setq popper-window-height 17
-        popper-reference-buffers '("\\*Async Shell Command\\*"
-                                   "\\*DWIM shell command\\* done"
-                                   grep-mode
-                                   debugger-mode))
   (popper-mode 1)
   (popper-echo-mode 1))
 #+end_src
@@ -985,11 +1032,12 @@ alias xload xrdb -load $HOME/.Xresources
 
 (use-package compile
   :ensure nil
+  :custom
+  (compilation-environment '("TERM=xterm-256color"))
   :config
   (defun crz/advice-compilation-filter (f proc string)
     (funcall f proc (xterm-color-filter string)))
-  (advice-add 'compilation-filter :around #'crz/advice-compilation-filter)
-  (setq compilation-environment '("TERM=xterm-256color")))
+  (advice-add 'compilation-filter :around #'crz/advice-compilation-filter))
 #+end_src
 
 ** Eshell
@@ -997,12 +1045,11 @@ alias xload xrdb -load $HOME/.Xresources
 #+begin_src emacs-lisp
 (use-package esh-mode
   :ensure nil
+  :hook (eshell-before-prompt . (lambda () (setq xterm-color-preserve-properties t)))
+  :custom
+  (xterm-color-use-bold-for-bright t)
   :config
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
-  (add-hook 'eshell-before-prompt-hook
-            (lambda ()
-              (setq xterm-color-preserve-properties t)))
-  (setq xterm-color-use-bold-for-bright t)
   (setenv "TERM" "xterm-256color"))
 #+end_src

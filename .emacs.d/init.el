@@ -20,8 +20,8 @@
         use-package-expand-minimally t))
 
 (use-package auto-package-update
-  :config
-  (setq auto-package-update-delete-old-versions t))
+  :custom
+  (auto-package-update-delete-old-versions t))
 
 (global-set-key (kbd "M-&") 'with-editor-async-shell-command)
 
@@ -69,13 +69,13 @@
 
 (use-package help
   :ensure nil
-  :config
-  (setq help-window-select t))
+  :custom
+  (help-window-select t))
 
 (use-package woman
   :ensure nil
-  :config
-  (setq woman-fill-frame t))
+  :custom
+  (woman-fill-frame t))
 
 (setenv "PAGER" "cat")
 (setenv "MANPAGER" "cat")
@@ -101,38 +101,43 @@
 (use-package corfu
   :defer 1
   :bind (:map corfu-map
-         ("M-m" . corfu-move-to-minibuffer))
+         ("M-m" . (lambda ()
+                    (interactive)
+                    (let ((completion-extra-properties corfu--extra)
+                          completion-cycle-threshold completion-cycling)
+                      (apply #'consult-completion-in-region completion-in-region--data)))))
+  :custom
+  (corfu-preview-current nil)
   :config
-  (defun corfu-move-to-minibuffer ()
-    (interactive)
-    (let ((completion-extra-properties corfu--extra)
-          completion-cycle-threshold completion-cycling)
-      (apply #'consult-completion-in-region completion-in-region--data)))
-  (setq corfu-preview-current nil)
   (global-corfu-mode 1))
 
 (use-package consult
   :after vertico
+  :demand nil
   :bind (("C-c r" . consult-recent-file)
          :map minibuffer-mode-map
          ("C-r" . consult-history))
   :config
   (consult-customize consult-recent-file :preview-key nil)
   (consult-customize consult-org-heading :preview-key nil)
-  :init
   (setq-default completion-in-region-function
-        (lambda (&rest args)
-          (apply (if vertico-mode
-                     'consult-completion-in-region
-                   'completion--in-region)
-                 args))))
+                (lambda (&rest args)
+                  (apply (if vertico-mode
+                             'consult-completion-in-region
+                           'completion--in-region)
+                         args))))
 
-(use-package orderless
+(use-package marginalia
   :after vertico
   :demand nil
   :config
-  (setq completion-styles '(orderless)
-        orderless-matching-styles '(orderless-initialism orderless-flex)))
+  (marginalia-mode 1))
+
+(use-package orderless
+  :after vertico
+  :custom
+  (completion-styles '(orderless))
+  (orderless-matching-styles '(orderless-initialism orderless-flex)))
 
 (use-package vertico
   :defer 1
@@ -152,17 +157,17 @@
 
 (minibuffer-depth-indicate-mode 1)
 
-(use-package diredfl)
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
 
 (use-package dired
   :ensure nil
   :bind (("C-x C-d" . dired-jump)
          :map dired-mode-map
          ("f" . dired-create-empty-file))
-  :config
-  (setq dired-listing-switches "-agGh --group-directories-first"
-        dired-kill-when-opening-new-dired-buffer t)
-  (diredfl-global-mode))
+  :custom
+  (dired-listing-switches "-agGh --group-directories-first")
+  (dired-kill-when-opening-new-dired-buffer t))
 
 (use-package dwim-shell-command
   :defer 2
@@ -170,82 +175,78 @@
          ("C-c k" . dwim-shell-commands-kill-process)
          :map dired-mode-map
          ("!" . dwim-shell-command))
-  :config
-  (setq dwim-shell-command-default-command nil)
-  (require 'dwim-shell-commands))
-
-(use-package dwim-shell-command
+  :custom
+  (dwim-shell-command-default-command nil)
   :config
   (defun dwim-shell-commands-flac-to-mp3 ()
     (interactive)
     (dwim-shell-command-on-marked-files
      "Convert flac to mp3"
      "ffmpeg -stats -n -i '<<f>>' -ab 320k -map_metadata 0 -id3v2_version 3 '<<fne>>.mp3'"
-     :utils "ffmpeg")))
-
-(use-package dwim-shell-command
-  :config
+     :utils "ffmpeg"))
   (defun dwim-shell-commands-wallpaper-set-fill ()
     (interactive)
     (dwim-shell-command-on-marked-files
      "Set wallpaper with fill parameter"
      "hsetroot -fill '<<f>>'"
-     :utils "hsetroot")))
+     :utils "hsetroot"))
+  (require 'dwim-shell-commands))
 
 (use-package ibuffer
   :ensure nil
-  :bind ([remap list-buffers] . ibuffer)
+  :bind (([remap list-buffers] . ibuffer)
+         ("C-c b" . ibuffer))
   :hook (ibuffer-mode . ibuffer-auto-mode)
-  :config
-  (setq ibuffer-formats
-        '((mark modified read-only locked " "
-                (name 20 20 :left :elide)
-                " "
-                (size-h 11 -1 :right)
-                " "
-                (mode 16 16 :left :elide)
-                " " filename-and-process)
-          (mark " "
-                (name 16 -1)
-                " " filename))))
+  :custom
+  (ibuffer-formats
+   '((mark modified read-only locked " "
+           (name 20 20 :left :elide)
+           " "
+           (size-h 11 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark " "
+           (name 16 -1)
+           " " filename))))
 
 (use-package ibuffer
   :ensure nil
   :hook (ibuffer-mode . (lambda () (ibuffer-switch-to-saved-filter-groups "Default")))
-  :config
-  (setq ibuffer-saved-filter-groups
-        '(("Default"
-           ("Modified" (and (modified . t)
-                            (visiting-file . t)))
-           ("Term" (or (mode . vterm-mode)
-                       (mode . eshell-mode)
-                       (mode . term-mode)
-                       (mode . shell-mode)))
-           ("Debug" (mode . debugger-mode))
-           ("Agenda" (filename . "agenda.org"))
-           ("Org" (mode . org-mode))
-           ("Magit" (name . "magit.*"))
-           ("Book" (or (mode . pdf-view-mode)
-                       (mode . nov-mode)))
-           ("Dired" (mode . dired-mode))
-           ("Chat" (mode . erc-mode))
-           ("Help" (or (name . "\*Help\*")
-                       (name . "\*Apropos\*")
-                       (name . "\*info\*")
-                       (mode . help-mode)
-                       (mode . woman-mode)
-                       (mode . Man-mode)
-                       (mode . Custom-mode)))
-           ("Image" (mode . image-mode))
-           ("Music" (or (mode . mingus-help-mode)
-                        (mode . mingus-playlist-mode)
-                        (mode . mingus-browse-mode)))
-           ("Torrent" (or (mode . transmission-mode)
-                          (mode . transmission-files-mode)))
-           ("Games" (mode . gomoku-mode))
-           ("Internal" (name . "^\*.*$"))
-           ("Misc" (name . "^.*$"))))
-        ibuffer-show-empty-filter-groups nil))
+  :custom
+  (ibuffer-saved-filter-groups
+   '(("Default"
+      ("Modified" (and (modified . t)
+                       (visiting-file . t)))
+      ("Term" (or (mode . vterm-mode)
+                  (mode . eshell-mode)
+                  (mode . term-mode)
+                  (mode . shell-mode)))
+      ("Debug" (mode . debugger-mode))
+      ("Agenda" (filename . "agenda.org"))
+      ("Org" (mode . org-mode))
+      ("Magit" (name . "magit.*"))
+      ("Book" (or (mode . pdf-view-mode)
+                  (mode . nov-mode)))
+      ("Dired" (mode . dired-mode))
+      ("Chat" (mode . erc-mode))
+      ("Help" (or (name . "\*Help\*")
+                  (name . "\*Apropos\*")
+                  (name . "\*info\*")
+                  (mode . help-mode)
+                  (mode . woman-mode)
+                  (mode . Man-mode)
+                  (mode . Custom-mode)))
+      ("Image" (mode . image-mode))
+      ("Music" (or (mode . mingus-help-mode)
+                   (mode . mingus-playlist-mode)
+                   (mode . mingus-browse-mode)))
+      ("Torrent" (or (mode . transmission-mode)
+                     (mode . transmission-files-mode)))
+      ("Games" (mode . gomoku-mode))
+      ("Internal" (name . "^\*.*$"))
+      ("Misc" (name . "^.*$")))))
+  (ibuffer-show-empty-filter-groups nil))
 
 (use-package ibuffer
   :ensure nil
@@ -287,8 +288,8 @@
     (crz/bytes-to-human-readable-file-sizes (buffer-size))))
 
 (use-package sly
-  :config
-  (setq inferior-lisp-program (executable-find "sbcl")))
+  :custom
+  (inferior-lisp-program (executable-find "sbcl")))
 
 (use-package eglot)
 
@@ -302,8 +303,8 @@
 
 (use-package pinentry
   :after magit
-  :config
-  (setq epg-pinentry-mode 'loopback))
+  :custom
+  (epg-pinentry-mode 'loopback))
 
 (use-package magit
   :bind ("C-c g" . magit-status)
@@ -319,68 +320,72 @@
 
 (use-package erc
   :ensure nil
+  :custom
+  (erc-accidental-paste-threshold-seconds nil)
+  (erc-nick "crzjp")
+  (erc-fill-column (- (window-width) 1))
+  (erc-fill-function 'erc-fill-static)
+  (erc-fill-static-center 20)
+  (erc-image-inline-rescale 200)
+  (erc-prompt (lambda () (concat "[" (buffer-name) "]")))
   :config
-  (setq erc-accidental-paste-threshold-seconds nil
-        erc-nick "crzjp"
-        erc-fill-column (- (window-width) 1)
-        erc-fill-function 'erc-fill-static
-        erc-fill-static-center 20
-        erc-image-inline-rescale 200
-        erc-prompt (lambda () (concat "[" (buffer-name) "]")))
   (add-to-list 'erc-modules 'autojoin)
   (add-to-list 'erc-modules 'notifications)
   (add-to-list 'erc-modules 'hl-nicks))
 
 (use-package mingus
-  :config
-  (setq mingus-use-mouse-p nil
-        mingus-mode-line-show-elapsed-time nil
-        mingus-mode-line-show-volume nil))
+  :custom
+  (mingus-use-mouse-p nil)
+  (mingus-mode-line-show-elapsed-time nil)
+  (mingus-mode-line-show-volume nil))
 
 (use-package pdf-tools
   :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
-  :config
-  (setq pdf-view-continuous nil)
-  (pdf-loader-install))
+  :custom
+  (pdf-view-continuous nil))
+  ;:config
+  ;(pdf-loader-install))
 
 (use-package pdf-view-restore
   :hook (pdf-view-mode . pdf-view-restore-mode))
 
 (use-package transmission
-  :config
-  (setq transmission-refresh-modes
-        '(transmission-mode
-          transmission-files-mode
-          transmission-info-mode
-          transmission-peers-mode)))
+  :custom
+  (transmission-refresh-modes
+   '(transmission-mode
+     transmission-files-mode
+     transmission-info-mode
+     transmission-peers-mode)))
 
 (use-package org
   :ensure nil
   :bind ("C-c a" . org-agenda)
-  :config
-  (setq org-agenda-start-with-log-mode t
-        org-log-done 'time
-        org-log-into-drawer t
-        org-agenda-files '("~/media/docs/notas/agenda.org")))
+  :custom
+  (org-agenda-start-with-log-mode t)
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+  (org-agenda-files '("~/media/docs/notas/agenda.org")))
 
 (use-package org
   :ensure nil
   :mode ("\\.org$" . org-mode)
   :bind (:map org-mode-map
          ("C-c o" . consult-org-heading))
+  :custom
+  (org-files-directory "~/media/docs/org")
+  (org-return-follows-link t)
   :config
-  (setq org-files-directory "~/media/docs/org"
-        org-return-follows-link t)
   (add-to-list 'org-export-backends 'md))
 
 (use-package org
   :ensure nil
+  :custom
+  (org-src-window-setup 'current-window)
+  (org-src-preserve-indentation t)
+  (org-edit-src-content-indentation 0)
   :config
-  (setq org-src-window-setup 'current-window
-        org-src-preserve-indentation t
-        org-edit-src-content-indentation 0)
   (add-to-list 'org-modules 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("li" . "src lisp"))
@@ -390,13 +395,13 @@
 (use-package org
   :ensure nil
   :hook (org-mode . visual-line-mode)
-  :config
-  (setq org-startup-indented t
-        org-startup-with-inline-images t
-        org-image-actual-width '(600)
-        org-startup-folded t
-        org-hide-emphasis-markers t
-        org-ellipsis " ▾"))
+  :custom
+  (org-startup-indented t)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(600))
+  (org-startup-folded t)
+  (org-hide-emphasis-markers t)
+  (org-ellipsis "…"))
 
 (use-package org-modern)
 
@@ -404,13 +409,14 @@
   :ensure nil
   :bind ("C-c p" . proced)
   :hook (proced-mode . (lambda () (proced-toggle-auto-update 1)))
-  :config
-  (setq proced-auto-update-interval 2))
+  :custom
+  (proced-auto-update-interval 2))
 
 (use-package em-alias
   :ensure nil
+  :custom
+  (eshell-aliases-file "~/.emacs.d/eshell-aliases")
   :config
-  (setq eshell-aliases-file "~/.emacs.d/eshell-aliases")
   (eshell-read-aliases-list))
 
 (use-package pcmpl-args
@@ -441,10 +447,11 @@
                       (eshell/clear t)
                       (eshell-emit-prompt)
                       (insert input)))))
+  :custom
+  (eshell-buffer-maximum-lines 1000)
+  (eshell-scroll-to-bottom-on-input t)
+  (eshell-destroy-buffer-when-process-dies t)
   :config
-  (setq eshell-buffer-maximum-lines 1000
-        eshell-scroll-to-bottom-on-input t
-        eshell-destroy-buffer-when-process-dies t)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer))
 
 (use-package esh-mode
@@ -452,30 +459,36 @@
   :bind (:map eshell-mode-map
          ("C-r" . consult-history))
   :hook (eshell-pre-command . eshell-save-some-history)
-  :config
-  (setq eshell-history-size 1000
-        eshell-hist-ignoredups t))
+  :custom
+  (eshell-history-size 1000)
+  (eshell-hist-ignoredups t))
 
 (use-package em-prompt
   :ensure nil
   :bind (:map eshell-mode-map
          ("C-c s" . consult-outline))
   :hook (eshell-mode . (lambda () (setq-local outline-regexp eshell-prompt-regexp)))
-  :config
-  (setq eshell-prompt-regexp "^[^$\n]*\\\$ "
-        eshell-prompt-function (lambda ()
-                                 (concat
-                                  "[" (abbreviate-file-name (eshell/pwd)) "]"
-                                  (propertize "$" 'invisible t) " "))))
+  :custom
+  (eshell-prompt-regexp "^[^$\n]*\\\$ ")
+  (eshell-prompt-function (lambda ()
+                            (concat
+                             "[" (abbreviate-file-name (eshell/pwd)) "]"
+                             (propertize "$" 'invisible t) " "))))
+
+(use-package comint
+  :ensure nil
+  :bind ("C-c s" . shell)
+  :custom
+  (comint-prompt-read-only t))
 
 (use-package vterm
   :ensure nil
   :bind (("C-c t" . vterm)
          :map vterm-mode-map
          ("C-q" . vterm-send-next-key))
-  :config
-  (setq vterm-kill-buffer-on-exit t
-        vterm-clear-scrollback-when-clearing t))
+  :custom
+  (vterm-kill-buffer-on-exit t)
+  (vterm-clear-scrollback-when-clearing t))
 
 (use-package rainbow-mode)
 
@@ -489,9 +502,10 @@
 (use-package time
   :ensure nil
   :defer 2
+  :custom
+  (display-time-default-load-average nil)
+  (display-time-24hr-format t)
   :config
-  (setq display-time-default-load-average nil
-        display-time-24hr-format t)
   (display-time-mode 1))
 
 (defvar crz/font "Iosevka 10")
@@ -515,14 +529,14 @@
   :ensure nil
   :bind (("C-<tab>" . tab-recent)
          ("C-x t b" . tab-switch))
-  :config
-  (setq tab-bar-new-button nil
-        tab-bar-close-button nil
-        tab-bar-back-button nil
-        tab-bar-border nil
-        tab-bar-tab-name-function 'tab-bar-tab-name-truncated
-        tab-bar-tab-name-truncated-max 15
-        tab-bar-show 1))
+  :custom
+  (tab-bar-new-button nil)
+  (tab-bar-close-button nil)
+  (tab-bar-back-button nil)
+  (tab-bar-border nil)
+  (tab-bar-tab-name-function 'tab-bar-tab-name-truncated)
+  (tab-bar-tab-name-truncated-max 15)
+  (tab-bar-show 1))
 
 (use-package modus-themes
   :ensure nil
@@ -534,21 +548,22 @@
 
 (use-package ace-window
   :bind ("M-o" . ace-window)
-  :config
-  (setq aw-scope 'frame
-        aw-ignore-current t))
+  :custom
+  (aw-scope 'frame)
+  (aw-ignore-current t))
 
 (use-package popper
   :defer 2
   :bind (("M-'" . popper-toggle-latest)
          ("C-'" . popper-cycle)
          ("C-M-'" . popper-toggle-type))
+  :custom
+  (popper-window-height 17)
+  (popper-reference-buffers '("\\*Async Shell Command\\*"
+                              "\\*DWIM shell command\\* done"
+                              grep-mode
+                              debugger-mode))
   :config
-  (setq popper-window-height 17
-        popper-reference-buffers '("\\*Async Shell Command\\*"
-                                   "\\*DWIM shell command\\* done"
-                                   grep-mode
-                                   debugger-mode))
   (popper-mode 1)
   (popper-echo-mode 1))
 
@@ -556,19 +571,19 @@
 
 (use-package compile
   :ensure nil
+  :custom
+  (compilation-environment '("TERM=xterm-256color"))
   :config
   (defun crz/advice-compilation-filter (f proc string)
     (funcall f proc (xterm-color-filter string)))
-  (advice-add 'compilation-filter :around #'crz/advice-compilation-filter)
-  (setq compilation-environment '("TERM=xterm-256color")))
+  (advice-add 'compilation-filter :around #'crz/advice-compilation-filter))
 
 (use-package esh-mode
   :ensure nil
+  :hook (eshell-before-prompt . (lambda () (setq xterm-color-preserve-properties t)))
+  :custom
+  (xterm-color-use-bold-for-bright t)
   :config
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
-  (add-hook 'eshell-before-prompt-hook
-            (lambda ()
-              (setq xterm-color-preserve-properties t)))
-  (setq xterm-color-use-bold-for-bright t)
   (setenv "TERM" "xterm-256color"))
