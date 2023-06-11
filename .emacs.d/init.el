@@ -91,7 +91,7 @@
 (global-unset-key (kbd "C-x C-z"))
 
 (setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzjp@tutanota.com")
+      user-mail-address "crzjp@riseup.net")
 
 (use-package cape
   :defer 1
@@ -226,6 +226,9 @@
       ("Agenda" (filename . "agenda.org"))
       ("Org" (mode . org-mode))
       ("Magit" (name . "magit.*"))
+      ("Mail" (or (mode . mu4e-compose-mode)
+                  (mode . mu4e-headers-mode)
+                  (mode . mu4e-main-mode)))
       ("Book" (or (mode . pdf-view-mode)
                   (mode . nov-mode)))
       ("Dired" (mode . dired-mode))
@@ -310,6 +313,20 @@
   :bind ("C-c g" . magit-status)
   :config
   (pinentry-start))
+
+(use-package mu4e
+  :ensure nil
+  :bind ("C-c m" . mu4e)
+  :custom
+  (mail-user-agent 'mu4e-user-agent)
+  (mu4e-get-mail-command "mbsync -a")
+  (mu4e-maildir "~/public/mail")
+  (mu4e-drafts-folder "/[RiseUp]/drafts")
+  (mu4e-sent-folder "/[RiseUp]/sent")
+  (mu4e-refile-folder "/[RiseUp]/all")
+  (mu4e-trash-folder "/[RiseUp]/trash")
+  (mu4e-read-option-use-builtin nil)
+  (mu4e-completing-read-function 'completing-read))
 
 ;(use-package esxml)
 

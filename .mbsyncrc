@@ -1,0 +1,20 @@
+IMAPAccount riseup
+Host mail.riseup.net
+User crzjp@riseup.net
+PassCmd gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-riseup.gpg
+SSLType IMAPS
+
+IMAPStore riseup-remote
+Account riseup
+
+MaildirStore riseup-local
+Subfolders Verbatim
+Path ~/public/mail
+Inbox ~/public/mail/inbox
+
+Channel riseup
+Master :riseup-remote:
+Slave :riseup-local:
+Patterns * ![RiseUp]* "[RiseUp]/sent" "[RiseUp]/starred" "[RiseUp]/all" "[RiseUp]/trash"
+Create Both
+SyncState *

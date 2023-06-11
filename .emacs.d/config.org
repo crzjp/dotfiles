@@ -256,7 +256,7 @@
 
 #+begin_src emacs-lisp
 (setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzjp@tutanota.com")
+      user-mail-address "crzjp@riseup.net")
 #+end_src
 
 * Completion
@@ -485,6 +485,9 @@ Disabled fido config to a (probably) future more polished version.
       ("Agenda" (filename . "agenda.org"))
       ("Org" (mode . org-mode))
       ("Magit" (name . "magit.*"))
+      ("Mail" (or (mode . mu4e-compose-mode)
+                  (mode . mu4e-headers-mode)
+                  (mode . mu4e-main-mode)))
       ("Book" (or (mode . pdf-view-mode)
                   (mode . nov-mode)))
       ("Dired" (mode . dired-mode))
@@ -600,6 +603,26 @@ Requires =shellcheck= package.
 #+end_src
 
 * Media
+
+** Email
+
+Requires =mu= and =isync/mbsync= packages.
+
+#+begin_src emacs-lisp
+(use-package mu4e
+  :ensure nil
+  :bind ("C-c m" . mu4e)
+  :custom
+  (mail-user-agent 'mu4e-user-agent)
+  (mu4e-get-mail-command "mbsync -a")
+  (mu4e-maildir "~/public/mail")
+  (mu4e-drafts-folder "/[RiseUp]/drafts")
+  (mu4e-sent-folder "/[RiseUp]/sent")
+  (mu4e-refile-folder "/[RiseUp]/all")
+  (mu4e-trash-folder "/[RiseUp]/trash")
+  (mu4e-read-option-use-builtin nil)
+  (mu4e-completing-read-function 'completing-read))
+#+end_src
 
 ** EPUB
 
