@@ -494,7 +494,9 @@
 
 (use-package comint
   :ensure nil
-  :bind ("C-c s" . shell)
+  :bind (("C-c s" . shell)
+         :map shell-mode-map
+         ("C-r" . consult-history))
   :custom
   (comint-prompt-read-only t))
 
