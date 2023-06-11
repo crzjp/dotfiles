@@ -586,6 +586,18 @@
 
 (use-package xterm-color)
 
+(use-package comint
+  :ensure nil
+  :hook (shell-mode . (lambda ()
+                        (font-lock-mode -1)
+                        (make-local-variable 'font-lock-function)
+                        (setq font-lock-function (lambda (_) nil))
+                        (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)
+                        (setenv "TERM" "xterm-256color")))
+  :custom
+  (comint-output-filter-functions
+   (remove 'ansi-color-process-output comint-output-filter-functions)))
+
 (use-package compile
   :ensure nil
   :custom
