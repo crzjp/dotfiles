@@ -492,7 +492,7 @@
                              "[" (abbreviate-file-name (eshell/pwd)) "]"
                              (propertize "$" 'invisible t) " "))))
 
-(use-package comint
+(use-package shell
   :ensure nil
   :bind (("C-c s" . shell)
          :map shell-mode-map

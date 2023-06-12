@@ -897,7 +897,7 @@ alias xload xrdb -load $HOME/.Xresources
 ** Shell
 
 #+begin_src emacs-lisp
-(use-package comint
+(use-package shell
   :ensure nil
   :bind (("C-c s" . shell)
          :map shell-mode-map
