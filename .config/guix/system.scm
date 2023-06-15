@@ -1,4 +1,8 @@
-(use-modules (gnu) (nongnu packages linux))
+(use-modules (gnu)
+             (gnu packages linux)
+             (gnu packages freedesktop)
+             (nongnu packages linux))
+
 (use-package-modules glib certs xdisorg xorg)
 (use-service-modules base desktop networking ssh xorg)
 
@@ -24,7 +28,6 @@
                   elogind
                   libinput
                   nss-certs
-                  pavucontrol
                   xf86-input-evdev
                   xf86-input-keyboard
                   xf86-input-libinput
@@ -43,13 +46,13 @@
          (service xorg-server-service-type
                   (xorg-configuration
                    (keyboard-layout keyboard-layout)
-                   (extra-config "Section \"InputClass\"
+                   (extra-config (list "Section \"InputClass\"
   Identifier \"Keyboards\"
   Driver \"libinput\"
   MatchDevicePath \"/dev/input/event*\"
   MatchIsKeyboard \"on\"
 EndSection
-")))
+"))))
          (modify-services %base-services
                           (guix-service-type config =>
                                              (guix-configuration
