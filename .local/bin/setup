@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 if [ $(id -u) != 0 ]; then
-    echo "Please, run this script as root!"
+    echo "please, run this script as root!"
     exit 1
 fi
 
@@ -13,8 +13,8 @@ pkg install \
     dbus \
     drm-kmod \
     dunst \
-    emacs \
     font-awesome \
+    git \
     gmake \
     gnuls \
     hs-ShellCheck \
@@ -50,3 +50,5 @@ pkg install \
     xorg-server \
     xset \
     xsetroot
+
+echo "remember to compile emacs!"

@@ -346,7 +346,7 @@
   (erc-prompt (lambda () (concat "[" (buffer-name) "]")))
   (erc-auto-query 'bury)
   (erc-autojoin-channels-alist
-   '(("irc.libera.chat" "#emacs" "#guix" "#nixers" "#nonguix" "#stumpwm")))
+   '(("irc.libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")))
   :config
   (add-to-list 'erc-modules 'autojoin)
   (add-to-list 'erc-modules 'notifications)
