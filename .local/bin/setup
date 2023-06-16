@@ -17,6 +17,7 @@ pkg install \
     font-awesome \
     gmake \
     gnuls \
+    hs-ShellCheck \
     iosevka \
     isync \
     libnotify \
@@ -29,6 +30,7 @@ pkg install \
     musicpd \
     noto \
     numlockx \
+    pkg-provides \
     setxkbmap \
     startx \
     stow \

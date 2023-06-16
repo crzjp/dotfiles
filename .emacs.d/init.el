@@ -302,7 +302,6 @@
          ("README\\.md\\'" . gfm-mode)))
 
 (use-package flymake-shellcheck
-  :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
 
 (use-package pinentry

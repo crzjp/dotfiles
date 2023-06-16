@@ -585,7 +585,6 @@ Requires =shellcheck= package.
 
 #+begin_src emacs-lisp
 (use-package flymake-shellcheck
-  :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
 #+end_src
 
