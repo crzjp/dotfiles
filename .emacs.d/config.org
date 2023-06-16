@@ -397,6 +397,7 @@ Disabled fido config to a (probably) future more polished version.
          :map dired-mode-map
          ("f" . dired-create-empty-file))
   :custom
+  (insert-directory-program "gnuls")
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
 #+end_src
@@ -796,15 +797,18 @@ alias d dired $1
 alias do dired-other-window $1
 alias c eshell/clear-scrollback
 
-alias gi guix install $*
-alias gr guix remove $*
-alias gs guix search $*
+alias pi sudo pkg install $*
+alias pr sudo pkg delete $*
+alias pa sudo pkg autoremove && sudo pkg clean
+alias pu sudo pkg upgrade
+alias ps pkg search $*
+alias pl pkg info
 
 alias poweroff sudo poweroff
 alias reboot sudo reboot
 
-alias ls ls -AC --color=always --group-directories-first $*
-alias ll ls -AgGh --color=always --group-directories-first $*
+alias ls gnuls -AC --color=always --group-directories-first $*
+alias ll gnuls -AgGh --color=always --group-directories-first $*
 alias lt tree -C $*
 
 alias - cd -
@@ -820,7 +824,6 @@ alias qttr curl -s wttr.in/?0Q
 alias ping ping -c 3 gnu.org
 alias free free -h
 alias mime file -b --mime-type $*
-alias xload xrdb -load $HOME/.Xresources
 #+end_src
 
 *** Completions
@@ -911,7 +914,6 @@ alias xload xrdb -load $HOME/.Xresources
 
 #+begin_src emacs-lisp
 (use-package vterm
-  :ensure nil
   :bind (("C-c t" . vterm)
          :map vterm-mode-map
          ("C-q" . vterm-send-next-key))

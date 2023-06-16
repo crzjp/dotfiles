@@ -166,6 +166,7 @@
          :map dired-mode-map
          ("f" . dired-create-empty-file))
   :custom
+  (insert-directory-program "gnuls")
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
 
@@ -502,7 +503,6 @@
   (comint-prompt-read-only t))
 
 (use-package vterm
-  :ensure nil
   :bind (("C-c t" . vterm)
          :map vterm-mode-map
          ("C-q" . vterm-send-next-key))

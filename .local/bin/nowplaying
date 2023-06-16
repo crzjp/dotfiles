@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 
-for dep in mpd mpc notify-send ; do
+for dep in musicpd mpc notify-send ; do
     [ $(command -v $dep) ] || { echo error: \"$dep\" not found && exit 1; }
 done
 
-if ! pgrep -x mpd >/dev/null ; then
+if ! pgrep -x musicpd >/dev/null ; then
     notify-send -h string:x-canonical-private-synchronous:mpd \
         "Error" "mpd is not running!"
     exit 1

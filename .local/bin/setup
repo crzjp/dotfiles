@@ -1,0 +1,50 @@
+#!/usr/bin/env sh
+
+if [ $(id -u) != 0 ]; then
+    echo "Please, run this script as root!"
+    exit 1
+fi
+
+pkg install \
+    alsa-utils \
+    bash \
+    bash-completion \
+    cmake \
+    dbus \
+    drm-kmod \
+    dunst \
+    emacs \
+    font-awesome \
+    gmake \
+    gnuls \
+    iosevka \
+    isync \
+    libnotify \
+    maim \
+    materia-gtk-theme \
+    mg \
+    mpdas \
+    mu \
+    musicpc \
+    musicpd \
+    noto \
+    numlockx \
+    setxkbmap \
+    startx \
+    stow \
+    stumpwm \
+    telegram-desktop \
+    texinfo \
+    tree \
+    ungoogled-chromium \
+    xclip \
+    xdg-user-dirs \
+    xf86-input-keyboard \
+    xf86-input-libinput \
+    xf86-input-mouse \
+    xf86-input-synaptics \
+    xf86-video-intel \
+    xhost \
+    xorg-server \
+    xset \
+    xsetroot

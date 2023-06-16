@@ -1,19 +1,9 @@
 export LANG=en_US.UTF-8
 export GDK_CORE_DEVICE_EVENTS=1
 
-export XDG_RUNTIME_DIR=/tmp/$(id -u)
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/settings.ini"
 
-eval "$(guix package --search-paths \
--p $HOME/.config/guix/current \
--p $HOME/.guix-profile \
--p $HOME/.guix-home/profile \
--p /run/current-system/profile)"
-
-export PATH=/run/setuid-programs:$PATH
 export PATH=$HOME/.local/bin:$PATH
-
-[ -f ~/.profile ] && source ~/.profile
 
 export LESS='-FRJMWX'
 export LESSHISTFILE=/dev/null
@@ -29,10 +19,10 @@ export MANPAGER=less
 
 export VISUAL=emacsclient
 export EDITOR=emacsclient
-export BROWSER=chromium
+export BROWSER=ungoogled-chromium
 export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 
 [ -f ~/.bashrc ] && source ~/.bashrc
-[ "$(tty)" = "/dev/tty1" ] && sx
+[ "$(tty)" = "/dev/ttyv0" ] && startx

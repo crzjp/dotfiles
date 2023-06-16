@@ -1,5 +1,3 @@
-[ -f /etc/bashrc ] && source /etc/bashrc
-
 shopt -s histappend
 
 HISTCONTROL=ignoreboth:erasedups
@@ -15,15 +13,18 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
 	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
 fi
 
-alias gi='guix install'
-alias gr='guix remove'
-alias gs='guix search'
+alias pi='sudo pkg install'
+alias pr='sudo pkg delete'
+alias pa='sudo pkg autoremove && sudo pkg clean'
+alias pu='sudo pkg upgrade'
+alias ps='pkg search'
+alias pl='pkg info'
 
 alias reboot="sudo reboot"
-alias poweroff="sudo shutdown"
+alias poweroff="sudo poweroff"
 
-alias ls='ls -AC --color=auto --group-directories-first'
-alias ll='ls -AgGh --color=auto --group-directories-first'
+alias ls='gnuls -AC --color=auto --group-directories-first'
+alias ll='gnuls -AgGh --color=auto --group-directories-first'
 alias lt='tree -C'
 
 alias cp='cp -v'
@@ -47,4 +48,3 @@ alias qttr='curl -s wttr.in/?0Q'
 alias which='command -v'
 alias free='free -h'
 alias mime='file -b --mime-type'
-alias xload="xrdb -load $HOME/.Xresources"
