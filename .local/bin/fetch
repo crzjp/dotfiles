@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
-pk="$(guix package -I | wc -l)"
-wm="$(awk '/exec/{print $NF}' ~/.config/sx/sxrc)"
-cl="[33;1m"
+sy="$(uname -sr)"
+pk="$(pkg info | wc -l)"
+pk="${pk##* }"
+wm="$(awk '/exec/{print $NF}' ~/.xinitrc)"
+cl="[31;1m"
 cr="[0m"
 
 case "$INSIDE_EMACS" in
@@ -26,7 +28,7 @@ esac
 
 cat <<EOF
 
-  ${cl}GNU Guix SD${cr}
+  ${cl}${sy}${cr}
   pk ${cl}::${cr} $pk
   sh ${cl}::${cr} $sh
   tm ${cl}::${cr} $tm
