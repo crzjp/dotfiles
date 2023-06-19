@@ -43,6 +43,7 @@ alias pa='sudo pkg autoremove && sudo pkg clean'
 alias pu='sudo pkg upgrade'
 alias ps='pkg search'
 alias pl='pkg info'
+alias pl='pkg provides'
 #+end_src
 
 *** Power management
@@ -108,6 +109,7 @@ alias mime='file -b --mime-type'
 #+begin_src sh
 export LANG=en_US.UTF-8
 export GDK_CORE_DEVICE_EVENTS=1
+export QT_QPA_PLATFORMTHEME=qt5ct
 #+end_src
 
 ** XDG
