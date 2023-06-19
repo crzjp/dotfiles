@@ -72,6 +72,11 @@
   :custom
   (help-window-select t))
 
+(use-package man
+  :ensure nil
+  :custom
+  (Man-notify-method 'pushy))
+
 (use-package woman
   :ensure nil
   :custom
@@ -191,6 +196,12 @@
      "Set wallpaper with fill parameter"
      "hsetroot -fill '<<f>>'"
      :utils "hsetroot"))
+  (defun dwim-shell-commands-extract-audio-cover ()
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Extract audio cover if it exists"
+     "ffmpeg -nostats -loglevel 0 -y -i '<<f>>' Cover.jpg"
+     :utils "ffmpeg"))
   (require 'dwim-shell-commands))
 
 (use-package ibuffer
@@ -321,10 +332,10 @@
   (mail-user-agent 'mu4e-user-agent)
   (mu4e-get-mail-command "mbsync -a")
   (mu4e-maildir "~/public/mail")
-  (mu4e-drafts-folder "/[RiseUp]/drafts")
-  (mu4e-sent-folder "/[RiseUp]/sent")
-  (mu4e-refile-folder "/[RiseUp]/all")
-  (mu4e-trash-folder "/[RiseUp]/trash")
+  (mu4e-drafts-folder "/riseup/drafts")
+  (mu4e-sent-folder "/riseup/sent")
+  (mu4e-refile-folder "/riseup/all")
+  (mu4e-trash-folder "/riseup/trash")
   (mu4e-read-option-use-builtin nil)
   (mu4e-completing-read-function 'completing-read))
 
@@ -379,15 +390,6 @@
 
 (use-package org
   :ensure nil
-  :bind ("C-c a" . org-agenda)
-  :custom
-  (org-agenda-start-with-log-mode t)
-  (org-log-done 'time)
-  (org-log-into-drawer t)
-  (org-agenda-files '("~/media/docs/notas/agenda.org")))
-
-(use-package org
-  :ensure nil
   :mode ("\\.org$" . org-mode)
   :bind (:map org-mode-map
          ("C-c o" . consult-org-heading))
@@ -396,6 +398,15 @@
   (org-return-follows-link t)
   :config
   (add-to-list 'org-export-backends 'md))
+
+(use-package org
+  :ensure nil
+  :bind ("C-c a" . org-agenda)
+  :custom
+  (org-agenda-start-with-log-mode t)
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+  (org-agenda-files '("~/media/docs/notas/agenda.org")))
 
 (use-package org
   :ensure nil
@@ -527,12 +538,10 @@
   :config
   (display-time-mode 1))
 
-(defvar crz/font "Iosevka 10")
-
 (defun crz/set-font-faces ()
-  (set-face-attribute 'default nil :font crz/font)
-  (set-face-attribute 'fixed-pitch nil :font crz/font)
-  (set-face-attribute 'variable-pitch nil :font crz/font))
+  (set-face-attribute 'default nil :font "Iosevka 10")
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka 10")
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Aile 10"))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
