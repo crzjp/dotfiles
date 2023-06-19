@@ -31,8 +31,10 @@ pkg install \
     noto \
     numlockx \
     pkg-provides \
+    portmaster \
+    qt5ct \
+    qt6ct \
     setxkbmap \
-    startx \
     stow \
     stumpwm \
     telegram-desktop \
@@ -47,6 +49,7 @@ pkg install \
     xf86-input-synaptics \
     xf86-video-intel \
     xhost \
+    xinit \
     xorg-server \
     xset \
     xsetroot
