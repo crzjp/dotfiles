@@ -185,22 +185,51 @@
   (dwim-shell-command-default-command nil)
   :config
   (defun dwim-shell-commands-flac-to-mp3 ()
+    "Convert flac file to mp3 with ffmpeg using `dwim-shell-command-on-marked-files'"
     (interactive)
     (dwim-shell-command-on-marked-files
      "Convert flac to mp3"
      "ffmpeg -stats -n -i '<<f>>' -ab 320k -map_metadata 0 -id3v2_version 3 '<<fne>>.mp3'"
      :utils "ffmpeg"))
-  (defun dwim-shell-commands-wallpaper-set-fill ()
+  (defun dwim-shell-commands-set-wallpaper ()
+    "Set wallpaper with hsetroot using `dwim-shell-command-on-marked-files'"
     (interactive)
-    (dwim-shell-command-on-marked-files
-     "Set wallpaper with fill parameter"
-     "hsetroot -fill '<<f>>'"
-     :utils "hsetroot"))
+    (let ((mode (completing-read "Choose parameter: " '("center" "cover" "extend" "fill" "full" "sane" "tile") nil t)))
+      (dwim-shell-command-on-marked-files
+       "Set wallpaper with PARAMETER parameter"
+       (format "hsetroot -%s '<<f>>'" mode)
+       :utils "hsetroot"
+       :silent-success t)))
   (defun dwim-shell-commands-extract-audio-cover ()
+    "Extract audio cover with ffmpeg using `dwim-shell-command-on-marked-files'"
     (interactive)
     (dwim-shell-command-on-marked-files
      "Extract audio cover if it exists"
      "ffmpeg -nostats -loglevel 0 -y -i '<<f>>' Cover.jpg"
+     :utils "ffmpeg"))
+  (defun dwim-shell-commands-set-audio-tag ()
+    "Set audio tag with ffmpeg using `dwim-shell-command-on-marked-files'"
+    (interactive)
+    (let ((tag (completing-read "Tag name: " nil)))
+      (cond
+       ((equal tag "image")
+        (dwim-shell-command-on-marked-files
+         "Set audio cover"
+         (format "ffmpeg -loglevel 8 -hide_banner -i '<<f>>' -i %s -map 0:0 -map 1:0 -c copy '<<fne>>-%s-edited.<<e>>'"
+                 (read-file-name "Image file: ") tag)
+         :utils "ffmpeg"))
+       (t
+        (dwim-shell-command-on-marked-files
+         "Set audio tag"
+         (format "ffmpeg -loglevel 8 -hide_banner -i '<<f>>' -c copy -metadata %s=%s '<<fne>>-%s-edited.<<e>>'"
+                 tag (completing-read "Tag value: " nil) tag)
+         :utils "ffmpeg")))))
+  (defun dwim-shell-commands-delete-audio-tags ()
+    "Delete audio tags with ffmpeg using `dwim-shell-command-on-marked-files'"
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Delete audio tags"
+     "ffmpeg -loglevel 8 -hide_banner -i '<<f>>' -map 0:a -c:a copy -map_metadata -1 '<<fne>>-tags-deleted.<<e>>'"
      :utils "ffmpeg"))
   (require 'dwim-shell-commands))
 
@@ -419,7 +448,8 @@
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("li" . "src lisp"))
   (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
-  (add-to-list 'org-structure-template-alist '("sh" . "src sh")))
+  (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+  (add-to-list 'org-structure-template-alist '("eltn" . "src emacs-lisp :tangle no :noweb-ref")))
 
 (use-package org
   :ensure nil
