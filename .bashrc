@@ -19,7 +19,7 @@ alias pa='sudo pkg autoremove && sudo pkg clean'
 alias pu='sudo pkg upgrade'
 alias ps='pkg search'
 alias pl='pkg info'
-alias pl='pkg provides'
+alias pp='pkg provides'
 
 alias reboot="sudo reboot"
 alias poweroff="sudo poweroff"
