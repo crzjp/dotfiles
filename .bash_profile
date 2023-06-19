@@ -1,5 +1,6 @@
 export LANG=en_US.UTF-8
 export GDK_CORE_DEVICE_EVENTS=1
+export QT_QPA_PLATFORMTHEME=qt5ct
 
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/settings.ini"
 
