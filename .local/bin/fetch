@@ -28,10 +28,10 @@ esac
 
 cat <<EOF
 
-  ${cl}${sy}${cr}
-  pk ${cl}::${cr} $pk
-  sh ${cl}::${cr} $sh
-  tm ${cl}::${cr} $tm
-  wm ${cl}::${cr} $wm
+        ${cl}OS ${cr}${sy}
+  ${cl}PACKAGES ${cr}${pk}
+     ${cl}SHELL ${cr}${sh}
+  ${cl}TERMINAL ${cr}${tm}
+        ${cl}WM ${cr}${wm}
 
 EOF
