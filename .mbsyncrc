@@ -1,7 +1,7 @@
 IMAPAccount riseup
 Host mail.riseup.net
 User crzjp@riseup.net
-PassCmd gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-riseup.gpg
+PassCmd "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-riseup.gpg"
 SSLType IMAPS
 
 IMAPStore riseup-remote
@@ -15,6 +15,6 @@ Inbox ~/public/mail/inbox
 Channel riseup
 Master :riseup-remote:
 Slave :riseup-local:
-Patterns * ![RiseUp]* "[RiseUp]/sent" "[RiseUp]/starred" "[RiseUp]/all" "[RiseUp]/trash"
+Patterns * !riseup* "riseup/sent" "riseup/starred" "riseup/all" "riseup/trash"
 Create Both
 SyncState *
