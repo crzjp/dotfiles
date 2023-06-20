@@ -385,8 +385,14 @@
   (erc-fill-static-center 20)
   (erc-prompt (lambda () (concat "[" (buffer-name) "]")))
   (erc-auto-query 'bury)
+  (erc-rename-buffers t)
+  (erc-autojoin-timing 'ident)
+  (erc-autojoin-delay 1)
   (erc-autojoin-channels-alist
-   '(("irc.libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")))
+   '(("libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")
+     ("slackjeff.com.br" "#mundo-libre")))
+  (erc-track-exclude-types
+   '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
   :config
   (add-to-list 'erc-modules 'autojoin)
   (add-to-list 'erc-modules 'notifications)
