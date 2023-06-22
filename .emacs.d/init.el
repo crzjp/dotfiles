@@ -333,7 +333,14 @@
 
 (use-package sly
   :custom
-  (inferior-lisp-program (executable-find "sbcl")))
+  (inferior-lisp-program "sbcl")
+  (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
+
+(use-package sly-mrepl
+  :ensure nil
+  :after sly
+  :bind (:map sly-mrepl-mode-map
+         ("C-r" . consult-history)))
 
 (use-package eglot)
 
@@ -483,13 +490,6 @@
   (eshell-aliases-file "~/.emacs.d/eshell-aliases")
   :config
   (eshell-read-aliases-list))
-
-(use-package pcmpl-args
-  :after eshell
-  :demand nil
-  :config
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 
 (use-package eshell
   :ensure nil

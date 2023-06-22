@@ -620,7 +620,14 @@ Disabled fido config to a (probably) future more polished version.
 #+begin_src emacs-lisp
 (use-package sly
   :custom
-  (inferior-lisp-program (executable-find "sbcl")))
+  (inferior-lisp-program "sbcl")
+  (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
+
+(use-package sly-mrepl
+  :ensure nil
+  :after sly
+  :bind (:map sly-mrepl-mode-map
+         ("C-r" . consult-history)))
 #+end_src
 
 ** LSP
@@ -894,13 +901,6 @@ alias mime file -b --mime-type $*
 *** Completions
 
 #+begin_src emacs-lisp
-(use-package pcmpl-args
-  :after eshell
-  :demand nil
-  :config
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
-
 (use-package eshell
   :ensure nil
   :config
