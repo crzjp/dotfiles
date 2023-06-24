@@ -270,3 +270,9 @@
 ;;   (mode-line))
 #+end_src
 
+* Kick the rat
+
+#+begin_src lisp
+(define-key *root-map* (kbd "z") "banish")
+#+end_src
+

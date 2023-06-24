@@ -23,6 +23,9 @@
   :custom
   (auto-package-update-delete-old-versions t))
 
+(setq user-full-name "João Paulo da Cruz"
+      user-mail-address "crzjp@riseup.net")
+
 (global-set-key (kbd "M-&") 'with-editor-async-shell-command)
 
 (setq global-auto-revert-non-file-buffers t)
@@ -95,8 +98,9 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
-(setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzjp@riseup.net")
+(setq sentence-end-double-space nil)
+
+(setq uniquify-buffer-name-style 'forward)
 
 (use-package cape
   :defer 1
@@ -546,7 +550,8 @@
          :map shell-mode-map
          ("C-r" . consult-history))
   :custom
-  (comint-prompt-read-only t))
+  (comint-prompt-read-only t)
+  (shell-command-switch "-ic"))
 
 (use-package vterm
   :bind (("C-c t" . vterm)

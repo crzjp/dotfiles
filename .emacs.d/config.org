@@ -103,6 +103,13 @@
 
 * Sane defaults
 
+** User description
+
+#+begin_src emacs-lisp
+(setq user-full-name "João Paulo da Cruz"
+      user-mail-address "crzjp@riseup.net")
+#+end_src
+
 ** Async shell command with $EDITOR
 
 #+begin_src emacs-lisp
@@ -257,11 +264,16 @@
 (global-unset-key (kbd "C-x C-z"))
 #+end_src
 
-** User description
+** Single space as end of sentence
 
 #+begin_src emacs-lisp
-(setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzjp@riseup.net")
+(setq sentence-end-double-space nil)
+#+end_src
+
+** Uniquify buffer name style
+
+#+begin_src emacs-lisp
+(setq uniquify-buffer-name-style 'forward)
 #+end_src
 
 * Completion
@@ -972,7 +984,8 @@ alias mime file -b --mime-type $*
          :map shell-mode-map
          ("C-r" . consult-history))
   :custom
-  (comint-prompt-read-only t))
+  (comint-prompt-read-only t)
+  (shell-command-switch "-ic"))
 #+end_src
 
 ** Vterm

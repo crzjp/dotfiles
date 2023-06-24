@@ -186,3 +186,5 @@
 
 ;; (when *initializing*
 ;;   (mode-line))
+
+(define-key *root-map* (kbd "z") "banish")
