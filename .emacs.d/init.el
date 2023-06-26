@@ -550,8 +550,7 @@
          :map shell-mode-map
          ("C-r" . consult-history))
   :custom
-  (comint-prompt-read-only t)
-  (shell-command-switch "-ic"))
+  (comint-prompt-read-only t))
 
 (use-package vterm
   :bind (("C-c t" . vterm)

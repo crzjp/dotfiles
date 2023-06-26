@@ -984,8 +984,14 @@ alias mime file -b --mime-type $*
          :map shell-mode-map
          ("C-r" . consult-history))
   :custom
-  (comint-prompt-read-only t)
-  (shell-command-switch "-ic"))
+  (comint-prompt-read-only t))
+#+end_src
+
+This option permits accessing aliases and variables when doing shell commands, but for some reason it's freezing Emacs when opening org files. Disabled for now.
+
+#+begin_src emacs-lisp :tangle no
+;; remember it was on :custom keyword!
+(shell-command-switch "-ic")
 #+end_src
 
 ** Vterm
