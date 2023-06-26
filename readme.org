@@ -3,4 +3,5 @@
 You're (un)likely here for see my:
 
 - [[file:.emacs.d/config.org][GNU Emacs configuration]]
+- [[file:.config/guix/config.org][GNU Guix System and Home configuration]] (not using yet)
 - [[file:.stumpwm.d/config.org][StumpWM configuration]]
