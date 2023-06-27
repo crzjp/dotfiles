@@ -142,12 +142,6 @@
   :config
   (marginalia-mode 1))
 
-(use-package orderless
-  :after vertico
-  :custom
-  (completion-styles '(orderless))
-  (orderless-matching-styles '(orderless-initialism orderless-flex)))
-
 (use-package vertico
   :defer 1
   :bind (:map vertico-map
@@ -165,6 +159,12 @@
 (setq enable-recursive-minibuffers t)
 
 (minibuffer-depth-indicate-mode 1)
+
+(use-package orderless
+  :after vertico
+  :custom
+  (completion-styles '(orderless))
+  (orderless-matching-styles '(orderless-initialism orderless-flex)))
 
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
@@ -379,8 +379,6 @@
   (mu4e-read-option-use-builtin nil)
   (mu4e-completing-read-function 'completing-read))
 
-;(use-package esxml)
-
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
 
@@ -475,11 +473,23 @@
   (org-startup-indented t)
   (org-startup-with-inline-images t)
   (org-image-actual-width '(600))
-  (org-startup-folded t)
-  (org-hide-emphasis-markers t)
-  (org-ellipsis "…"))
+  (org-startup-folded t))
 
-(use-package org-modern)
+(use-package org-modern
+  :after org
+  :demand nil
+  :config
+  (defun crz/org-pretty-mode ()
+    (interactive)
+    (if org-modern-mode
+        (progn
+          (setq org-hide-emphasis-markers nil
+                org-ellipsis nil)
+          (org-mode))
+      (setq org-hide-emphasis-markers t
+            org-ellipsis " ⤷")
+      (org-mode)
+      (org-modern-mode 1))))
 
 (use-package proced
   :ensure nil

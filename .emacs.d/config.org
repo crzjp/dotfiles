@@ -257,7 +257,7 @@
               tab-width 4)
 #+end_src
 
-** Unbind the anoying chord
+** Unbind the annoying chord
 
 #+begin_src emacs-lisp
 (global-unset-key (kbd "C-z"))
@@ -328,7 +328,7 @@
                          args))))
 #+end_src
 
-*** Anotations
+*** Annotations
 
 #+begin_src emacs-lisp
 (use-package marginalia
@@ -336,16 +336,6 @@
   :demand nil
   :config
   (marginalia-mode 1))
-#+end_src
-
-*** Completion style
-
-#+begin_src emacs-lisp
-(use-package orderless
-  :after vertico
-  :custom
-  (completion-styles '(orderless))
-  (orderless-matching-styles '(orderless-initialism orderless-flex)))
 #+end_src
 
 *** Completion UI
@@ -400,6 +390,16 @@ Disabled fido config to a (probably) future more polished version.
 (setq enable-recursive-minibuffers t)
 
 (minibuffer-depth-indicate-mode 1)
+#+end_src
+
+** Completion style
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :after vertico
+  :custom
+  (completion-styles '(orderless))
+  (orderless-matching-styles '(orderless-initialism orderless-flex)))
 #+end_src
 
 * Dired
@@ -704,8 +704,6 @@ Requires =mu= and =isync/mbsync= packages.
 ** EPUB
 
 #+begin_src emacs-lisp
-;(use-package esxml)
-
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
 #+end_src
@@ -834,11 +832,23 @@ Requires =mu= and =isync/mbsync= packages.
   (org-startup-indented t)
   (org-startup-with-inline-images t)
   (org-image-actual-width '(600))
-  (org-startup-folded t)
-  (org-hide-emphasis-markers t)
-  (org-ellipsis "…"))
+  (org-startup-folded t))
 
-(use-package org-modern)
+(use-package org-modern
+  :after org
+  :demand nil
+  :config
+  (defun crz/org-pretty-mode ()
+    (interactive nil org-mode)
+    (if org-modern-mode
+        (progn
+          (setq org-hide-emphasis-markers nil
+                org-ellipsis nil)
+          (org-mode))
+      (setq org-hide-emphasis-markers t
+            org-ellipsis " ⤷")
+      (org-mode)
+      (org-modern-mode 1))))
 #+end_src
 
 * Proced
