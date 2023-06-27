@@ -11,7 +11,7 @@
                   "dunst"
                   "emacs"
                   "emacs-flymake-shellcheck"
-                  ;"emacs-pdf-tools"
+                  "emacs-pdf-tools"
                   "emacs-vterm"
                   "font-awesome"
                   "font-google-noto"
@@ -34,20 +34,22 @@
                   "mu"
                   "numlockx"
                   "openssh"
-                  "pinentry-emacs"
+                  "pinentry"
                   "sbcl"
                   "slock"
                   "slop"
                   "stumpwm"
-                  "sx"
+                  ;"sx"
                   "telegram-desktop"
                   "ungoogled-chromium"
                   "unzip"
                   "xclip"
                   "xhost"
+                  "xinit"
                   "xset"
                   "xsetroot"
-                  "youtube-dl")))
+                  "youtube-dl"
+                  "zip")))
 
  (services
   (list (service home-xdg-user-directories-service-type

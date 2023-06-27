@@ -75,16 +75,12 @@
                   elogind
                   libinput
                   nss-certs
-                  xf86-input-evdev
+                  texinfo
                   xf86-input-keyboard
-                  xf86-input-libinput
                   xf86-input-libinput
                   xf86-input-mouse
                   xf86-input-synaptics
-                  xf86-video-fbdev
                   xf86-video-intel
-                  xf86-video-intel
-                  xf86-video-vesa
                   %base-packages))
 #+end_src
 
@@ -182,7 +178,7 @@ Public key
                   "dunst"
                   "emacs"
                   "emacs-flymake-shellcheck"
-                  ;"emacs-pdf-tools"
+                  "emacs-pdf-tools"
                   "emacs-vterm"
                   "font-awesome"
                   "font-google-noto"
@@ -205,20 +201,22 @@ Public key
                   "mu"
                   "numlockx"
                   "openssh"
-                  "pinentry-emacs"
+                  "pinentry"
                   "sbcl"
                   "slock"
                   "slop"
                   "stumpwm"
-                  "sx"
+                  ;"sx"
                   "telegram-desktop"
                   "ungoogled-chromium"
                   "unzip"
                   "xclip"
                   "xhost"
+                  "xinit"
                   "xset"
                   "xsetroot"
-                  "youtube-dl")))
+                  "youtube-dl"
+                  "zip")))
 #+end_src
 
 ** Services

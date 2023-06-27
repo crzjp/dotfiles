@@ -353,6 +353,7 @@
          ("README\\.md\\'" . gfm-mode)))
 
 (use-package flymake-shellcheck
+  :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
 
 (use-package pinentry
@@ -414,15 +415,14 @@
   (mingus-mode-line-show-volume nil))
 
 (use-package pdf-tools
+  :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
   :custom
-  (pdf-view-continuous nil)
-  :config
-  (pdf-loader-install))
+  (pdf-view-continuous nil))
 
-(use-package pdf-view-restore
-  :hook (pdf-view-mode . pdf-view-restore-mode))
+;; (use-package pdf-view-restore
+;;   :hook (pdf-view-mode . pdf-view-restore-mode))
 
 (use-package transmission
   :custom
@@ -480,7 +480,7 @@
   :demand nil
   :config
   (defun crz/org-pretty-mode ()
-    (interactive)
+    (interactive nil org-mode)
     (if org-modern-mode
         (progn
           (setq org-hide-emphasis-markers nil

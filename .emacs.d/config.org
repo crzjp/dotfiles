@@ -662,6 +662,7 @@ Requires =shellcheck= package.
 
 #+begin_src emacs-lisp
 (use-package flymake-shellcheck
+  :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
 #+end_src
 
@@ -751,15 +752,14 @@ Requires =mu= and =isync/mbsync= packages.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
+  :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
   :custom
-  (pdf-view-continuous nil)
-  :config
-  (pdf-loader-install))
+  (pdf-view-continuous nil))
 
-(use-package pdf-view-restore
-  :hook (pdf-view-mode . pdf-view-restore-mode))
+;; (use-package pdf-view-restore
+;;   :hook (pdf-view-mode . pdf-view-restore-mode))
 #+end_src
 
 ** Torrent

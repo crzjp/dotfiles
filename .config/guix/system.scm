@@ -28,16 +28,12 @@
                   elogind
                   libinput
                   nss-certs
-                  xf86-input-evdev
+                  texinfo
                   xf86-input-keyboard
-                  xf86-input-libinput
                   xf86-input-libinput
                   xf86-input-mouse
                   xf86-input-synaptics
-                  xf86-video-fbdev
                   xf86-video-intel
-                  xf86-video-intel
-                  xf86-video-vesa
                   %base-packages))
 
  (services
