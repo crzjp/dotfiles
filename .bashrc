@@ -13,22 +13,19 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
 	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
 fi
 
-alias pi='sudo pkg install'
-alias pr='sudo pkg delete'
-alias pa='sudo pkg autoremove && sudo pkg clean'
-alias pu='sudo pkg upgrade'
-alias ps='pkg search'
-alias pl='pkg info'
-alias pp='pkg provides'
+alias gi='guix install'
+alias gr='guix remove'
+#alias gu='guix pull'
+alias gs='guix search'
 
 alias reboot="sudo reboot"
 alias poweroff="sudo poweroff"
 
-alias ls='gnuls -AC --color=auto --group-directories-first'
-alias ll='gnuls -AgGh --color=auto --group-directories-first'
+alias ls='ls -AC --color=auto --group-directories-first'
+alias ll='ls -AgGh --color=auto --group-directories-first'
 alias lt='tree -C'
 
-alias cp='cp -v'
+alias cp='cp -rv'
 alias mv='mv -v'
 alias rm='rm -rfvI'
 alias mkdir='mkdir -pv'

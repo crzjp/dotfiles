@@ -36,6 +36,7 @@
 (use-modules (gnu)
              (gnu packages linux)
              (gnu packages freedesktop)
+             (gnu packages texinfo)
              (nongnu packages linux))
 
 (use-package-modules glib certs xdisorg xorg)
@@ -131,24 +132,12 @@ Public key
 
  (swap-devices (list (swap-space
                       (target (uuid
-                               "24fd9adc-c6cb-480a-95cb-ce0b76c8f933")))))
+                               "7e6487e3-3edf-4970-89e0-dbc87de8e6a8")))))
 
  (file-systems (cons* (file-system
-                       (mount-point "/home")
-                       (device (uuid
-                                "1e13bd7c-3822-4675-9b05-9fe2d6330207"
-                                'ext4))
-                       (type "ext4"))
-                      (file-system
-                       (mount-point "/boot")
-                       (device (uuid
-                                "c776ac14-6a55-48ac-9026-413e80ab4025"
-                                'ext4))
-                       (type "ext4"))
-                      (file-system
                        (mount-point "/")
                        (device (uuid
-                                "f3449f5a-1b4a-4f18-8161-5d97854c29b6"
+                                "68c52ef2-2cee-4a73-a234-b44fdda03d8e"
                                 'ext4))
                        (type "ext4")) %base-file-systems)))
 #+end_src
@@ -197,22 +186,22 @@ Public key
                   "mg"
                   "mpd"
                   "mpd-mpc"
+                  "mpdscribble"
                   "mpv"
                   "mu"
                   "numlockx"
                   "openssh"
-                  "pinentry"
+                  "pinentry-emacs"
                   "sbcl"
-                  "slock"
                   "slop"
                   "stumpwm"
-                  ;"sx"
+                  "sx"
                   "telegram-desktop"
+                  "transmission"
                   "ungoogled-chromium"
                   "unzip"
                   "xclip"
                   "xhost"
-                  "xinit"
                   "xset"
                   "xsetroot"
                   "youtube-dl"

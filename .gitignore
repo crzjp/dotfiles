@@ -7,13 +7,14 @@
 .config/configstore/
 .config/GIMP/
 .config/dconf/
-.config/ungoogled-chromium/
+.config/chromium/
 .config/torbrowser/
 .config/gdb/
 .config/guix/current
 .config/pavucontrol.ini
 .config/fontconfig/
-.config/user-dirs.locale
+.config/user-dirs.*
+.config/mpdscribble/
 
 .config/mpdasrc
 .config/mpd/*

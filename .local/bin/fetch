@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 
-sy="$(uname -sr)"
-pk="$(pkg info | wc -l)"
-pk="${pk##* }"
-wm="$(awk '/exec/{print $NF}' ~/.xinitrc)"
-cl="[31;1m"
+sy="GNU Guix SD"
+pk="$(guix package -I | wc -l)"
+pk="$pk (home: $(guix home describe -I | wc -l))"
+wm="$(awk '/exec/{print $NF}' ~/.config/sx/sxrc)"
+cl="[33;1m"
 cr="[0m"
 
 case "$INSIDE_EMACS" in

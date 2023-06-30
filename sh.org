@@ -37,13 +37,10 @@ fi
 *** Package management
 
 #+begin_src sh
-alias pi='sudo pkg install'
-alias pr='sudo pkg delete'
-alias pa='sudo pkg autoremove && sudo pkg clean'
-alias pu='sudo pkg upgrade'
-alias ps='pkg search'
-alias pl='pkg info'
-alias pp='pkg provides'
+alias gi='guix install'
+alias gr='guix remove'
+#alias gu='guix pull'
+alias gs='guix search'
 #+end_src
 
 *** Power management
@@ -56,15 +53,15 @@ alias poweroff="sudo poweroff"
 *** Listing files
 
 #+begin_src sh
-alias ls='gnuls -AC --color=auto --group-directories-first'
-alias ll='gnuls -AgGh --color=auto --group-directories-first'
+alias ls='ls -AC --color=auto --group-directories-first'
+alias ll='ls -AgGh --color=auto --group-directories-first'
 alias lt='tree -C'
 #+end_src
 
 *** Files/Dirs management
 
 #+begin_src sh
-alias cp='cp -v'
+alias cp='cp -rv'
 alias mv='mv -v'
 alias rm='rm -rfvI'
 alias mkdir='mkdir -pv'
@@ -107,9 +104,10 @@ alias mime='file -b --mime-type'
 ** Essentials
 
 #+begin_src sh
+export XDG_RUNTIME_DIR=/tmp
 export LANG=en_US.UTF-8
 export GDK_CORE_DEVICE_EVENTS=1
-export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORMTHEME=gtk
 #+end_src
 
 ** XDG
@@ -121,6 +119,9 @@ export GTK2_RC_FILES="$HOME/.config/gtk-2.0/settings.ini"
 ** PATH
 
 #+begin_src sh
+GUIX_PROFILE=$HOME/.config/guix/current
+. $GUIX_PROFILE/etc/profile
+
 export PATH=$HOME/.local/bin:$PATH
 #+end_src
 
@@ -147,7 +148,7 @@ export MANPAGER=less
 #+begin_src sh
 export VISUAL=emacsclient
 export EDITOR=emacsclient
-export BROWSER=ungoogled-chromium
+export BROWSER=chromium
 export GPG_TTY=$(tty)
 #+end_src
 
@@ -156,8 +157,10 @@ export GPG_TTY=$(tty)
 #+begin_src sh
 eval "$(dircolors)"
 
+[ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bashrc ] && source ~/.bashrc
-[ "$(tty)" = "/dev/ttyv0" ] && startx
+
+[ "$(tty)" = "/dev/tty1" ] && sx
 #+end_src
 
 * Readline

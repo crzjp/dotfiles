@@ -175,7 +175,6 @@
          :map dired-mode-map
          ("f" . dired-create-empty-file))
   :custom
-  (insert-directory-program "gnuls")
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
 
@@ -399,7 +398,7 @@
   (erc-autojoin-timing 'ident)
   (erc-autojoin-delay 1)
   (erc-autojoin-channels-alist
-   '(("libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")
+   '(("libera.chat" "#emacs" "#guix" "#nonguix" "#nixers" "#stumpwm")
      ("slackjeff.com.br" "#mundo-libre")))
   (erc-track-exclude-types
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
@@ -563,6 +562,7 @@
   (comint-prompt-read-only t))
 
 (use-package vterm
+  :ensure nil
   :bind (("C-c t" . vterm)
          :map vterm-mode-map
          ("C-q" . vterm-send-next-key))

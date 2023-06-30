@@ -1,8 +1,12 @@
+export XDG_RUNTIME_DIR=/tmp
 export LANG=en_US.UTF-8
 export GDK_CORE_DEVICE_EVENTS=1
-export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORMTHEME=gtk
 
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/settings.ini"
+
+GUIX_PROFILE=$HOME/.config/guix/current
+. $GUIX_PROFILE/etc/profile
 
 export PATH=$HOME/.local/bin:$PATH
 
@@ -20,10 +24,12 @@ export MANPAGER=less
 
 export VISUAL=emacsclient
 export EDITOR=emacsclient
-export BROWSER=ungoogled-chromium
+export BROWSER=chromium
 export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 
+[ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bashrc ] && source ~/.bashrc
-[ "$(tty)" = "/dev/ttyv0" ] && startx
+
+[ "$(tty)" = "/dev/tty1" ] && sx
