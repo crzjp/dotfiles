@@ -618,10 +618,11 @@
 
 (use-package modus-themes
   :ensure nil
+  :custom
+  (modus-themes-subtle-line-numbers t)
+  (modus-themes-org-blocks 'gray-background)
+  (modus-themes-mode-line '(borderless))
   :init
-  (setq modus-themes-subtle-line-numbers t
-        modus-themes-org-blocks 'gray-background
-        modus-themes-mode-line '(borderless))
   (load-theme 'modus-vivendi t))
 
 (use-package ace-window
