@@ -83,7 +83,7 @@
 ** Autostart
 
 #+begin_src lisp
-;(run-shell-command "numlockx on")
+(run-shell-command "numlockx on")
 (run-shell-command "xset r rate 200 70")
 
 (run-shell-command "xsetroot -cursor_name left_ptr")

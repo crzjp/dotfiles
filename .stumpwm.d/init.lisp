@@ -51,7 +51,7 @@
 
 (define-key *top-map* (kbd "s-a") '*apps*)
 
-;(run-shell-command "numlockx on")
+(run-shell-command "numlockx on")
 (run-shell-command "xset r rate 200 70")
 
 (run-shell-command "xsetroot -cursor_name left_ptr")

@@ -893,9 +893,6 @@ alias gi guix install $*
 alias gr guix remove $*
 alias gs guix search $*
 
-alias poweroff sudo poweroff
-alias reboot sudo reboot
-
 alias ls ls -AC --color=always --group-directories-first $*
 alias ll ls -AgGh --color=always --group-directories-first $*
 alias lt tree -C $*

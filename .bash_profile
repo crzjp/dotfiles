@@ -1,4 +1,3 @@
-#export LANG=en_US.UTF-8
 export GDK_CORE_DEVICE_EVENTS=1
 export QT_QPA_PLATFORMTHEME=gtk
 

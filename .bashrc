@@ -19,7 +19,7 @@ alias gr='guix remove'
 alias gs='guix search'
 
 alias reboot="sudo reboot"
-alias poweroff="sudo poweroff"
+alias poweroff="sudo shutdown"
 
 alias ls='ls -AC --color=auto --group-directories-first'
 alias ll='ls -AgGh --color=auto --group-directories-first'

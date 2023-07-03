@@ -1,6 +1,15 @@
 (use-modules
  (gnu)
+ (gnu packages certs)
+ (gnu packages disk)
+ (gnu packages file-systems)
+ (gnu packages freedesktop)
+ (gnu packages glib)
+ (gnu packages gnupg)
  (gnu packages linux)
+ (gnu packages texinfo)
+ (gnu packages version-control)
+ (gnu packages xorg)
  (gnu services base)
  (gnu services desktop)
  (gnu services networking)
@@ -24,25 +33,25 @@
                 (supplementary-groups '("wheel" "netdev" "audio" "video" "input" "tty")))
                %base-user-accounts))
 
- (packages (append (list (specification->package "alsa-lib")
-                         (specification->package "alsa-utils")
-                         (specification->package "dbus")
-                         (specification->package "dosfstools")
-                         (specification->package "elogind")
-                         (specification->package "exfat-utils")
-                         (specification->package "exfatprogs")
-                         (specification->package "fuse-exfat")
-                         (specification->package "git")
-                         (specification->package "gnupg")
-                         (specification->package "libinput")
-                         (specification->package "nss-certs")
-                         (specification->package "texinfo")
-                         (specification->package "xf86-input-keyboard")
-                         (specification->package "xf86-input-libinput")
-                         (specification->package "xf86-input-mouse")
-                         (specification->package "xf86-input-synaptics")
-                         (specification->package "xf86-video-intel"))
-                   %base-packages))
+ (packages (cons* alsa-lib
+                  alsa-utils
+                  dbus
+                  dosfstools
+                  elogind
+                  exfat-utils
+                  exfatprogs
+                  fuse-exfat
+                  git
+                  gnupg
+                  libinput
+                  nss-certs
+                  texinfo
+                  xf86-input-keyboard
+                  xf86-input-libinput
+                  xf86-input-mouse
+                  xf86-input-synaptics
+                  xf86-video-intel
+                  %base-packages))
 
  (services
   (cons* (service dhcp-client-service-type)

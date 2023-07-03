@@ -35,7 +35,16 @@
 #+begin_src scheme
 (use-modules
  (gnu)
+ (gnu packages certs)
+ (gnu packages disk)
+ (gnu packages file-systems)
+ (gnu packages freedesktop)
+ (gnu packages glib)
+ (gnu packages gnupg)
  (gnu packages linux)
+ (gnu packages texinfo)
+ (gnu packages version-control)
+ (gnu packages xorg)
  (gnu services base)
  (gnu services desktop)
  (gnu services networking)
@@ -71,25 +80,25 @@
 ** Packages
 
 #+begin_src scheme
- (packages (append (list (specification->package "alsa-lib")
-                         (specification->package "alsa-utils")
-                         (specification->package "dbus")
-                         (specification->package "dosfstools")
-                         (specification->package "elogind")
-                         (specification->package "exfat-utils")
-                         (specification->package "exfatprogs")
-                         (specification->package "fuse-exfat")
-                         (specification->package "git")
-                         (specification->package "gnupg")
-                         (specification->package "libinput")
-                         (specification->package "nss-certs")
-                         (specification->package "texinfo")
-                         (specification->package "xf86-input-keyboard")
-                         (specification->package "xf86-input-libinput")
-                         (specification->package "xf86-input-mouse")
-                         (specification->package "xf86-input-synaptics")
-                         (specification->package "xf86-video-intel"))
-                   %base-packages))
+ (packages (cons* alsa-lib
+                  alsa-utils
+                  dbus
+                  dosfstools
+                  elogind
+                  exfat-utils
+                  exfatprogs
+                  fuse-exfat
+                  git
+                  gnupg
+                  libinput
+                  nss-certs
+                  texinfo
+                  xf86-input-keyboard
+                  xf86-input-libinput
+                  xf86-input-mouse
+                  xf86-input-synaptics
+                  xf86-video-intel
+                  %base-packages))
 #+end_src
 
 ** Services
@@ -159,10 +168,30 @@ Public key
 
 #+begin_src scheme
 (use-modules
- (gnu home)
- (gnu services)
+ (gnu packages bittorrent)
+ (gnu packages chromium)
+ (gnu packages compression)
+ (gnu packages curl)
+ (gnu packages dunst)
+ (gnu packages emacs)
+ (gnu packages emacs-xyz)
+ (gnu packages fonts)
+ (gnu packages fontutils)
+ (gnu packages gnome)
+ (gnu packages gnome-xyz)
+ (gnu packages gnupg)
+ (gnu packages lisp)
+ (gnu packages mail)
+ (gnu packages mpd)
+ (gnu packages package-management)
+ (gnu packages ssh)
+ (gnu packages telegram)
+ (gnu packages video)
+ (gnu packages wm)
+ (gnu packages xdisorg)
+ (gnu packages xorg)
  (gnu packages)
- (gnu home services)
+ (gnu services)
  (gnu home services xdg))
 #+end_src
 
@@ -170,48 +199,48 @@ Public key
 
 #+begin_src scheme
 (home-environment
- (packages (specifications->packages
-            (list "curl"
-                  "dunst"
-                  "emacs"
-                  "emacs-flymake-shellcheck"
-                  "emacs-pdf-tools"
-                  "emacs-vterm"
-                  "font-awesome"
-                  "font-google-noto"
-                  "font-google-noto-emoji"
-                  "font-google-noto-sans-cjk"
-                  "font-google-noto-serif-cjk"
-                  "font-iosevka"
-                  "font-iosevka-aile"
-                  "fontconfig"
-                  "isync"
-                  "libnotify"
-                  "maim"
-                  "materia-theme"
-                  "mpd"
-                  "mpd-mpc"
-                  "mpdscribble"
-                  "mpv"
-                  "mu"
-                  "numlockx"
-                  "openssh"
-                  "pinentry-emacs"
-                  "sbcl"
-                  "slop"
-                  "stow"
-                  "stumpwm"
-                  "sx"
-                  "telegram-desktop"
-                  "transmission"
-                  "ungoogled-chromium"
-                  "unzip"
-                  "xclip"
-                  "xhost"
-                  "xset"
-                  "xsetroot"
-                  "youtube-dl"
-                  "zip")))
+ (packages (cons* curl
+                  dunst
+                  emacs
+                  emacs-flymake-shellcheck
+                  emacs-pdf-tools
+                  emacs-vterm
+                  font-awesome
+                  font-google-noto
+                  font-google-noto-emoji
+                  font-google-noto-sans-cjk
+                  font-google-noto-serif-cjk
+                  font-iosevka
+                  font-iosevka-aile
+                  fontconfig
+                  isync
+                  libnotify
+                  maim
+                  materia-theme
+                  mpd
+                  mpd-mpc
+                  mpdscribble
+                  mpv
+                  mu
+                  numlockx
+                  openssh
+                  pinentry-emacs
+                  sbcl
+                  slop
+                  stow
+                  stumpwm
+                  sx
+                  telegram-desktop
+                  transmission
+                  ungoogled-chromium
+                  unzip
+                  xclip
+                  xhost
+                  xset
+                  xsetroot
+                  youtube-dl
+                  (specifications->packages
+                   (list "zip"))))
 #+end_src
 
 ** Services
