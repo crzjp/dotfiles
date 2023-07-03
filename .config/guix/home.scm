@@ -1,9 +1,9 @@
-(use-modules (gnu home)
-             (gnu services)
-             (gnu packages)
-             (gnu home services)
-             (gnu home services xdg)
-             (guix gexp))
+(use-modules
+ (gnu home)
+ (gnu services)
+ (gnu packages)
+ (gnu home services)
+ (gnu home services xdg))
 
 (home-environment
  (packages (specifications->packages
@@ -21,13 +21,10 @@
                   "font-iosevka"
                   "font-iosevka-aile"
                   "fontconfig"
-                  "git"
-                  "gnupg"
                   "isync"
                   "libnotify"
                   "maim"
                   "materia-theme"
-                  "mg"
                   "mpd"
                   "mpd-mpc"
                   "mpdscribble"
@@ -38,6 +35,7 @@
                   "pinentry-emacs"
                   "sbcl"
                   "slop"
+                  "stow"
                   "stumpwm"
                   "sx"
                   "telegram-desktop"

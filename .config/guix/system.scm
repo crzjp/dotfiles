@@ -1,18 +1,19 @@
-(use-modules (gnu)
-             (gnu packages linux)
-             (gnu packages freedesktop)
-             (gnu packages texinfo)
-             (nongnu packages linux))
-
-(use-package-modules glib certs xdisorg xorg)
-(use-service-modules base desktop networking ssh xorg)
+(use-modules
+ (gnu)
+ (gnu packages linux)
+ (gnu services base)
+ (gnu services desktop)
+ (gnu services networking)
+ (gnu services ssh)
+ (gnu services xorg)
+ (nongnu packages linux))
 
 (operating-system
  (kernel linux)
  (firmware (list linux-firmware))
  (locale "en_US.utf8")
  (timezone "America/Bahia")
- (keyboard-layout (keyboard-layout "br"))
+ (keyboard-layout (keyboard-layout "br" "abnt2"))
  (host-name "batatinha")
 
  (users (cons* (user-account
@@ -23,22 +24,29 @@
                 (supplementary-groups '("wheel" "netdev" "audio" "video" "input" "tty")))
                %base-user-accounts))
 
- (packages (cons* alsa-lib
-                  alsa-utils
-                  dbus
-                  elogind
-                  libinput
-                  nss-certs
-                  texinfo
-                  xf86-input-keyboard
-                  xf86-input-libinput
-                  xf86-input-mouse
-                  xf86-input-synaptics
-                  xf86-video-intel
-                  %base-packages))
+ (packages (append (list (specification->package "alsa-lib")
+                         (specification->package "alsa-utils")
+                         (specification->package "dbus")
+                         (specification->package "dosfstools")
+                         (specification->package "elogind")
+                         (specification->package "exfat-utils")
+                         (specification->package "exfatprogs")
+                         (specification->package "fuse-exfat")
+                         (specification->package "git")
+                         (specification->package "gnupg")
+                         (specification->package "libinput")
+                         (specification->package "nss-certs")
+                         (specification->package "texinfo")
+                         (specification->package "xf86-input-keyboard")
+                         (specification->package "xf86-input-libinput")
+                         (specification->package "xf86-input-mouse")
+                         (specification->package "xf86-input-synaptics")
+                         (specification->package "xf86-video-intel"))
+                   %base-packages))
 
  (services
   (cons* (service dhcp-client-service-type)
+         (service elogind-service-type)
          (service ntp-service-type)
          (service xorg-server-service-type
                   (xorg-configuration
