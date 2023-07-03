@@ -1,4 +1,5 @@
 (use-modules
+ (gnu packages)
  (gnu packages bittorrent)
  (gnu packages chromium)
  (gnu packages compression)
@@ -21,7 +22,6 @@
  (gnu packages wm)
  (gnu packages xdisorg)
  (gnu packages xorg)
- (gnu packages)
  (gnu services)
  (gnu home services xdg))
 

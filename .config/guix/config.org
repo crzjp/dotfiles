@@ -168,6 +168,7 @@ Public key
 
 #+begin_src scheme
 (use-modules
+ (gnu packages)
  (gnu packages bittorrent)
  (gnu packages chromium)
  (gnu packages compression)
@@ -190,7 +191,6 @@ Public key
  (gnu packages wm)
  (gnu packages xdisorg)
  (gnu packages xorg)
- (gnu packages)
  (gnu services)
  (gnu home services xdg))
 #+end_src
