@@ -1,8 +1,6 @@
 #!/usr/bin/env sh
 
-sy="GNU Guix SD"
-pk="$(guix package -I | wc -l)"
-pk="$pk (home: $(guix home describe -I | wc -l))"
+sy="gnu guix sd"
 wm="$(awk '/exec/{print $NF}' ~/.config/sx/sxrc)"
 cl="[33;1m"
 cr="[0m"
@@ -28,10 +26,9 @@ esac
 
 cat <<EOF
 
-        ${cl}OS ${cr}${sy}
-  ${cl}PACKAGES ${cr}${pk}
-     ${cl}SHELL ${cr}${sh}
-  ${cl}TERMINAL ${cr}${tm}
-        ${cl}WM ${cr}${wm}
+  os ${cl}::${cr} ${sy}
+  sh ${cl}::${cr} ${sh}
+  tm ${cl}::${cr} ${tm}
+  wm ${cl}::${cr} ${wm}
 
 EOF

@@ -24,7 +24,7 @@
   (auto-package-update-delete-old-versions t))
 
 (setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzjp@riseup.net")
+      user-mail-address "crzzjp@gmail.com")
 
 (global-set-key (kbd "M-&") 'with-editor-async-shell-command)
 
@@ -372,10 +372,10 @@
   (mail-user-agent 'mu4e-user-agent)
   (mu4e-get-mail-command "mbsync -a")
   (mu4e-maildir "~/public/mail")
-  (mu4e-drafts-folder "/riseup/drafts")
-  (mu4e-sent-folder "/riseup/sent")
-  (mu4e-refile-folder "/riseup/all")
-  (mu4e-trash-folder "/riseup/trash")
+  (mu4e-drafts-folder "/gmail/drafts")
+  (mu4e-sent-folder "/gmail/sent")
+  (mu4e-refile-folder "/gmail/all")
+  (mu4e-trash-folder "/gmail/trash")
   (mu4e-read-option-use-builtin nil)
   (mu4e-completing-read-function 'completing-read))
 
@@ -416,12 +416,7 @@
 (use-package pdf-tools
   :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
-  :hook (pdf-view-mode . pdf-view-midnight-minor-mode)
-  :custom
-  (pdf-view-continuous nil))
-
-;; (use-package pdf-view-restore
-;;   :hook (pdf-view-mode . pdf-view-restore-mode))
+  :hook (pdf-view-mode . pdf-view-midnight-minor-mode))
 
 (use-package transmission
   :custom
