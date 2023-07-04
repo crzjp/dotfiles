@@ -107,7 +107,7 @@
 
 #+begin_src emacs-lisp
 (setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzzjp@gmail.com")
+      user-mail-address "crzjp@riseup.net")
 #+end_src
 
 ** Async shell command with $EDITOR
@@ -693,10 +693,10 @@ Requires =mu= and =isync/mbsync= packages.
   (mail-user-agent 'mu4e-user-agent)
   (mu4e-get-mail-command "mbsync -a")
   (mu4e-maildir "~/public/mail")
-  (mu4e-drafts-folder "/gmail/drafts")
-  (mu4e-sent-folder "/gmail/sent")
-  (mu4e-refile-folder "/gmail/all")
-  (mu4e-trash-folder "/gmail/trash")
+  (mu4e-drafts-folder "/riseup/drafts")
+  (mu4e-sent-folder "/riseup/sent")
+  (mu4e-refile-folder "/riseup/all")
+  (mu4e-trash-folder "/riseup/trash")
   (mu4e-read-option-use-builtin nil)
   (mu4e-completing-read-function 'completing-read))
 #+end_src
