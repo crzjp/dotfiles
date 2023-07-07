@@ -110,14 +110,14 @@
          (service ntp-service-type)
          (service xorg-server-service-type
                   (xorg-configuration
-                   (keyboard-layout keyboard-layout)
-                   (extra-config (list "Section \"InputClass\"
-  Identifier \"Keyboards\"
-  Driver \"libinput\"
-  MatchDevicePath \"/dev/input/event*\"
-  MatchIsKeyboard \"on\"
-EndSection
-"))))
+                   (keyboard-layout keyboard-layout)))
+;;                    (extra-config (list "Section \"InputClass\"
+;;   Identifier \"Keyboards\"
+;;   Driver \"libinput\"
+;;   MatchDevicePath \"/dev/input/event*\"
+;;   MatchIsKeyboard \"on\"
+;; EndSection
+;; "))))
          (modify-services %base-services
                           (guix-service-type config =>
                                              (guix-configuration
@@ -169,6 +169,7 @@ Public key
 #+begin_src scheme
 (use-modules
  (gnu packages)
+ (gnu services)
  (gnu packages bittorrent)
  (gnu packages chromium)
  (gnu packages compression)
@@ -191,7 +192,8 @@ Public key
  (gnu packages wm)
  (gnu packages xdisorg)
  (gnu packages xorg)
- (gnu services)
+ (nongnu packages clojure)
+ (gnu home services gnupg)
  (gnu home services xdg))
 #+end_src
 
@@ -214,6 +216,7 @@ Public key
                   font-iosevka-aile
                   fontconfig
                   isync
+                  leiningen
                   libnotify
                   maim
                   materia-theme
@@ -247,7 +250,13 @@ Public key
 
 #+begin_src scheme
  (services
-  (list (service home-xdg-user-directories-service-type
+  (list (service home-gpg-agent-service-type
+                 (home-gpg-agent-configuration
+                  (extra-content (format #f "~@{~a~%~}"
+                                         "allow-emacs-pinentry"
+                                         "allow-loopback-pinentry"))))
+        
+        (service home-xdg-user-directories-service-type
                  (home-xdg-user-directories-configuration
                   (desktop     "$HOME/desktop")
                   (documents   "$HOME/documents")

@@ -59,14 +59,14 @@
          (service ntp-service-type)
          (service xorg-server-service-type
                   (xorg-configuration
-                   (keyboard-layout keyboard-layout)
-                   (extra-config (list "Section \"InputClass\"
-  Identifier \"Keyboards\"
-  Driver \"libinput\"
-  MatchDevicePath \"/dev/input/event*\"
-  MatchIsKeyboard \"on\"
-EndSection
-"))))
+                   (keyboard-layout keyboard-layout)))
+;;                    (extra-config (list "Section \"InputClass\"
+;;   Identifier \"Keyboards\"
+;;   Driver \"libinput\"
+;;   MatchDevicePath \"/dev/input/event*\"
+;;   MatchIsKeyboard \"on\"
+;; EndSection
+;; "))))
          (modify-services %base-services
                           (guix-service-type config =>
                                              (guix-configuration

@@ -1,5 +1,6 @@
 (use-modules
  (gnu packages)
+ (gnu services)
  (gnu packages bittorrent)
  (gnu packages chromium)
  (gnu packages compression)
@@ -22,7 +23,8 @@
  (gnu packages wm)
  (gnu packages xdisorg)
  (gnu packages xorg)
- (gnu services)
+ (nongnu packages clojure)
+ (gnu home services gnupg)
  (gnu home services xdg))
 
 (home-environment
@@ -41,6 +43,7 @@
                   font-iosevka-aile
                   fontconfig
                   isync
+                  leiningen
                   libnotify
                   maim
                   materia-theme
@@ -70,7 +73,13 @@
                    (list "zip"))))
 
  (services
-  (list (service home-xdg-user-directories-service-type
+  (list (service home-gpg-agent-service-type
+                 (home-gpg-agent-configuration
+                  (extra-content (format #f "~@{~a~%~}"
+                                         "allow-emacs-pinentry"
+                                         "allow-loopback-pinentry"))))
+        
+        (service home-xdg-user-directories-service-type
                  (home-xdg-user-directories-configuration
                   (desktop     "$HOME/desktop")
                   (documents   "$HOME/documents")

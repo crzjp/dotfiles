@@ -32,3 +32,4 @@
 
 .gnupg/*
 !.gnupg/gpg-agent.conf
+/.config/shepherd/
