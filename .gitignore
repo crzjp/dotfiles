@@ -14,8 +14,9 @@
 .config/pavucontrol.ini
 .config/fontconfig/
 .config/user-dirs.*
-.config/mpdscribble/
+.config/shepherd/
 
+.config/mpdscribble/
 .config/mpdasrc
 .config/mpd/*
 !.config/mpd/mpd.conf
@@ -29,7 +30,3 @@
 !.local/bin/
 
 .stumpwm.d/*log*
-
-.gnupg/*
-!.gnupg/gpg-agent.conf
-/.config/shepherd/
