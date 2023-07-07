@@ -484,7 +484,7 @@
             org-ellipsis " ⤷")
       (org-mode)
       (org-modern-mode 1)
-      (variable-pitch-mode 1)))
+      (variable-pitch-mode 1))))
 
 (use-package proced
   :ensure nil
