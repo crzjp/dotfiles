@@ -2,8 +2,8 @@
 
 (set-prefix-key (kbd "s-x"))
 
-(define-key *top-map* (kbd "s-F12") "exec amixer sset Master 5%+")
-(define-key *top-map* (kbd "s-F11") "exec amixer sset Master 5%-")
+(define-key *top-map* (kbd "s-F12") "exec amixer sset Master 3%+")
+(define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
 ;(define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
 
 (defvar *emacs*
