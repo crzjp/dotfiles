@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-sy="gnu guix sd"
+sy="GNU GuixSD"
 wm="$(awk '/exec/{print $NF}' ~/.config/sx/sxrc)"
 cl="[33;1m"
 cr="[0m"
