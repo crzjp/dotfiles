@@ -13,6 +13,7 @@
  (gnu packages gnome)
  (gnu packages gnome-xyz)
  (gnu packages gnupg)
+ (gnu packages java)
  (gnu packages lisp)
  (gnu packages mail)
  (gnu packages mpd)
@@ -53,6 +54,7 @@
                   mpv
                   mu
                   numlockx
+                  openjdk:jdk
                   openssh
                   pinentry-emacs
                   sbcl

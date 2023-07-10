@@ -182,6 +182,7 @@ Public key
  (gnu packages gnome)
  (gnu packages gnome-xyz)
  (gnu packages gnupg)
+ (gnu packages java)
  (gnu packages lisp)
  (gnu packages mail)
  (gnu packages mpd)
@@ -226,6 +227,7 @@ Public key
                   mpv
                   mu
                   numlockx
+                  openjdk:jdk
                   openssh
                   pinentry-emacs
                   sbcl

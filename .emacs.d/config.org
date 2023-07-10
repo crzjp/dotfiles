@@ -276,6 +276,12 @@
 (setq uniquify-buffer-name-style 'forward)
 #+end_src
 
+** Save bookmarks immediately
+
+#+begin_src emacs-lisp
+(setq bookmark-save-flag 1)
+#+end_src
+
 * Completion
 
 ** At point (or in region)
@@ -626,25 +632,26 @@ Disabled fido config to a (probably) future more polished version.
 
 * Language modes
 
+** LSP
+
+#+begin_src emacs-lisp
+(use-package eglot)
+#+end_src
+
 ** Common Lisp
 
 #+begin_src emacs-lisp
 (use-package sly
   :custom
-  (inferior-lisp-program "sbcl")
-  (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
+  (inferior-lisp-program "sbcl"))
 
 (use-package sly-mrepl
   :ensure nil
   :after sly
   :bind (:map sly-mrepl-mode-map
-         ("C-r" . consult-history)))
-#+end_src
-
-** LSP
-
-#+begin_src emacs-lisp
-(use-package eglot)
+         ("C-r" . consult-history))
+  :custom
+  (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
 #+end_src
 
 ** Markdown
@@ -663,6 +670,12 @@ Requires =shellcheck= package.
 (use-package flymake-shellcheck
   :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
+#+end_src
+
+** Clojure
+
+#+begin_src emacs-lisp
+(use-package cider)
 #+end_src
 
 * Magit

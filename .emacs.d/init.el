@@ -102,6 +102,8 @@
 
 (setq uniquify-buffer-name-style 'forward)
 
+(setq bookmark-save-flag 1)
+
 (use-package cape
   :defer 1
   :config
@@ -334,18 +336,19 @@
                (crz/bytes-to-human-readable-file-sizes total))))
     (crz/bytes-to-human-readable-file-sizes (buffer-size))))
 
+(use-package eglot)
+
 (use-package sly
   :custom
-  (inferior-lisp-program "sbcl")
-  (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
+  (inferior-lisp-program "sbcl"))
 
 (use-package sly-mrepl
   :ensure nil
   :after sly
   :bind (:map sly-mrepl-mode-map
-         ("C-r" . consult-history)))
-
-(use-package eglot)
+         ("C-r" . consult-history))
+  :custom
+  (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
 
 (use-package markdown-mode
   :mode (("\\.md\\'" . markdown-mode)
@@ -354,6 +357,8 @@
 (use-package flymake-shellcheck
   :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
+
+(use-package cider)
 
 (use-package pinentry
   :after magit
