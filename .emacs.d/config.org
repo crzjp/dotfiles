@@ -202,7 +202,10 @@
   :custom
   (recentf-max-saved-items 100)
   (recentf-auto-cleanup (* 5 60))
-  (recentf-exclude '("\\.[jp][pn]g\\'" "\\.webp\\'"))
+  (recentf-exclude
+   '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'"
+     "/gnu/.*" ".*/elpa/.*"
+     "bookmarks\\'"))
   :config
   (recentf-mode 1))
 #+end_src
@@ -523,6 +526,17 @@ Disabled fido config to a (probably) future more polished version.
    :utils "ffmpeg"))
 #+end_src
 
+* Ediff
+
+#+begin_src emacs-lisp
+(use-package ediff
+  :ensure nil
+  :custom
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
+#+end_src
+
 * Ibuffer
 
 ** Defaults
@@ -637,10 +651,10 @@ Disabled fido config to a (probably) future more polished version.
 
 * Language modes
 
-** LSP
+** Clojure
 
 #+begin_src emacs-lisp
-(use-package eglot)
+(use-package cider)
 #+end_src
 
 ** Common Lisp
@@ -659,6 +673,12 @@ Disabled fido config to a (probably) future more polished version.
   (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
 #+end_src
 
+** LSP
+
+#+begin_src emacs-lisp
+(use-package eglot)
+#+end_src
+
 ** Markdown
 
 #+begin_src emacs-lisp
@@ -675,12 +695,6 @@ Requires =shellcheck= package.
 (use-package flymake-shellcheck
   :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
-#+end_src
-
-** Clojure
-
-#+begin_src emacs-lisp
-(use-package cider)
 #+end_src
 
 * Magit

@@ -69,7 +69,10 @@
   :custom
   (recentf-max-saved-items 100)
   (recentf-auto-cleanup (* 5 60))
-  (recentf-exclude '("\\.[jp][pn]g\\'" "\\.webp\\'"))
+  (recentf-exclude
+   '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'"
+     "/gnu/.*" ".*/elpa/.*"
+     "bookmarks\\'"))
   :config
   (recentf-mode 1))
 
@@ -243,6 +246,13 @@
      :utils "ffmpeg"))
   (require 'dwim-shell-commands))
 
+(use-package ediff
+  :ensure nil
+  :custom
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
+
 (use-package ibuffer
   :ensure nil
   :bind (([remap list-buffers] . ibuffer)
@@ -341,7 +351,7 @@
                (crz/bytes-to-human-readable-file-sizes total))))
     (crz/bytes-to-human-readable-file-sizes (buffer-size))))
 
-(use-package eglot)
+(use-package cider)
 
 (use-package sly
   :custom
@@ -355,6 +365,8 @@
   :custom
   (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
 
+(use-package eglot)
+
 (use-package markdown-mode
   :mode (("\\.md\\'" . markdown-mode)
          ("README\\.md\\'" . gfm-mode)))
@@ -362,8 +374,6 @@
 (use-package flymake-shellcheck
   :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
-
-(use-package cider)
 
 (use-package pinentry
   :after magit
