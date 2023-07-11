@@ -63,10 +63,15 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(setq recentf-max-saved-items 100
-      recentf-auto-cleanup (* 5 60))
-
-(recentf-mode 1)
+(use-package recentf
+  :ensure nil
+  :defer 2
+  :custom
+  (recentf-max-saved-items 100)
+  (recentf-auto-cleanup (* 5 60))
+  (recentf-exclude '("\\.[jp][pn]g\\'" "\\.webp\\'"))
+  :config
+  (recentf-mode 1))
 
 (setq-default vc-follow-symlinks)
 
