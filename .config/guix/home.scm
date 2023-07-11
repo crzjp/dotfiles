@@ -1,6 +1,7 @@
 (use-modules
  (gnu packages)
  (gnu services)
+ (gnu packages admin)
  (gnu packages bittorrent)
  (gnu packages chromium)
  (gnu packages compression)
@@ -64,6 +65,7 @@
                   sx
                   telegram-desktop
                   transmission
+                  tree
                   ungoogled-chromium
                   unzip
                   xclip
