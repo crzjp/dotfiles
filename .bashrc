@@ -15,7 +15,7 @@ fi
 
 alias gi='guix install'
 alias gr='guix remove'
-#alias gu='guix pull'
+alias gu='guix pull && guix upgrade'
 alias gs='guix search'
 
 alias reboot="sudo reboot"

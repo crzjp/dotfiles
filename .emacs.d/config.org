@@ -905,6 +905,7 @@ alias c eshell/clear-scrollback
 
 alias gi guix install $*
 alias gr guix remove $*
+alias gu guix pull && guix upgrade
 alias gs guix search $*
 
 alias ls ls -AC --color=always --group-directories-first $*
