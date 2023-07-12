@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -x
+
 for dep in mpd mpc notify-send ; do
     [ $(command -v $dep) ] || { echo error: \"$dep\" not found && exit 1; }
 done
