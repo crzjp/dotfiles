@@ -654,7 +654,10 @@ Disabled fido config to a (probably) future more polished version.
 ** Clojure
 
 #+begin_src emacs-lisp
-(use-package cider)
+(use-package cider
+  :hook (clojure-mode . cider-mode)
+  :config
+  (add-to-list 'completion-category-defaults '(cider (styles basic))))
 #+end_src
 
 ** Common Lisp

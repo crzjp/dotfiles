@@ -351,7 +351,10 @@
                (crz/bytes-to-human-readable-file-sizes total))))
     (crz/bytes-to-human-readable-file-sizes (buffer-size))))
 
-(use-package cider)
+(use-package cider
+  :hook (clojure-mode . cider-mode)
+  :config
+  (add-to-list 'completion-category-defaults '(cider (styles basic))))
 
 (use-package sly
   :custom
