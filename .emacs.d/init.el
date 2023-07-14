@@ -70,8 +70,8 @@
   (recentf-max-saved-items 100)
   (recentf-auto-cleanup (* 5 60))
   (recentf-exclude
-   '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'"
-     "/gnu/.*" ".*/elpa/.*"
+   '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'" "\\.gpg\\'"
+     "/gnu/.*" ".*/elpa/.*" ".*/mail/.*"
      "bookmarks\\'"))
   :config
   (recentf-mode 1))
@@ -176,9 +176,6 @@
   (completion-styles '(orderless))
   (orderless-matching-styles '(orderless-initialism orderless-flex)))
 
-(use-package diredfl
-  :hook (dired-mode . diredfl-mode))
-
 (use-package dired
   :ensure nil
   :bind (("C-x C-d" . dired-jump)
@@ -187,6 +184,9 @@
   :custom
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
+
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
 
 (use-package dwim-shell-command
   :defer 2
@@ -287,9 +287,7 @@
       ("Agenda" (filename . "agenda.org"))
       ("Org" (mode . org-mode))
       ("Git" (name . "magit.*"))
-      ("Mail" (or (mode . mu4e-compose-mode)
-                  (mode . mu4e-headers-mode)
-                  (mode . mu4e-main-mode)))
+      ("Mail" (name . "\*mu4e.*"))
       ("Book" (or (mode . pdf-view-mode)
                   (mode . nov-mode)))
       ("Dired" (mode . dired-mode))
@@ -384,12 +382,24 @@
   :config
   (pinentry-start))
 
+(use-package pdf-tools
+  :ensure nil
+  :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
+  :hook (pdf-view-mode . pdf-view-midnight-minor-mode))
+
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode))
+
 (use-package mu4e
   :ensure nil
   :bind ("C-c m" . mu4e)
   :custom
+  (send-mail-function 'smtpmail-send-it)
+  (smtpmail-smtp-server "mail.riseup.net")
+  (smtpmail-smtp-user "crzjp@riseup.net")
+  (smtpmail-smtp-service 465)
   (mail-user-agent 'mu4e-user-agent)
-  (mu4e-get-mail-command "mbsync -a")
+  (mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
   (mu4e-maildir "~/public/mail")
   (mu4e-drafts-folder "/riseup/drafts")
   (mu4e-sent-folder "/riseup/sent")
@@ -397,9 +407,6 @@
   (mu4e-trash-folder "/riseup/trash")
   (mu4e-read-option-use-builtin nil)
   (mu4e-completing-read-function 'completing-read))
-
-(use-package nov
-  :mode ("\\.epub\\'" . nov-mode))
 
 (use-package erc-hl-nicks)
 
@@ -431,11 +438,6 @@
   (mingus-use-mouse-p nil)
   (mingus-mode-line-show-elapsed-time nil)
   (mingus-mode-line-show-volume nil))
-
-(use-package pdf-tools
-  :ensure nil
-  :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
-  :hook (pdf-view-mode . pdf-view-midnight-minor-mode))
 
 (use-package transmission
   :custom
@@ -512,6 +514,23 @@
   :custom
   (proced-auto-update-interval 2))
 
+(use-package esh-mode
+  :ensure nil
+  :bind (("C-c e" . eshell)
+         :map eshell-mode-map
+         ("C-l" . (lambda ()
+                    (interactive)
+                    (let ((input (eshell-get-old-input)))
+                      (eshell/clear t)
+                      (eshell-emit-prompt)
+                      (insert input)))))
+  :custom
+  (eshell-buffer-maximum-lines 1000)
+  (eshell-scroll-to-bottom-on-input t)
+  (eshell-destroy-buffer-when-process-dies t)
+  :config
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer))
+
 (use-package em-alias
   :ensure nil
   :custom
@@ -529,23 +548,6 @@
      ((and (derived-mode-p 'comint-mode) (fboundp 'comint-send-input))
       (comint-send-input))))
   (advice-add 'corfu-insert :after 'corfu-send-shell))
-
-(use-package esh-mode
-  :ensure nil
-  :bind (("C-c e" . eshell)
-         :map eshell-mode-map
-         ("C-l" . (lambda ()
-                    (interactive)
-                    (let ((input (eshell-get-old-input)))
-                      (eshell/clear t)
-                      (eshell-emit-prompt)
-                      (insert input)))))
-  :custom
-  (eshell-buffer-maximum-lines 1000)
-  (eshell-scroll-to-bottom-on-input t)
-  (eshell-destroy-buffer-when-process-dies t)
-  :config
-  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer))
 
 (use-package esh-mode
   :ensure nil
