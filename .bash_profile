@@ -24,7 +24,7 @@ export MANPAGER=less
 export VISUAL=emacsclient
 export EDITOR=emacsclient
 export BROWSER=chromium
-#export GPG_TTY=$(tty)
+export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 

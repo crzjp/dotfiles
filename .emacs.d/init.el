@@ -286,7 +286,8 @@
       ("Debug" (mode . debugger-mode))
       ("Agenda" (filename . "agenda.org"))
       ("Org" (mode . org-mode))
-      ("Git" (name . "magit.*"))
+      ("VC" (or (name . "magit.*")
+                (name . "\*vc.*")))
       ("Mail" (name . "\*mu4e.*"))
       ("Book" (or (mode . pdf-view-mode)
                   (mode . nov-mode)))
@@ -374,15 +375,15 @@
   :ensure nil
   :hook (sh-mode . flymake-shellcheck-load))
 
-(use-package pinentry
-  :after magit
-  :custom
-  (epg-pinentry-mode 'loopback))
-
 (use-package magit
   :bind ("C-c g" . magit-status)
   :config
   (pinentry-start))
+
+(use-package pinentry
+  :after magit
+  :custom
+  (epg-pinentry-mode 'loopback))
 
 (use-package pdf-tools
   :ensure nil
@@ -540,7 +541,7 @@
   :config
   (eshell-read-aliases-list))
 
-(use-package eshell
+(use-package em-cmpl
   :ensure nil
   :config
   (defun corfu-send-shell (&rest _)
@@ -636,7 +637,6 @@
   (tab-bar-show 1))
 
 (use-package modus-themes
-  :if (display-graphic-p)
   :ensure nil
   :custom
   (modus-themes-subtle-line-numbers t)
