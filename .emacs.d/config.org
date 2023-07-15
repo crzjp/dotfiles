@@ -671,6 +671,12 @@ Disabled fido config to a (probably) future more polished version.
   (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
 #+end_src
 
+** Eldoc
+
+#+begin_src emacs-lisp
+(setq eldoc-echo-area-use-multiline-p nil)
+#+end_src
+
 ** LSP
 
 #+begin_src emacs-lisp
@@ -1124,11 +1130,13 @@ This option permits accessing aliases and variables when doing shell commands, b
 
 #+begin_src emacs-lisp
 (use-package modus-themes
+  :if (display-graphic-p)
   :ensure nil
   :custom
   (modus-themes-subtle-line-numbers t)
   (modus-themes-org-blocks 'gray-background)
   (modus-themes-mode-line '(borderless))
+  (modus-themes-scale-headings t)
   :init
   (load-theme 'modus-vivendi t))
 #+end_src

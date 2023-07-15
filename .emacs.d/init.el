@@ -362,6 +362,8 @@
   :custom
   (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
 
+(setq eldoc-echo-area-use-multiline-p nil)
+
 (use-package eglot)
 
 (use-package markdown-mode
@@ -634,11 +636,13 @@
   (tab-bar-show 1))
 
 (use-package modus-themes
+  :if (display-graphic-p)
   :ensure nil
   :custom
   (modus-themes-subtle-line-numbers t)
   (modus-themes-org-blocks 'gray-background)
   (modus-themes-mode-line '(borderless))
+  (modus-themes-scale-headings t)
   :init
   (load-theme 'modus-vivendi t))
 
