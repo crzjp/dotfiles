@@ -21,8 +21,7 @@
       native-comp-deferred-compilation t
       native-comp-async-report-warnings-errors nil)
 
-(setq native-comp-eln-load-path
-      (list (expand-file-name "eln-cache" user-emacs-directory)))
+(add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache" user-emacs-directory))
 
 (setq load-prefer-newer t)
 

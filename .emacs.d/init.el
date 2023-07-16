@@ -115,7 +115,7 @@
 (use-package cape
   :defer 1
   :config
-  (add-to-list 'completion-at-point-functions 'cape-file))
+  (add-to-list 'completion-at-point-functions #'cape-file))
 
 (use-package corfu
   :defer 1
@@ -136,15 +136,16 @@
   :bind (("C-c r" . consult-recent-file)
          :map minibuffer-mode-map
          ("C-r" . consult-history))
+  :custom
+  (completion-in-region-function
+   (lambda (&rest args)
+     (apply (if vertico-mode
+                'consult-completion-in-region
+              'completion--in-region)
+            args)))
   :config
   (consult-customize consult-recent-file :preview-key nil)
-  (consult-customize consult-org-heading :preview-key nil)
-  (setq-default completion-in-region-function
-                (lambda (&rest args)
-                  (apply (if vertico-mode
-                             'consult-completion-in-region
-                           'completion--in-region)
-                         args))))
+  (consult-customize consult-org-heading :preview-key nil))
 
 (use-package marginalia
   :after vertico
@@ -286,9 +287,9 @@
       ("Debug" (mode . debugger-mode))
       ("Agenda" (filename . "agenda.org"))
       ("Org" (mode . org-mode))
-      ("VC" (or (name . "magit.*")
-                (name . "\*vc.*")))
-      ("Mail" (name . "\*mu4e.*"))
+      ("VC" (or (name . "^magit.*")
+                (name . "^\*vc.*")))
+      ("Mail" (name . "^\*mu4e.*"))
       ("Book" (or (mode . pdf-view-mode)
                   (mode . nov-mode)))
       ("Dired" (mode . dired-mode))
@@ -299,10 +300,10 @@
                   (mode . Man-mode)
                   (mode . Custom-mode)
                   (mode . apropos-mode)))
-      ("Image" (mode . image-mode))
-      ("Music" (name . "\*Mingus.*"))
-      ("Torrent" (name . "\*transmission.*"))
-      ("Games" (mode . gomoku-mode))
+      ("Media" (or (mode . image-mode)
+                   (name . "^\*Mingus.*")
+                   (name . "^\*transmission.*")
+                   (mode . gomoku-mode)))
       ("Internal" (name . "^\*.*$"))
       ("Misc" (name . "^.*$")))))
   (ibuffer-show-empty-filter-groups nil))
@@ -566,6 +567,12 @@
   :bind (:map eshell-mode-map
          ("C-c s" . consult-outline))
   :hook (eshell-mode . (lambda () (setq-local outline-regexp eshell-prompt-regexp)))
+  :custom
+  (eshell-prompt-regexp "^[^$\n]*\\\$ ")
+  (eshell-prompt-function (lambda ()
+                            (concat
+                             (crz/eshell-shortened-path (eshell/pwd) 30) " Σ"
+                             (propertize "$" 'invisible t) " ")))
   :config
   (defun crz/eshell-shortened-path (path max-length)
     (let* ((components (split-string (abbreviate-file-name path) "/"))
@@ -586,13 +593,7 @@
                                    (string (elt (car components) 0) ?/)))))
               len (- len (1- (length (car components))))
               components (cdr components)))
-      (concat str (cl-reduce (lambda (a b) (concat a "/" b)) components))))
-  :custom
-  (eshell-prompt-regexp "^[^$\n]*\\\$ ")
-  (eshell-prompt-function (lambda ()
-                            (concat
-                             (crz/eshell-shortened-path (eshell/pwd) 30) " Σ"
-                             (propertize "$" 'invisible t) " "))))
+      (concat str (cl-reduce (lambda (a b) (concat a "/" b)) components)))))
 
 (use-package shell
   :ensure nil
