@@ -5,7 +5,7 @@ HISTFILESIZE=10000
 HISTSIZE=$HISTFILESIZE
 HISTFILE=$HOME/.bash_history
 
-PS1="[\w] "
+PS1="\w Σ "
 
 if [[ "$INSIDE_EMACS" = 'vterm' ]] \
        && [[ -n ${EMACS_VTERM_PATH} ]] \

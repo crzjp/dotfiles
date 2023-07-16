@@ -570,7 +570,7 @@
   (eshell-prompt-regexp "^[^$\n]*\\\$ ")
   (eshell-prompt-function (lambda ()
                             (concat
-                             "[" (abbreviate-file-name (eshell/pwd)) "]"
+                             (abbreviate-file-name (eshell/pwd)) " Σ"
                              (propertize "$" 'invisible t) " "))))
 
 (use-package shell
