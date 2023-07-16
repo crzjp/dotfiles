@@ -566,11 +566,32 @@
   :bind (:map eshell-mode-map
          ("C-c s" . consult-outline))
   :hook (eshell-mode . (lambda () (setq-local outline-regexp eshell-prompt-regexp)))
+  :config
+  (defun crz/eshell-shortened-path (path max-length)
+    (let* ((components (split-string (abbreviate-file-name path) "/"))
+           (len (+ (1- (length components))
+                   (cl-reduce '+ components :key 'length)))
+           (str ""))
+      (while (and (> len max-length)
+                  (cdr components))
+        (setq str (concat str
+                          (cond ((= 0 (length (car components))) "/")
+                                ((= 1 (length (car components)))
+                                 (concat (car components) "/"))
+                                (t
+                                 (if (string= "."
+                                              (string (elt (car components) 0)))
+                                     (concat (substring (car components) 0 2)
+                                             "/")
+                                   (string (elt (car components) 0) ?/)))))
+              len (- len (1- (length (car components))))
+              components (cdr components)))
+      (concat str (cl-reduce (lambda (a b) (concat a "/" b)) components))))
   :custom
   (eshell-prompt-regexp "^[^$\n]*\\\$ ")
   (eshell-prompt-function (lambda ()
                             (concat
-                             (abbreviate-file-name (eshell/pwd)) " Σ"
+                             (crz/eshell-shortened-path (eshell/pwd) 30) " Σ"
                              (propertize "$" 'invisible t) " "))))
 
 (use-package shell
