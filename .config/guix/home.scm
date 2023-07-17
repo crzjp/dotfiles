@@ -1,6 +1,8 @@
 (use-modules
  (gnu packages)
  (gnu services)
+ (gnu home services gnupg)
+ (gnu home services xdg)
  (gnu packages admin)
  (gnu packages bittorrent)
  (gnu packages chromium)
@@ -14,6 +16,7 @@
  (gnu packages gnome)
  (gnu packages gnome-xyz)
  (gnu packages gnupg)
+ (gnu packages imagemagick)
  (gnu packages java)
  (gnu packages lisp)
  (gnu packages mail)
@@ -25,9 +28,7 @@
  (gnu packages wm)
  (gnu packages xdisorg)
  (gnu packages xorg)
- (nongnu packages clojure)
- (gnu home services gnupg)
- (gnu home services xdg))
+ (nongnu packages clojure))
 
 (home-environment
  (packages (cons* curl
@@ -36,6 +37,7 @@
                   emacs-flymake-shellcheck
                   emacs-pdf-tools
                   emacs-vterm
+                  ffmpeg
                   font-awesome
                   font-google-noto
                   font-google-noto-emoji
@@ -45,6 +47,7 @@
                   font-iosevka-aile
                   fontconfig
                   isync
+                  imagemagick
                   leiningen
                   libnotify
                   maim
@@ -55,7 +58,7 @@
                   mpv
                   mu
                   numlockx
-                  openjdk:jdk
+                  `(,openjdk "jdk")
                   openssh
                   pinentry-emacs
                   sbcl
