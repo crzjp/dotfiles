@@ -179,6 +179,7 @@
 
 (use-package dired
   :ensure nil
+  :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :bind (("C-x C-d" . dired-jump)
          :map dired-mode-map
          ("f" . dired-create-empty-file))
@@ -457,7 +458,7 @@
   :bind (:map org-mode-map
          ("C-c o" . consult-org-heading))
   :custom
-  (org-files-directory "~/media/docs/org")
+  (org-directory "~/documents/org")
   (org-return-follows-link t)
   :config
   (add-to-list 'org-export-backends 'md))
@@ -469,7 +470,7 @@
   (org-agenda-start-with-log-mode t)
   (org-log-done 'time)
   (org-log-into-drawer t)
-  (org-agenda-files '("~/media/docs/notas/agenda.org")))
+  (org-agenda-files '("~/documents/agenda.org")))
 
 (use-package org
   :ensure nil

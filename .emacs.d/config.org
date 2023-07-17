@@ -401,6 +401,7 @@
 #+begin_src emacs-lisp
 (use-package dired
   :ensure nil
+  :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :bind (("C-x C-d" . dired-jump)
          :map dired-mode-map
          ("f" . dired-create-empty-file))
@@ -795,7 +796,7 @@ Requires =mu= and =isync/mbsync= packages.
   :bind (:map org-mode-map
          ("C-c o" . consult-org-heading))
   :custom
-  (org-files-directory "~/media/docs/org")
+  (org-directory "~/documents/org")
   (org-return-follows-link t)
   :config
   (add-to-list 'org-export-backends 'md))
@@ -811,7 +812,7 @@ Requires =mu= and =isync/mbsync= packages.
   (org-agenda-start-with-log-mode t)
   (org-log-done 'time)
   (org-log-into-drawer t)
-  (org-agenda-files '("~/media/docs/notas/agenda.org")))
+  (org-agenda-files '("~/documents/agenda.org")))
 #+end_src
 
 ** Source blocks
