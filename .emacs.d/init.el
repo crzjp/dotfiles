@@ -76,7 +76,7 @@
   :config
   (recentf-mode 1))
 
-(setq-default vc-follow-symlinks)
+(setq-default vc-follow-symlinks nil)
 
 (use-package help
   :ensure nil
@@ -126,7 +126,9 @@
                           completion-cycle-threshold completion-cycling)
                       (apply #'consult-completion-in-region completion-in-region--data)))))
   :custom
+  (tab-always-indent 'complete)
   (corfu-preview-current nil)
+  (corfu-auto t)
   :config
   (global-corfu-mode 1))
 
@@ -617,7 +619,7 @@
 
 (column-number-mode 1)
 
-(setq-default cursor-type 'hbar
+(setq-default cursor-type 'bar
               cursor-in-non-selected-windows nil)
 
 (setq use-dialog-box nil)
