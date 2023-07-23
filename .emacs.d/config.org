@@ -954,6 +954,7 @@ alias mime file -b --mime-type $*
 #+begin_src emacs-lisp
 (use-package em-cmpl
   :ensure nil
+  :hook (eshell-mode . (lambda () (setq-local corfu-auto nil)))
   :config
   (defun corfu-send-shell (&rest _)
     (cond
@@ -1063,7 +1064,7 @@ This option permits accessing aliases and variables when doing shell commands, b
 ** Cursor
 
 #+begin_src emacs-lisp
-(setq-default cursor-type 'bar
+(setq-default cursor-type 'hbar
               cursor-in-non-selected-windows nil)
 #+end_src
 
@@ -1090,8 +1091,8 @@ This option permits accessing aliases and variables when doing shell commands, b
 
 #+begin_src emacs-lisp
 (defun crz/set-font-faces ()
-  (set-face-attribute 'default nil :font "Iosevka 10")
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka 10")
+  (set-face-attribute 'default nil :font "Iosevka Comfy 10")
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka Comfy 10")
   (set-face-attribute 'variable-pitch nil :font "Iosevka Aile 10"))
 
 (if (daemonp)

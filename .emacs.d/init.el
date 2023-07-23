@@ -547,6 +547,7 @@
 
 (use-package em-cmpl
   :ensure nil
+  :hook (eshell-mode . (lambda () (setq-local corfu-auto nil)))
   :config
   (defun corfu-send-shell (&rest _)
     (cond
@@ -619,7 +620,7 @@
 
 (column-number-mode 1)
 
-(setq-default cursor-type 'bar
+(setq-default cursor-type 'hbar
               cursor-in-non-selected-windows nil)
 
 (setq use-dialog-box nil)
@@ -634,8 +635,8 @@
   (display-time-mode 1))
 
 (defun crz/set-font-faces ()
-  (set-face-attribute 'default nil :font "Iosevka 10")
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka 10")
+  (set-face-attribute 'default nil :font "Iosevka Comfy 10")
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka Comfy 10")
   (set-face-attribute 'variable-pitch nil :font "Iosevka Aile 10"))
 
 (if (daemonp)
