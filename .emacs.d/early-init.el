@@ -14,7 +14,7 @@
 
 (setq user-emacs-directory "~/.cache/emacs/")
 
-(when (not (file-directory-p user-emacs-directory))
+(unless (file-directory-p user-emacs-directory)
   (make-directory user-emacs-directory t))
 
 (setq package-native-compile t
