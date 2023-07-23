@@ -43,8 +43,8 @@
                   font-google-noto-emoji
                   font-google-noto-sans-cjk
                   font-google-noto-serif-cjk
-                  font-iosevka
                   font-iosevka-aile
+                  font-iosevka-comfy
                   fontconfig
                   isync
                   imagemagick
@@ -62,9 +62,10 @@
                   openssh
                   pinentry-emacs
                   sbcl
+                  sbcl-stumpwm-ttf-fonts
                   slop
                   stow
-                  stumpwm
+                  stumpwm `(,stumpwm "lib")
                   sx
                   telegram-desktop
                   transmission

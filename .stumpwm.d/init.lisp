@@ -173,11 +173,19 @@
       *input-window-gravity* :center
       *message-window-padding* 10)
 
-(setf *mouse-focus-policy* :click)
+(add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
+(load-module "ttf-fonts")
+
+(setf xft:*font-dirs* '("~/.guix-home/profile/share/fonts/")
+      clx-truetype:+font-cache-filename+ "~/.local/share/fonts/font-cache.sexp")
+
+(xft:cache-fonts)
+
+(set-font (make-instance 'xft:font :family "Iosevka Comfy" :subfamily "Regular" :size 10))
 
 (setf *mode-line-background-color* col0
       *mode-line-foreground-color* col7
-      *mode-line-position* :bottom
+      *mode-line-position* :top
       *mode-line-border-color* col0
       *time-modeline-string* "%F %H:%M")
 
@@ -185,5 +193,7 @@
 
 ;; (when *initializing*
 ;;   (mode-line))
+
+(setf *mouse-focus-policy* :click)
 
 (define-key *root-map* (kbd "z") "banish")

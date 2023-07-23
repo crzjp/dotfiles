@@ -78,11 +78,11 @@
 
  (swap-devices (list (swap-space
                       (target (uuid
-                               "7e6487e3-3edf-4970-89e0-dbc87de8e6a8")))))
+                               "5971b903-f5dd-43d8-b6d6-d5d6b5d3c11f")))))
 
  (file-systems (cons* (file-system
                        (mount-point "/")
                        (device (uuid
-                                "68c52ef2-2cee-4a73-a234-b44fdda03d8e"
+                                "a41ae084-4a79-43f6-a5be-df341a79a963"
                                 'ext4))
                        (type "ext4")) %base-file-systems)))
