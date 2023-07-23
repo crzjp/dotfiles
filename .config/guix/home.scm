@@ -46,6 +46,7 @@
                   font-iosevka-aile
                   font-iosevka-comfy
                   fontconfig
+                  hsetroot
                   isync
                   imagemagick
                   leiningen
