@@ -6,7 +6,7 @@
     width = (0,1010)
     height = (0,385)
     origin = top-right
-    offset = 7x7
+    offset = 7x27
     indicate_hidden = yes
     shrink = yes
     transparency = 0
@@ -20,7 +20,7 @@
     sort = yes
     idle_threshold = 0
     ### Text ###
-    font = Iosevka 10
+    font = Iosevka Comfy 10
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"
