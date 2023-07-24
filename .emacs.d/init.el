@@ -397,24 +397,6 @@
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
 
-(use-package mu4e
-  :ensure nil
-  :bind ("C-c m" . mu4e)
-  :custom
-  (send-mail-function 'smtpmail-send-it)
-  (smtpmail-smtp-server "mail.riseup.net")
-  (smtpmail-smtp-user "crzjp@riseup.net")
-  (smtpmail-smtp-service 465)
-  (mail-user-agent 'mu4e-user-agent)
-  (mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
-  (mu4e-maildir "~/public/mail")
-  (mu4e-drafts-folder "/riseup/drafts")
-  (mu4e-sent-folder "/riseup/sent")
-  (mu4e-refile-folder "/riseup/all")
-  (mu4e-trash-folder "/riseup/trash")
-  (mu4e-read-option-use-builtin nil)
-  (mu4e-completing-read-function 'completing-read))
-
 (use-package erc-hl-nicks)
 
 (use-package erc

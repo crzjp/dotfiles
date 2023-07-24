@@ -714,9 +714,9 @@ Requires =shellcheck= package.
 
 ** Email
 
-Requires =mu= and =isync/mbsync= packages.
+Not working, disabled for now. Requires =mu= and =isync/mbsync= packages.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package mu4e
   :ensure nil
   :bind ("C-c m" . mu4e)
