@@ -19,25 +19,3 @@ Create Both
 Expunge Both
 Patterns * !"[Riseup]/All Mail" !"[Riseup]/Important" !"[Riseup]/Starred" !"[Riseup]/Bin"
 SyncState *
-
-#############################
-
-IMAPStore gmail-remote
-Host imap.gmail.com
-User crzzjp@gmail.com
-PassCmd "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-gmail.gpg"
-SSLType IMAPS
-AuthMechs LOGIN
-
-MaildirStore gmail-local
-Path ~/public/mail/gmail/
-Inbox ~/public/mail/gmail/inbox
-Subfolders Verbatim
-
-Channel gmail
-Master :gmail-remote:
-Slave :gmail-local:
-Create Both
-Expunge Both
-Patterns * !"[Gmail]/All Mail" !"[Gmail]/Important" !"[Gmail]/Starred" !"[Gmail]/Bin"
-SyncState *

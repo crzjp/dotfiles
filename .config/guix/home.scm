@@ -57,6 +57,7 @@
                   mpd-mpc
                   mpdscribble
                   mpv
+                  msmtp
                   mu
                   numlockx
                   `(,openjdk "jdk")

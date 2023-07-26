@@ -688,14 +688,7 @@ Requires =shellcheck= package.
 
 #+begin_src emacs-lisp
 (use-package magit
-  :bind ("C-c g" . magit-status)
-  :config
-  (pinentry-start))
-
-(use-package pinentry
-  :after magit
-  :custom
-  (epg-pinentry-mode 'loopback))
+  :bind ("C-c g" . magit-status))
 #+end_src
 
 * Media
@@ -714,17 +707,19 @@ Requires =shellcheck= package.
 
 ** Email
 
-Not working, disabled for now. Requires =mu= and =isync/mbsync= packages.
+Requires =mu=, =isync/mbsync= and =msmtp= packages.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (use-package mu4e
   :ensure nil
   :bind ("C-c m" . mu4e)
   :custom
   (send-mail-function 'smtpmail-send-it)
+  (sendmail-program "msmtp")
   (smtpmail-smtp-server "mail.riseup.net")
-  (smtpmail-smtp-user "crzjp@riseup.net")
-  (smtpmail-smtp-service 465)
+  (message-sendmail-f-is-evil t)
+  (message-sendmail-extra-arguments '("--read-envelope-from"))
+  (message-send-mail-function 'message-send-mail-with-sendmail)
   (mail-user-agent 'mu4e-user-agent)
   (mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
   (mu4e-maildir "~/public/mail")
@@ -1223,4 +1218,15 @@ This option permits accessing aliases and variables when doing shell commands, b
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
   (setenv "TERM" "xterm-256color"))
+#+end_src
+
+* Pinentry
+
+#+begin_src emacs-lisp
+(use-package pinentry
+  :defer 2
+  :custom
+  (epg-pinentry-mode 'loopback)
+  :config
+  (pinentry-start))
 #+end_src

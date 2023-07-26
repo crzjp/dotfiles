@@ -1,0 +1,14 @@
+defaults
+auth on
+protocol smtp
+tls on
+
+account riseup
+host mail.riseup.net
+port 465
+user crzjp
+passwordeval "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-riseup.gpg"
+tls_starttls off
+from crzjp@riseup.net
+
+account default : riseup

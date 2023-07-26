@@ -380,14 +380,7 @@
   :hook (sh-mode . flymake-shellcheck-load))
 
 (use-package magit
-  :bind ("C-c g" . magit-status)
-  :config
-  (pinentry-start))
-
-(use-package pinentry
-  :after magit
-  :custom
-  (epg-pinentry-mode 'loopback))
+  :bind ("C-c g" . magit-status))
 
 (use-package pdf-tools
   :ensure nil
@@ -396,6 +389,26 @@
 
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
+
+(use-package mu4e
+  :ensure nil
+  :bind ("C-c m" . mu4e)
+  :custom
+  (send-mail-function 'smtpmail-send-it)
+  (sendmail-program "msmtp")
+  (smtpmail-smtp-server "mail.riseup.net")
+  (message-sendmail-f-is-evil t)
+  (message-sendmail-extra-arguments '("--read-envelope-from"))
+  (message-send-mail-function 'message-send-mail-with-sendmail)
+  (mail-user-agent 'mu4e-user-agent)
+  (mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
+  (mu4e-maildir "~/public/mail")
+  (mu4e-drafts-folder "/riseup/drafts")
+  (mu4e-sent-folder "/riseup/sent")
+  (mu4e-refile-folder "/riseup/all")
+  (mu4e-trash-folder "/riseup/trash")
+  (mu4e-read-option-use-builtin nil)
+  (mu4e-completing-read-function 'completing-read))
 
 (use-package erc-hl-nicks)
 
@@ -707,3 +720,10 @@
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
   (setenv "TERM" "xterm-256color"))
+
+(use-package pinentry
+  :defer 2
+  :custom
+  (epg-pinentry-mode 'loopback)
+  :config
+  (pinentry-start))
