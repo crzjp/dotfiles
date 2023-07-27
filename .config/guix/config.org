@@ -140,16 +140,14 @@ Public key
               (targets (list "/dev/sda"))
               (keyboard-layout keyboard-layout)))
 
- (swap-devices (list (swap-space
-                      (target (uuid
-                               "5971b903-f5dd-43d8-b6d6-d5d6b5d3c11f")))))
+ (swap-devices (cons* (swap-space
+                       (target (file-system-label "SWAP")))))
 
  (file-systems (cons* (file-system
                        (mount-point "/")
-                       (device (uuid
-                                "a41ae084-4a79-43f6-a5be-df341a79a963"
-                                'ext4))
-                       (type "ext4")) %base-file-systems)))
+                       (device (file-system-label "ROOT"))
+                       (type "ext4"))
+                      %base-file-systems)))
 #+end_src
 
 * Home
