@@ -4,7 +4,7 @@
 
 (define-key *top-map* (kbd "s-F12") "exec amixer sset Master 3%+")
 (define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
-;(define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
+;; (define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
 
 (defvar *emacs*
   (let ((m (make-sparse-keymap)))
@@ -185,8 +185,8 @@
 
 (setf *mode-line-background-color* col0
       *mode-line-foreground-color* col7
-      *mode-line-position* :top
       *mode-line-border-color* col0
+      *mode-line-position* :bottom
       *time-modeline-string* "%F %H:%M")
 
 (setf *screen-mode-line-format* "[%n] %W ^> %d")

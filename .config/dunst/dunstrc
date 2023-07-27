@@ -6,7 +6,7 @@
     width = (0,1010)
     height = (0,385)
     origin = top-right
-    offset = 7x27
+    offset = 7x7
     indicate_hidden = yes
     shrink = yes
     transparency = 0
