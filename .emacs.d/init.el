@@ -71,7 +71,7 @@
   (recentf-auto-cleanup (* 5 60))
   (recentf-exclude
    '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'" "\\.gpg\\'"
-     "/gnu/.*" ".*/elpa/.*" ".*/mail/.*"
+     "/gnu/.*" "~/.cache/.*" ".*/mail/.*"
      "bookmarks\\'"))
   :config
   (recentf-mode 1))
@@ -249,13 +249,6 @@
      "ffmpeg -loglevel 8 -hide_banner -i '<<f>>' -map 0:a -c:a copy -map_metadata -1 '<<fne>>-tags-deleted.<<e>>'"
      :utils "ffmpeg"))
   (require 'dwim-shell-commands))
-
-(use-package ediff
-  :ensure nil
-  :custom
-  (ediff-keep-variants nil)
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package ibuffer
   :ensure nil
@@ -720,6 +713,13 @@
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
   (setenv "TERM" "xterm-256color"))
+
+(use-package ediff
+  :ensure nil
+  :custom
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package pinentry
   :defer 2

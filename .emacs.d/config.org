@@ -203,7 +203,7 @@
   (recentf-auto-cleanup (* 5 60))
   (recentf-exclude
    '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'" "\\.gpg\\'"
-     "/gnu/.*" ".*/elpa/.*" ".*/mail/.*"
+     "/gnu/.*" "~/.cache/.*" ".*/mail/.*"
      "bookmarks\\'"))
   :config
   (recentf-mode 1))
@@ -507,17 +507,6 @@
    "Delete audio tags"
    "ffmpeg -loglevel 8 -hide_banner -i '<<f>>' -map 0:a -c:a copy -map_metadata -1 '<<fne>>-tags-deleted.<<e>>'"
    :utils "ffmpeg"))
-#+end_src
-
-* Ediff
-
-#+begin_src emacs-lisp
-(use-package ediff
-  :ensure nil
-  :custom
-  (ediff-keep-variants nil)
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
 #+end_src
 
 * Ibuffer
@@ -1218,6 +1207,17 @@ This option permits accessing aliases and variables when doing shell commands, b
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
   (setenv "TERM" "xterm-256color"))
+#+end_src
+
+* Ediff
+
+#+begin_src emacs-lisp
+(use-package ediff
+  :ensure nil
+  :custom
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 #+end_src
 
 * Pinentry
