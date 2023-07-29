@@ -111,10 +111,6 @@
          (service xorg-server-service-type
                   (xorg-configuration
                    (keyboard-layout keyboard-layout)))
-         (service screen-locker-services-type
-                  (screen-locker-configuration
-                   (name "slock")
-                   (program (file-append slock "/bin/slock"))))
          (modify-services %base-services
                           (guix-service-type config =>
                                              (guix-configuration
@@ -144,8 +140,8 @@ Public key
               (targets (list "/dev/sda"))
               (keyboard-layout keyboard-layout)))
 
- (swap-devices (cons* (swap-space
-                       (target (file-system-label "SWAP")))))
+ (swap-devices (list (swap-space
+                      (target (file-system-label "SWAP")))))
 
  (file-systems (cons* (file-system
                        (mount-point "/")
@@ -165,8 +161,6 @@ Public key
 (use-modules
  (gnu packages)
  (gnu services)
- (gnu home services gnupg)
- (gnu home services xdg)
  (gnu packages admin)
  (gnu packages bittorrent)
  (gnu packages chromium)
@@ -192,7 +186,9 @@ Public key
  (gnu packages wm)
  (gnu packages xdisorg)
  (gnu packages xorg)
- (nongnu packages clojure))
+ (nongnu packages clojure)
+ (gnu home services gnupg)
+ (gnu home services xdg))
 #+end_src
 
 ** Packages
@@ -255,7 +251,7 @@ Public key
 
 #+begin_src scheme
  (services
-  (cons* (service home-gpg-agent-service-type
+  (list (service home-gpg-agent-service-type
                   (home-gpg-agent-configuration
                    (extra-content (format #f "~@{~a~%~}"
                                           "allow-emacs-pinentry"

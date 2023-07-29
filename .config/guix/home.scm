@@ -1,8 +1,6 @@
 (use-modules
  (gnu packages)
  (gnu services)
- (gnu home services gnupg)
- (gnu home services xdg)
  (gnu packages admin)
  (gnu packages bittorrent)
  (gnu packages chromium)
@@ -28,7 +26,9 @@
  (gnu packages wm)
  (gnu packages xdisorg)
  (gnu packages xorg)
- (nongnu packages clojure))
+ (nongnu packages clojure)
+ (gnu home services gnupg)
+ (gnu home services xdg))
 
 (home-environment
  (packages (cons* curl
@@ -83,7 +83,7 @@
                    (list "zip"))))
 
  (services
-  (cons* (service home-gpg-agent-service-type
+  (list (service home-gpg-agent-service-type
                   (home-gpg-agent-configuration
                    (extra-content (format #f "~@{~a~%~}"
                                           "allow-emacs-pinentry"

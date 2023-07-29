@@ -60,10 +60,6 @@
          (service xorg-server-service-type
                   (xorg-configuration
                    (keyboard-layout keyboard-layout)))
-         (service screen-locker-services-type
-                  (screen-locker-configuration
-                   (name "slock")
-                   (program (file-append slock "/bin/slock"))))
          (modify-services %base-services
                           (guix-service-type config =>
                                              (guix-configuration
@@ -80,8 +76,8 @@
               (targets (list "/dev/sda"))
               (keyboard-layout keyboard-layout)))
 
- (swap-devices (cons* (swap-space
-                       (target (file-system-label "SWAP")))))
+ (swap-devices (list (swap-space
+                      (target (file-system-label "SWAP")))))
 
  (file-systems (cons* (file-system
                        (mount-point "/")
