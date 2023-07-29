@@ -173,15 +173,13 @@
       *input-window-gravity* :center
       *message-window-padding* 10)
 
-(when *initializing*
-  (add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
-  (load-module "ttf-fonts")
+(add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
+(load-module "ttf-fonts")
 
+(when *initializing*
   (setf xft:*font-dirs* '("~/.guix-home/profile/share/fonts/")
         clx-truetype:+font-cache-filename+ "~/.local/share/fonts/font-cache.sexp")
-
   (xft:cache-fonts)
-
   (set-font (make-instance 'xft:font :family "Iosevka Comfy" :subfamily "Regular" :size 10)))
 
 (setf *mode-line-background-color* col0
