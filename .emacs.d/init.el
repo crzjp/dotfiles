@@ -24,7 +24,7 @@
   (auto-package-update-delete-old-versions t))
 
 (setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzjp@riseup.net")
+      user-mail-address "crzzjp@gmail.com")
 
 (global-set-key (kbd "M-&") 'with-editor-async-shell-command)
 
@@ -389,17 +389,17 @@
   :custom
   (send-mail-function 'smtpmail-send-it)
   (sendmail-program "msmtp")
-  (smtpmail-smtp-server "mail.riseup.net")
+  (smtpmail-smtp-server "imap.gmail.com")
   (message-sendmail-f-is-evil t)
   (message-sendmail-extra-arguments '("--read-envelope-from"))
   (message-send-mail-function 'message-send-mail-with-sendmail)
   (mail-user-agent 'mu4e-user-agent)
   (mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
   (mu4e-maildir "~/public/mail")
-  (mu4e-drafts-folder "/riseup/drafts")
-  (mu4e-sent-folder "/riseup/sent")
-  (mu4e-refile-folder "/riseup/all")
-  (mu4e-trash-folder "/riseup/trash")
+  (mu4e-drafts-folder "/[Gmail]/Drafts")
+  (mu4e-sent-folder "/[Gmail]/Sent Mail")
+  (mu4e-refile-folder "/[Gmail]/All Mail")
+  (mu4e-trash-folder "/[Gmail/Trash")
   (mu4e-read-option-use-builtin nil)
   (mu4e-completing-read-function 'completing-read))
 

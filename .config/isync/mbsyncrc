@@ -1,21 +1,21 @@
-IMAPAccount riseup
-Host mail.riseup.net
-User crzjp@riseup.net
-PassCmd "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-riseup.gpg"
+IMAPAccount gmail
+Host imap.gmail.com
+User crzzjp@gmail.com
+PassCmd "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-gmail.gpg"
 SSLType IMAPS
 
-IMAPStore riseup-remote
-Account riseup
+IMAPStore gmail-remote
+Account gmail
 
-MaildirStore riseup-local
+MaildirStore gmail-local
 Subfolders Verbatim
-Path ~/public/mail/riseup/
-Inbox ~/public/mail/riseup/inbox
+Path ~/public/mail/
+Inbox ~/public/mail/inbox
 
-Channel riseup
-Master :riseup-remote:
-Slave :riseup-local:
+Channel gmail
+Master :gmail-remote:
+Slave :gmail-local:
 Create Both
 Expunge Both
-Patterns * !"[Riseup]/All Mail" !"[Riseup]/Important" !"[Riseup]/Starred" !"[Riseup]/Bin"
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash"
 SyncState *

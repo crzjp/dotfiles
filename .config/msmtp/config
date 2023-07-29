@@ -3,12 +3,12 @@ auth on
 protocol smtp
 tls on
 
-account riseup
-host mail.riseup.net
+account gmail
+host smtp.gmail.com
 port 465
-user crzjp
-passwordeval "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-riseup.gpg"
+user crzzjp
+passwordeval "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/public/passwords/mail-gmail.gpg"
 tls_starttls off
-from crzjp@riseup.net
+from crzzjp@gmail.com
 
-account default : riseup
+account default : gmail
