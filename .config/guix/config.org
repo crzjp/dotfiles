@@ -111,6 +111,10 @@
          (service xorg-server-service-type
                   (xorg-configuration
                    (keyboard-layout keyboard-layout)))
+         (service screen-locker-services-type
+                  (screen-locker-configuration
+                   (name "slock")
+                   (program (file-append slock "/bin/slock"))))
          (modify-services %base-services
                           (guix-service-type config =>
                                              (guix-configuration
@@ -251,20 +255,19 @@ Public key
 
 #+begin_src scheme
  (services
-  (list (service home-gpg-agent-service-type
-                 (home-gpg-agent-configuration
-                  (extra-content (format #f "~@{~a~%~}"
-                                         "allow-emacs-pinentry"
-                                         "allow-loopback-pinentry"))))
-        
-        (service home-xdg-user-directories-service-type
-                 (home-xdg-user-directories-configuration
-                  (desktop     "$HOME/desktop")
-                  (documents   "$HOME/documents")
-                  (download    "$HOME/downloads")
-                  (music       "$HOME/musics")
-                  (pictures    "$HOME/pictures")
-                  (publicshare "$HOME/public")
-                  (templates   "$HOME/templates")
-                  (videos      "$HOME/videos"))))))
+  (cons* (service home-gpg-agent-service-type
+                  (home-gpg-agent-configuration
+                   (extra-content (format #f "~@{~a~%~}"
+                                          "allow-emacs-pinentry"
+                                          "allow-loopback-pinentry"))))
+         (service home-xdg-user-directories-service-type
+                  (home-xdg-user-directories-configuration
+                   (desktop     "$HOME/desktop")
+                   (documents   "$HOME/documents")
+                   (download    "$HOME/downloads")
+                   (music       "$HOME/musics")
+                   (pictures    "$HOME/pictures")
+                   (publicshare "$HOME/public")
+                   (templates   "$HOME/templates")
+                   (videos      "$HOME/videos"))))))
 #+end_src

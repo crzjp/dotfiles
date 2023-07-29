@@ -83,19 +83,18 @@
                    (list "zip"))))
 
  (services
-  (list (service home-gpg-agent-service-type
-                 (home-gpg-agent-configuration
-                  (extra-content (format #f "~@{~a~%~}"
-                                         "allow-emacs-pinentry"
-                                         "allow-loopback-pinentry"))))
-        
-        (service home-xdg-user-directories-service-type
-                 (home-xdg-user-directories-configuration
-                  (desktop     "$HOME/desktop")
-                  (documents   "$HOME/documents")
-                  (download    "$HOME/downloads")
-                  (music       "$HOME/musics")
-                  (pictures    "$HOME/pictures")
-                  (publicshare "$HOME/public")
-                  (templates   "$HOME/templates")
-                  (videos      "$HOME/videos"))))))
+  (cons* (service home-gpg-agent-service-type
+                  (home-gpg-agent-configuration
+                   (extra-content (format #f "~@{~a~%~}"
+                                          "allow-emacs-pinentry"
+                                          "allow-loopback-pinentry"))))
+         (service home-xdg-user-directories-service-type
+                  (home-xdg-user-directories-configuration
+                   (desktop     "$HOME/desktop")
+                   (documents   "$HOME/documents")
+                   (download    "$HOME/downloads")
+                   (music       "$HOME/musics")
+                   (pictures    "$HOME/pictures")
+                   (publicshare "$HOME/public")
+                   (templates   "$HOME/templates")
+                   (videos      "$HOME/videos"))))))

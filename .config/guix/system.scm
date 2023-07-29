@@ -60,6 +60,10 @@
          (service xorg-server-service-type
                   (xorg-configuration
                    (keyboard-layout keyboard-layout)))
+         (service screen-locker-services-type
+                  (screen-locker-configuration
+                   (name "slock")
+                   (program (file-append slock "/bin/slock"))))
          (modify-services %base-services
                           (guix-service-type config =>
                                              (guix-configuration
