@@ -71,8 +71,7 @@
   (recentf-auto-cleanup (* 5 60))
   (recentf-exclude
    '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'" "\\.gpg\\'"
-     "/gnu/.*" "~/.cache/.*" ".*/mail/.*"
-     "bookmarks\\'"))
+     "/gnu/.*" "\\.cache/.*" ".*/mail/.*"))
   :config
   (recentf-mode 1))
 
@@ -181,10 +180,10 @@
 
 (use-package dired
   :ensure nil
-  :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :bind (("C-x C-d" . dired-jump)
          :map dired-mode-map
          ("f" . dired-create-empty-file))
+  :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :custom
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
@@ -592,6 +591,7 @@
   :bind (("C-c s" . shell)
          :map shell-mode-map
          ("C-r" . consult-history))
+  :hook (shell-mode . (lambda () (setq-local corfu-auto nil)))
   :custom
   (comint-prompt-read-only t))
 
@@ -680,39 +680,6 @@
   :config
   (popper-mode 1)
   (popper-echo-mode 1))
-
-(use-package xterm-color)
-
-(use-package comint
-  :ensure nil
-  :hook (shell-mode . (lambda ()
-                        (font-lock-mode -1)
-                        (make-local-variable 'font-lock-function)
-                        (setq font-lock-function (lambda (_) nil))
-                        (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)
-                        (setenv "TERM" "xterm-256color")))
-  :custom
-  (comint-output-filter-functions
-   (remove 'ansi-color-process-output comint-output-filter-functions)))
-
-(use-package compile
-  :ensure nil
-  :custom
-  (compilation-environment '("TERM=xterm-256color"))
-  :config
-  (defun crz/advice-compilation-filter (f proc string)
-    (funcall f proc (xterm-color-filter string)))
-  (advice-add 'compilation-filter :around #'crz/advice-compilation-filter))
-
-(use-package esh-mode
-  :ensure nil
-  :hook (eshell-before-prompt . (lambda () (setq xterm-color-preserve-properties t)))
-  :custom
-  (xterm-color-use-bold-for-bright t)
-  :config
-  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-  (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
-  (setenv "TERM" "xterm-256color"))
 
 (use-package ediff
   :ensure nil
