@@ -10,10 +10,6 @@ case "$INSIDE_EMACS" in
         sh="eshell"
         tm="emacs"
         ;;
-    *vterm*)
-        sh="${SHELL##*/}"
-        tm="vterm"
-        ;;
     *comint*)
         sh="${SHELL##*/}"
         tm="emacs"
