@@ -275,7 +275,7 @@
    '(("Default"
       ("Modified" (and (modified . t)
                        (visiting-file . t)))
-      ("Term" (or (mode . vterm-mode)
+      ("Term" (or (mode . eat-mode)
                   (mode . eshell-mode)
                   (mode . term-mode)
                   (mode . shell-mode)))
@@ -595,14 +595,11 @@
   :custom
   (comint-prompt-read-only t))
 
-(use-package vterm
-  :ensure nil
-  :bind (("C-c t" . vterm)
-         :map vterm-mode-map
-         ("C-q" . vterm-send-next-key))
+(use-package eat
+  :bind ("C-c t" . eat)
+  :hook (eshell-load . eat-eshell-visual-command-mode)
   :custom
-  (vterm-kill-buffer-on-exit t)
-  (vterm-clear-scrollback-when-clearing t))
+  (eat-enable-shell-prompt-annotation nil))
 
 (use-package rainbow-mode)
 

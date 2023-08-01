@@ -36,7 +36,6 @@
                   emacs
                   emacs-flymake-shellcheck
                   emacs-pdf-tools
-                  emacs-vterm
                   ffmpeg
                   font-awesome
                   font-google-noto

@@ -17,7 +17,7 @@
       gc-cons-percentage 0.6
       file-name-handler-alist nil)
 
-(add-hook 'emacs-startup-hook
+(add-hook 'after-init-hook
           #'(lambda ()
               (setq gc-cons-threshold (* 2 1000 1000)
                     gc-cons-percentage 0.1
@@ -543,7 +543,7 @@
    '(("Default"
       ("Modified" (and (modified . t)
                        (visiting-file . t)))
-      ("Term" (or (mode . vterm-mode)
+      ("Term" (or (mode . eat-mode)
                   (mode . eshell-mode)
                   (mode . term-mode)
                   (mode . shell-mode)))
@@ -1018,17 +1018,14 @@ This option permits accessing aliases and variables when doing shell commands, b
 (shell-command-switch "-ic")
 #+end_src
 
-** Vterm
+** Eat
 
 #+begin_src emacs-lisp
-(use-package vterm
-  :ensure nil
-  :bind (("C-c t" . vterm)
-         :map vterm-mode-map
-         ("C-q" . vterm-send-next-key))
+(use-package eat
+  :bind ("C-c t" . eat)
+  :hook (eshell-load . eat-eshell-visual-command-mode)
   :custom
-  (vterm-kill-buffer-on-exit t)
-  (vterm-clear-scrollback-when-clearing t))
+  (eat-enable-shell-prompt-annotation nil))
 #+end_src
 
 * Visual

@@ -7,10 +7,8 @@ HISTFILE=$HOME/.bash_history
 
 PS1="\w Σ "
 
-if [[ "$INSIDE_EMACS" = 'vterm' ]] \
-       && [[ -n ${EMACS_VTERM_PATH} ]] \
-       && [[ -f ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
-	source ${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
+if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
+    source "$EAT_SHELL_INTEGRATION_DIR/bash"
 fi
 
 alias gi='guix install'
