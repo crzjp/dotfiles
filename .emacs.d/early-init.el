@@ -6,7 +6,7 @@
       gc-cons-percentage 0.6
       file-name-handler-alist nil)
 
-(add-hook 'emacs-startup-hook
+(add-hook 'after-init-hook
           #'(lambda ()
               (setq gc-cons-threshold (* 2 1000 1000)
                     gc-cons-percentage 0.1
