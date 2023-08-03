@@ -382,25 +382,22 @@
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
 
-(use-package mu4e
+(use-package gnus
   :ensure nil
-  :bind ("C-c m" . mu4e)
+  :bind ("C-c m" . gnus)
   :custom
   (send-mail-function 'smtpmail-send-it)
-  (sendmail-program "msmtp")
-  (smtpmail-smtp-server "imap.gmail.com")
-  (message-sendmail-f-is-evil t)
-  (message-sendmail-extra-arguments '("--read-envelope-from"))
-  (message-send-mail-function 'message-send-mail-with-sendmail)
-  (mail-user-agent 'mu4e-user-agent)
-  (mu4e-get-mail-command "mbsync -c ~/.config/isync/mbsyncrc -a")
-  (mu4e-maildir "~/public/mail")
-  (mu4e-drafts-folder "/[Gmail]/Drafts")
-  (mu4e-sent-folder "/[Gmail]/Sent Mail")
-  (mu4e-refile-folder "/[Gmail]/All Mail")
-  (mu4e-trash-folder "/[Gmail/Trash")
-  (mu4e-read-option-use-builtin nil)
-  (mu4e-completing-read-function 'completing-read))
+  (smtpmail-smtp-server "smtp.gmail.com")
+  (smtpmail-smtp-service 587)
+  (message-directory "~/public/mail")
+  (mail-source-directory message-directory)
+  (gnus-home-directory (expand-file-name "gnus" user-emacs-directory))
+  (gnus-directory (expand-file-name "news" gnus-home-directory))
+  (gnus-select-method '(nnimap "gmail"
+                               (nnimap-address "imap.gmail.com")
+                               (nnimap-server-port 993)
+                               (nnimap-stream ssl)
+                               (nnimap-authinfo-file "~/.authinfo.gpg"))))
 
 (use-package erc-hl-nicks)
 

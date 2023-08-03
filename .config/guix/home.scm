@@ -17,7 +17,6 @@
  (gnu packages imagemagick)
  (gnu packages java)
  (gnu packages lisp)
- (gnu packages mail)
  (gnu packages mpd)
  (gnu packages package-management)
  (gnu packages ssh)
@@ -34,7 +33,6 @@
  (packages (cons* curl
                   dunst
                   emacs
-                  emacs-flymake-shellcheck
                   emacs-pdf-tools
                   ffmpeg
                   font-awesome
@@ -46,7 +44,6 @@
                   font-iosevka-comfy
                   fontconfig
                   hsetroot
-                  isync
                   imagemagick
                   leiningen
                   libnotify
@@ -56,14 +53,13 @@
                   mpd-mpc
                   mpdscribble
                   mpv
-                  msmtp
-                  mu
                   numlockx
                   `(,openjdk "jdk")
                   openssh
                   pinentry-emacs
                   sbcl
                   sbcl-stumpwm-ttf-fonts
+                  shellcheck
                   slop
                   stow
                   stumpwm `(,stumpwm "lib")
