@@ -399,8 +399,6 @@
                                (nnimap-stream ssl)
                                (nnimap-authinfo-file "~/.authinfo.gpg"))))
 
-(use-package erc-hl-nicks)
-
 (use-package erc
   :ensure nil
   :custom
@@ -421,7 +419,12 @@
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
   :config
   (add-to-list 'erc-modules 'autojoin)
-  (add-to-list 'erc-modules 'notifications)
+  (add-to-list 'erc-modules 'notifications))
+
+(use-package erc-hl-nicks
+  :after erc
+  :demand nil
+  :config
   (add-to-list 'erc-modules 'hl-nicks))
 
 (use-package mingus

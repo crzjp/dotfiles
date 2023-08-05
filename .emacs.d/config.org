@@ -717,8 +717,6 @@ Requires =shellcheck= package.
 ** IRC
 
 #+begin_src emacs-lisp
-(use-package erc-hl-nicks)
-
 (use-package erc
   :ensure nil
   :custom
@@ -739,7 +737,12 @@ Requires =shellcheck= package.
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
   :config
   (add-to-list 'erc-modules 'autojoin)
-  (add-to-list 'erc-modules 'notifications)
+  (add-to-list 'erc-modules 'notifications))
+
+(use-package erc-hl-nicks
+  :after erc
+  :demand nil
+  :config
   (add-to-list 'erc-modules 'hl-nicks))
 #+end_src
 
