@@ -313,9 +313,7 @@
                           completion-cycle-threshold completion-cycling)
                       (apply #'consult-completion-in-region completion-in-region--data)))))
   :custom
-  (tab-always-indent 'complete)
   (corfu-preview-current nil)
-  (corfu-auto t)
   :config
   (global-corfu-mode 1))
 #+end_src
@@ -935,7 +933,6 @@ alias mime file -b --mime-type $*
 #+begin_src emacs-lisp
 (use-package em-cmpl
   :ensure nil
-  :hook (eshell-mode . (lambda () (setq-local corfu-auto nil)))
   :config
   (defun corfu-send-shell (&rest _)
     (cond
@@ -1004,7 +1001,6 @@ alias mime file -b --mime-type $*
   :bind (("C-c s" . shell)
          :map shell-mode-map
          ("C-r" . consult-history))
-  :hook (shell-mode . (lambda () (setq-local corfu-auto nil)))
   :custom
   (comint-prompt-read-only t))
 #+end_src

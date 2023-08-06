@@ -125,9 +125,7 @@
                           completion-cycle-threshold completion-cycling)
                       (apply #'consult-completion-in-region completion-in-region--data)))))
   :custom
-  (tab-always-indent 'complete)
   (corfu-preview-current nil)
-  (corfu-auto t)
   :config
   (global-corfu-mode 1))
 
@@ -534,7 +532,6 @@
 
 (use-package em-cmpl
   :ensure nil
-  :hook (eshell-mode . (lambda () (setq-local corfu-auto nil)))
   :config
   (defun corfu-send-shell (&rest _)
     (cond
@@ -591,7 +588,6 @@
   :bind (("C-c s" . shell)
          :map shell-mode-map
          ("C-r" . consult-history))
-  :hook (shell-mode . (lambda () (setq-local corfu-auto nil)))
   :custom
   (comint-prompt-read-only t))
 
