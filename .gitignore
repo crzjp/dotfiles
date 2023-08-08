@@ -15,6 +15,7 @@
 .config/fontconfig/
 .config/user-dirs.*
 .config/shepherd/
+.config/libreoffice/
 
 .config/mpdscribble/
 .config/mpdasrc

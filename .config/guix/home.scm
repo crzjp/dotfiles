@@ -16,6 +16,7 @@
  (gnu packages gnupg)
  (gnu packages imagemagick)
  (gnu packages java)
+ (gnu packages libreoffice)
  (gnu packages lisp)
  (gnu packages mpd)
  (gnu packages package-management)
@@ -47,6 +48,7 @@
                   imagemagick
                   leiningen
                   libnotify
+                  libreoffice
                   maim
                   materia-theme
                   mpd
