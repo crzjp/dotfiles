@@ -67,8 +67,6 @@
 
 * Package
 
-** Installer and manager
-
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t; -*-
 
@@ -90,14 +88,6 @@
   (setq use-package-always-ensure t
         use-package-always-defer t
         use-package-expand-minimally t))
-#+end_src
-
-** Updater
-
-#+begin_src emacs-lisp
-(use-package auto-package-update
-  :custom
-  (auto-package-update-delete-old-versions t))
 #+end_src
 
 * Sane defaults

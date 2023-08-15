@@ -19,10 +19,6 @@
         use-package-always-defer t
         use-package-expand-minimally t))
 
-(use-package auto-package-update
-  :custom
-  (auto-package-update-delete-old-versions t))
-
 (setq user-full-name "João Paulo da Cruz"
       user-mail-address "crzzjp@gmail.com")
 
