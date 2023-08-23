@@ -411,6 +411,8 @@
      ("slackjeff.com.br" "#mundo-libre")))
   (erc-track-exclude-types
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
+  (erc-prompt-for-password nil)
+  (erc-use-auth-source-for-nickserv-password t)
   :config
   (add-to-list 'erc-modules 'autojoin)
   (add-to-list 'erc-modules 'notifications))
