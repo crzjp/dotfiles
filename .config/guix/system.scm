@@ -54,9 +54,10 @@
                   %base-packages))
 
  (services
-  (cons* (service dhcp-client-service-type)
-         (service elogind-service-type)
+  (cons* (service network-manager-service-type)
+         (service wpa-supplicant-service-type)
          (service ntp-service-type)
+         (service elogind-service-type)
          (service xorg-server-service-type
                   (xorg-configuration
                    (keyboard-layout keyboard-layout)))
@@ -72,14 +73,18 @@
                                                        %default-authorized-guix-keys)))))))
 
  (bootloader (bootloader-configuration
-              (bootloader grub-bootloader)
-              (targets (list "/dev/sda"))
+              (bootloader grub-efi-bootloader)
+              (targets (list "/boot/efi"))
               (keyboard-layout keyboard-layout)))
 
  (swap-devices (list (swap-space
                       (target (file-system-label "SWAP")))))
 
  (file-systems (cons* (file-system
+                       (mount-point "/boot/efi")
+                       (device (file-system-label "BOOT"))
+                       (type "vfat"))
+                      (file-system
                        (mount-point "/")
                        (device (file-system-label "ROOT"))
                        (type "ext4"))
