@@ -74,20 +74,16 @@
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
+(setopt package-user-dir (expand-file-name "elpa" user-emacs-directory))
 
 (package-initialize)
 
 (unless package-archive-contents
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(eval-and-compile
-  (setq use-package-always-ensure t
+(setopt use-package-always-ensure t
         use-package-always-defer t
-        use-package-expand-minimally t))
+        use-package-expand-minimally t)
 #+end_src
 
 * Sane defaults
@@ -95,20 +91,20 @@
 ** User description
 
 #+begin_src emacs-lisp
-(setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzzjp@gmail.com")
+(setopt user-full-name "João Paulo da Cruz"
+        user-mail-address "crzzjp@gmail.com")
 #+end_src
 
 ** Async shell command with $EDITOR
 
 #+begin_src emacs-lisp
-(global-set-key (kbd "M-&") 'with-editor-async-shell-command)
+(keymap-global-set "M-&" 'with-editor-async-shell-command)
 #+end_src
 
 ** Automatically revert buffers
 
 #+begin_src emacs-lisp
-(setq global-auto-revert-non-file-buffers t)
+(setopt global-auto-revert-non-file-buffers t)
 
 (global-auto-revert-mode 1)
 #+end_src
@@ -122,8 +118,8 @@
 ** Delete by moving to trash
 
 #+begin_src emacs-lisp
-(setq delete-by-moving-to-trash t
-      trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
+(setopt delete-by-moving-to-trash t
+        trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
 #+end_src
 
 ** Delete selected region when input
@@ -135,13 +131,13 @@
 ** Don't save duplicates to kill ring
 
 #+begin_src emacs-lisp
-(setq kill-do-not-save-duplicates t)
+(setopt kill-do-not-save-duplicates t)
 #+end_src
 
 ** Enable disabled commands
 
 #+begin_src emacs-lisp
-(setq disabled-command-function nil)
+(setopt disabled-command-function nil)
 #+end_src
 
 ** EWW
@@ -151,8 +147,8 @@
   :ensure nil
   :config
   (when (getenv "BROWSER")
-    (setq browse-url-generic-program (executable-find (getenv "BROWSER"))
-          browse-url-browser-function 'browse-url-generic)))
+    (setopt browse-url-generic-program (executable-find (getenv "BROWSER"))
+            browse-url-browser-function 'browse-url-generic)))
 #+end_src
 
 ** Files
@@ -160,26 +156,26 @@
 *** Auto save
 
 #+begin_src emacs-lisp
-(setq auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
-      auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
+(setopt auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
+        auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
 #+end_src
 
 *** Backup
 
 #+begin_src emacs-lisp
-(setq backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
-      backup-by-copying t
-      version-control t
-      delete-old-versions t
-      vc-make-backup-files t
-      kept-old-versions 10
-      kept-new-versions 10)
+(setopt backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
+        backup-by-copying t
+        version-control t
+        delete-old-versions t
+        vc-make-backup-files t
+        kept-old-versions 10
+        kept-new-versions 10)
 #+end_src
 
 *** Custom
 
 #+begin_src emacs-lisp
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setopt custom-file (expand-file-name "custom.el" user-emacs-directory))
 #+end_src
 
 *** Recent
@@ -193,7 +189,7 @@
   (recentf-auto-cleanup (* 5 60))
   (recentf-exclude
    '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'" "\\.gpg\\'"
-     "/gnu/.*" "\\.cache/.*" ".*/mail/.*"))
+     "/usr/.*" "\\.cache/.*" ".*/mail/.*"))
   :config
   (recentf-mode 1))
 #+end_src
@@ -201,30 +197,20 @@
 *** Symlinks
 
 #+begin_src emacs-lisp
-(setq-default vc-follow-symlinks nil)
+(setopt vc-follow-symlinks nil)
 #+end_src
 
 ** Focus help window when opened
 
 #+begin_src emacs-lisp
-(use-package help
-  :ensure nil
-  :custom
-  (help-window-select t))
+(setopt help-window-select t)
 #+end_src
 
 ** Man pages
 
 #+begin_src emacs-lisp
-(use-package man
-  :ensure nil
-  :custom
-  (Man-notify-method 'pushy))
-
-(use-package woman
-  :ensure nil
-  :custom
-  (woman-fill-frame t))
+(setopt Man-notify-method 'pushy
+        woman-fill-frame t)
 #+end_src
 
 ** Pager environment variable
@@ -237,45 +223,51 @@
 ** Short answers
 
 #+begin_src emacs-lisp
-(setq use-short-answers t)
+(setopt use-short-answers t)
 #+end_src
 
 ** Stop large file warning
 
 #+begin_src emacs-lisp
-(setq large-file-warning-threshold nil)
+(setopt large-file-warning-threshold nil)
 #+end_src
 
 ** Tab indentation
 
 #+begin_src emacs-lisp
-(setq-default indent-tabs-mode nil
-              tab-width 4)
+(setopt indent-tabs-mode nil
+        tab-width 4)
 #+end_src
 
 ** Unbind the annoying chord
 
 #+begin_src emacs-lisp
-(global-unset-key (kbd "C-z"))
-(global-unset-key (kbd "C-x C-z"))
+(keymap-global-unset "C-z")
+(keymap-global-unset "C-x C-z")
 #+end_src
 
 ** Single space as end of sentence
 
 #+begin_src emacs-lisp
-(setq sentence-end-double-space nil)
+(setopt sentence-end-double-space nil)
 #+end_src
 
 ** Uniquify buffer name style
 
 #+begin_src emacs-lisp
-(setq uniquify-buffer-name-style 'forward)
+(setopt uniquify-buffer-name-style 'forward)
 #+end_src
 
 ** Save bookmarks immediately
 
 #+begin_src emacs-lisp
-(setq bookmark-save-flag 1)
+(setopt bookmark-save-flag 1)
+#+end_src
+
+** Authinfo file
+
+#+begin_src emacs-lisp
+(setopt auth-sources '("~/.authinfo.gpg"))
 #+end_src
 
 * Completion
@@ -355,14 +347,14 @@
 *** Hide some commands
 
 #+begin_src emacs-lisp
-(setq read-extended-command-predicate 'command-completion-default-include-p)
+(setopt read-extended-command-predicate 'command-completion-default-include-p)
 #+end_src
 
 *** History
 
 #+begin_src emacs-lisp
-(setq history-length 50
-      history-delete-duplicates t)
+(setopt history-length 50
+        history-delete-duplicates t)
 
 (savehist-mode 1)
 #+end_src
@@ -370,7 +362,7 @@
 *** Recursive minibuffers
 
 #+begin_src emacs-lisp
-(setq enable-recursive-minibuffers t)
+(setopt enable-recursive-minibuffers t)
 
 (minibuffer-depth-indicate-mode 1)
 #+end_src
@@ -395,6 +387,7 @@
          ("f" . dired-create-empty-file))
   :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :custom
+  (insert-directory-program "gnuls")
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
 
@@ -633,13 +626,7 @@
 ** Eldoc
 
 #+begin_src emacs-lisp
-(setq eldoc-echo-area-use-multiline-p nil)
-#+end_src
-
-** LSP
-
-#+begin_src emacs-lisp
-(use-package eglot)
+(setopt eldoc-echo-area-use-multiline-p nil)
 #+end_src
 
 ** Markdown
@@ -648,16 +635,6 @@
 (use-package markdown-mode
   :mode (("\\.md\\'" . markdown-mode)
          ("README\\.md\\'" . gfm-mode)))
-#+end_src
-
-** Shell
-
-Requires =shellcheck= package.
-
-#+begin_src emacs-lisp
-(use-package flymake-shellcheck
-  :ensure nil
-  :hook (sh-mode . flymake-shellcheck-load))
 #+end_src
 
 * Magit
@@ -673,7 +650,6 @@ Requires =shellcheck= package.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode))
 
@@ -719,7 +695,7 @@ Requires =shellcheck= package.
   (erc-autojoin-timing 'ident)
   (erc-autojoin-delay 1)
   (erc-autojoin-channels-alist
-   '(("libera.chat" "#emacs" "#guix" "#nonguix" "#nixers" "#stumpwm")
+   '(("libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")
      ("slackjeff.com.br" "#mundo-libre")))
   (erc-track-exclude-types
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
@@ -844,7 +820,8 @@ Requires =shellcheck= package.
   :bind ("C-c p" . proced)
   :hook (proced-mode . (lambda () (proced-toggle-auto-update 1)))
   :custom
-  (proced-auto-update-interval 2))
+  (proced-auto-update-interval 2)
+  (proced-enable-color-flag t))
 #+end_src
 
 * Shells
@@ -896,13 +873,14 @@ alias d dired $1
 alias do dired-other-window $1
 alias c eshell/clear-scrollback
 
-alias gi guix install $*
-alias gr guix remove $*
-alias gu guix pull && guix upgrade
-alias gs guix search $*
+alias pi sudo pkg install $*
+alias pd sudo pkg delete $*
+alias pa sudo pkg autoremove
+alias pu sudo pkg update && sudo pkg upgrade
+alias ps pkg search $*
 
-alias ls ls -AC --color=always --group-directories-first $*
-alias ll ls -AgGh --color=always --group-directories-first $*
+alias ls gnuls -AC --color=always --group-directories-first $*
+alias ll gnuls -AgGh --color=always --group-directories-first $*
 alias lt tree -C $*
 
 alias - cd -
@@ -915,7 +893,7 @@ alias zgrep zgrep --color=always $*
 
 alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
-alias ping ping -c 3 gnu.org
+alias ping ping -c 3 freebsd.org
 alias free free -h
 alias mime file -b --mime-type $*
 #+end_src
@@ -994,7 +972,8 @@ alias mime file -b --mime-type $*
          :map shell-mode-map
          ("C-r" . consult-history))
   :custom
-  (comint-prompt-read-only t))
+  (comint-prompt-read-only t)
+  (shell-kill-buffer-on-exit t))
 #+end_src
 
 This option permits accessing aliases and variables when doing shell commands, but for some reason it's freezing Emacs when opening org files. Disabled for now.
@@ -1031,14 +1010,14 @@ This option permits accessing aliases and variables when doing shell commands, b
 ** Cursor
 
 #+begin_src emacs-lisp
-(setq-default cursor-type 'hbar
-              cursor-in-non-selected-windows nil)
+(setopt cursor-type 'hbar
+        cursor-in-non-selected-windows nil)
 #+end_src
 
 ** Dialog box
 
 #+begin_src emacs-lisp
-(setq use-dialog-box nil)
+(setopt use-dialog-box nil)
 #+end_src
 
 ** Display time on mode-line
@@ -1058,9 +1037,9 @@ This option permits accessing aliases and variables when doing shell commands, b
 
 #+begin_src emacs-lisp
 (defun crz/set-font-faces ()
-  (set-face-attribute 'default nil :font "Iosevka Comfy 10")
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka Comfy 10")
-  (set-face-attribute 'variable-pitch nil :font "Iosevka Aile 10"))
+  (set-face-attribute 'default nil :font "Iosevka Slab" :height 105)
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka Slab" :height 105)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :height 105))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -1078,7 +1057,7 @@ This option permits accessing aliases and variables when doing shell commands, b
 ** Maximize the frame
 
 #+begin_src emacs-lisp
-(setq frame-resize-pixelwise t)
+(setopt frame-resize-pixelwise t)
 #+end_src
 
 ** Tab bar
@@ -1108,6 +1087,7 @@ This option permits accessing aliases and variables when doing shell commands, b
   (modus-themes-org-blocks 'gray-background)
   (modus-themes-mode-line '(borderless))
   (modus-themes-scale-headings t)
+  (modus-themes-fringes nil)
   :init
   (load-theme 'modus-vivendi t))
 #+end_src
@@ -1146,12 +1126,9 @@ This option permits accessing aliases and variables when doing shell commands, b
 * Ediff
 
 #+begin_src emacs-lisp
-(use-package ediff
-  :ensure nil
-  :custom
-  (ediff-keep-variants nil)
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
+(setopt ediff-keep-variants nil
+        ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function 'ediff-setup-windows-plain)
 #+end_src
 
 * Pinentry
@@ -1163,4 +1140,17 @@ This option permits accessing aliases and variables when doing shell commands, b
   (epg-pinentry-mode 'loopback)
   :config
   (pinentry-start))
+#+end_src
+
+* pra testar
+
+#+begin_src emacs-lisp :tangle no
+(setopt show-paren-context-when-offscreen t
+        gnus-treat-fold-headers 'head)
+
+(recentf-open)
+
+(setenv "GPG_AGENT_INFO" nil)
+
+(setopt auth-sources '((:source "~/.authinfo.gpg")))
 #+end_src

@@ -4,60 +4,56 @@
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
+(setopt package-user-dir (expand-file-name "elpa" user-emacs-directory))
 
 (package-initialize)
 
 (unless package-archive-contents
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(eval-and-compile
-  (setq use-package-always-ensure t
+(setopt use-package-always-ensure t
         use-package-always-defer t
-        use-package-expand-minimally t))
+        use-package-expand-minimally t)
 
-(setq user-full-name "João Paulo da Cruz"
-      user-mail-address "crzzjp@gmail.com")
+(setopt user-full-name "João Paulo da Cruz"
+        user-mail-address "crzzjp@gmail.com")
 
-(global-set-key (kbd "M-&") 'with-editor-async-shell-command)
+(keymap-global-set "M-&" 'with-editor-async-shell-command)
 
-(setq global-auto-revert-non-file-buffers t)
+(setopt global-auto-revert-non-file-buffers t)
 
 (global-auto-revert-mode 1)
 
 (cd "~/")
 
-(setq delete-by-moving-to-trash t
-      trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
+(setopt delete-by-moving-to-trash t
+        trash-directory (expand-file-name "emacs-trash" temporary-file-directory))
 
 (delete-selection-mode 1)
 
-(setq kill-do-not-save-duplicates t)
+(setopt kill-do-not-save-duplicates t)
 
-(setq disabled-command-function nil)
+(setopt disabled-command-function nil)
 
 (use-package browse-url
   :ensure nil
   :config
   (when (getenv "BROWSER")
-    (setq browse-url-generic-program (executable-find (getenv "BROWSER"))
-          browse-url-browser-function 'browse-url-generic)))
+    (setopt browse-url-generic-program (executable-find (getenv "BROWSER"))
+            browse-url-browser-function 'browse-url-generic)))
 
-(setq auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
-      auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
+(setopt auto-save-list-file-prefix (expand-file-name "autosaves/" user-emacs-directory)
+        auto-save-file-name-transforms `((".*" ,(expand-file-name "autosaves/" user-emacs-directory) t)))
 
-(setq backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
-      backup-by-copying t
-      version-control t
-      delete-old-versions t
-      vc-make-backup-files t
-      kept-old-versions 10
-      kept-new-versions 10)
+(setopt backup-directory-alist `((".*" . ,(expand-file-name "backups" user-emacs-directory)))
+        backup-by-copying t
+        version-control t
+        delete-old-versions t
+        vc-make-backup-files t
+        kept-old-versions 10
+        kept-new-versions 10)
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setopt custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (use-package recentf
   :ensure nil
@@ -67,45 +63,37 @@
   (recentf-auto-cleanup (* 5 60))
   (recentf-exclude
    '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'" "\\.gpg\\'"
-     "/gnu/.*" "\\.cache/.*" ".*/mail/.*"))
+     "/usr/.*" "\\.cache/.*" ".*/mail/.*"))
   :config
   (recentf-mode 1))
 
-(setq-default vc-follow-symlinks nil)
+(setopt vc-follow-symlinks nil)
 
-(use-package help
-  :ensure nil
-  :custom
-  (help-window-select t))
+(setopt help-window-select t)
 
-(use-package man
-  :ensure nil
-  :custom
-  (Man-notify-method 'pushy))
-
-(use-package woman
-  :ensure nil
-  :custom
-  (woman-fill-frame t))
+(setopt Man-notify-method 'pushy
+        woman-fill-frame t)
 
 (setenv "PAGER" "cat")
 (setenv "MANPAGER" "cat")
 
-(setq use-short-answers t)
+(setopt use-short-answers t)
 
-(setq large-file-warning-threshold nil)
+(setopt large-file-warning-threshold nil)
 
-(setq-default indent-tabs-mode nil
-              tab-width 4)
+(setopt indent-tabs-mode nil
+        tab-width 4)
 
-(global-unset-key (kbd "C-z"))
-(global-unset-key (kbd "C-x C-z"))
+(keymap-global-unset "C-z")
+(keymap-global-unset "C-x C-z")
 
-(setq sentence-end-double-space nil)
+(setopt sentence-end-double-space nil)
 
-(setq uniquify-buffer-name-style 'forward)
+(setopt uniquify-buffer-name-style 'forward)
 
-(setq bookmark-save-flag 1)
+(setopt bookmark-save-flag 1)
+
+(setopt auth-sources '("~/.authinfo.gpg"))
 
 (use-package cape
   :defer 1
@@ -155,14 +143,14 @@
   :config
   (vertico-mode 1))
 
-(setq read-extended-command-predicate 'command-completion-default-include-p)
+(setopt read-extended-command-predicate 'command-completion-default-include-p)
 
-(setq history-length 50
-      history-delete-duplicates t)
+(setopt history-length 50
+        history-delete-duplicates t)
 
 (savehist-mode 1)
 
-(setq enable-recursive-minibuffers t)
+(setopt enable-recursive-minibuffers t)
 
 (minibuffer-depth-indicate-mode 1)
 
@@ -179,6 +167,7 @@
          ("f" . dired-create-empty-file))
   :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :custom
+  (insert-directory-program "gnuls")
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
 
@@ -353,23 +342,16 @@
   :custom
   (sly-mrepl-history-file-name (expand-file-name "sly-mrepl-history" user-emacs-directory)))
 
-(setq eldoc-echo-area-use-multiline-p nil)
-
-(use-package eglot)
+(setopt eldoc-echo-area-use-multiline-p nil)
 
 (use-package markdown-mode
   :mode (("\\.md\\'" . markdown-mode)
          ("README\\.md\\'" . gfm-mode)))
 
-(use-package flymake-shellcheck
-  :ensure nil
-  :hook (sh-mode . flymake-shellcheck-load))
-
 (use-package magit
   :bind ("C-c g" . magit-status))
 
 (use-package pdf-tools
-  :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode))
 
@@ -407,7 +389,7 @@
   (erc-autojoin-timing 'ident)
   (erc-autojoin-delay 1)
   (erc-autojoin-channels-alist
-   '(("libera.chat" "#emacs" "#guix" "#nonguix" "#nixers" "#stumpwm")
+   '(("libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")
      ("slackjeff.com.br" "#mundo-libre")))
   (erc-track-exclude-types
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
@@ -502,7 +484,8 @@
   :bind ("C-c p" . proced)
   :hook (proced-mode . (lambda () (proced-toggle-auto-update 1)))
   :custom
-  (proced-auto-update-interval 2))
+  (proced-auto-update-interval 2)
+  (proced-enable-color-flag t))
 
 (use-package esh-mode
   :ensure nil
@@ -587,7 +570,8 @@
          :map shell-mode-map
          ("C-r" . consult-history))
   :custom
-  (comint-prompt-read-only t))
+  (comint-prompt-read-only t)
+  (shell-kill-buffer-on-exit t))
 
 (use-package eat
   :bind ("C-c t" . eat)
@@ -599,10 +583,10 @@
 
 (column-number-mode 1)
 
-(setq-default cursor-type 'hbar
-              cursor-in-non-selected-windows nil)
+(setopt cursor-type 'hbar
+        cursor-in-non-selected-windows nil)
 
-(setq use-dialog-box nil)
+(setopt use-dialog-box nil)
 
 (use-package time
   :ensure nil
@@ -614,9 +598,9 @@
   (display-time-mode 1))
 
 (defun crz/set-font-faces ()
-  (set-face-attribute 'default nil :font "Iosevka Comfy 10")
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka Comfy 10")
-  (set-face-attribute 'variable-pitch nil :font "Iosevka Aile 10"))
+  (set-face-attribute 'default nil :font "Iosevka Slab" :height 105)
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka Slab" :height 105)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :height 105))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -626,7 +610,7 @@
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-(setq frame-resize-pixelwise t)
+(setopt frame-resize-pixelwise t)
 
 (use-package tab-bar
   :ensure nil
@@ -648,6 +632,7 @@
   (modus-themes-org-blocks 'gray-background)
   (modus-themes-mode-line '(borderless))
   (modus-themes-scale-headings t)
+  (modus-themes-fringes nil)
   :init
   (load-theme 'modus-vivendi t))
 
@@ -672,12 +657,9 @@
   (popper-mode 1)
   (popper-echo-mode 1))
 
-(use-package ediff
-  :ensure nil
-  :custom
-  (ediff-keep-variants nil)
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
+(setopt ediff-keep-variants nil
+        ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (use-package pinentry
   :defer 2
