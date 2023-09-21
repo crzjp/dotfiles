@@ -6,13 +6,14 @@ alias d dired $1
 alias do dired-other-window $1
 alias c eshell/clear-scrollback
 
-alias gi guix install $*
-alias gr guix remove $*
-alias gu guix pull && guix upgrade
-alias gs guix search $*
+alias pi sudo pkg install $*
+alias pd sudo pkg delete $*
+alias pa sudo pkg autoremove
+alias pu sudo pkg update && sudo pkg upgrade
+alias ps pkg search $*
 
-alias ls ls -AC --color=always --group-directories-first $*
-alias ll ls -AgGh --color=always --group-directories-first $*
+alias ls gnuls -AC --color=always --group-directories-first $*
+alias ll gnuls -AgGh --color=always --group-directories-first $*
 alias lt tree -C $*
 
 alias - cd -
@@ -25,6 +26,6 @@ alias zgrep zgrep --color=always $*
 
 alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
-alias ping ping -c 3 gnu.org
+alias ping ping -c 3 freebsd.org
 alias free free -h
 alias mime file -b --mime-type $*

@@ -17,6 +17,9 @@
 (define-key *top-map* (kbd "s-F12") "exec amixer sset Master 3%+")
 (define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
 ;; (define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
+
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 3%+")
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 3%-")
 #+end_src
 
 ** Emacs
@@ -73,8 +76,8 @@
 
 (defvar *apps*
   (let ((m (make-sparse-keymap)))
-    (define-key m (kbd "t") "exec XDG_CURRENT_DESKTOP=gnome telegram-desktop")
-    (define-key m (kbd "b") "exec chromium")
+    (define-key m (kbd "t") "exec telegram-desktop")
+    (define-key m (kbd "b") "exec ungoogled-chromium")
     (define-key m (kbd "g") "exec gimp") m))
 
 (define-key *top-map* (kbd "s-a") '*apps*)
@@ -85,11 +88,12 @@
 #+begin_src lisp
 (run-shell-command "numlockx on")
 (run-shell-command "xset r rate 200 70")
+(run-shell-command "setxkbmap br")
 
 (run-shell-command "xsetroot -cursor_name left_ptr")
 (run-shell-command "xsetroot -mod 20 20 -bg '#000000' -fg '#101010'")
 
-(run-shell-command "pidof emacs || emacs --daemon")
+(run-shell-command "pgrep emacs || emacs --daemon")
 #+end_src
 
 * Windows
@@ -248,19 +252,6 @@
       ,*message-window-padding* 10)
 #+end_src
 
-** Font
-
-#+begin_src lisp
-(add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
-(load-module "ttf-fonts")
-
-(when *initializing*
-  (setf xft:*font-dirs* '("~/.guix-home/profile/share/fonts/")
-        clx-truetype:+font-cache-filename+ "~/.local/share/fonts/font-cache.sexp")
-  (xft:cache-fonts)
-  (set-font (make-instance 'xft:font :family "Iosevka Comfy" :subfamily "Regular" :size 10)))
-#+end_src
-
 ** Mode-line
 
 #+begin_src lisp
@@ -272,8 +263,8 @@
 
 (setf *screen-mode-line-format* "[%n] %W ^> %d")
 
-;; (when *initializing*
-;;   (mode-line))
+(when *initializing*
+  (mode-line))
 #+end_src
 
 * Mouse focus policy

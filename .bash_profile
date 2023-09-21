@@ -1,5 +1,5 @@
 export GDK_CORE_DEVICE_EVENTS=1
-export QT_QPA_PLATFORMTHEME=gtk
+export QT_QPA_PLATFORMTHEME=qt6ct
 
 export PATH=$HOME/.local/bin:$PATH
 
@@ -27,4 +27,4 @@ eval "$(dircolors)"
 
 [ -f ~/.bashrc ] && source ~/.bashrc
 
-[ "$(tty)" = "/dev/tty1" ] && sx
+[ "$(tty)" = "/dev/ttyv0" ] && startx

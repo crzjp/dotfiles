@@ -6,6 +6,9 @@
 (define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
 ;; (define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
 
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 3%+")
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 3%-")
+
 (defvar *emacs*
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "RET") "exec emacsclient -ca ''")
@@ -58,7 +61,7 @@
 (run-shell-command "xsetroot -cursor_name left_ptr")
 (run-shell-command "xsetroot -mod 20 20 -bg '#000000' -fg '#101010'")
 
-(run-shell-command "pidof emacs || emacs --daemon")
+(run-shell-command "pgrep emacs || emacs --daemon")
 
 (setf *window-format* "%n%s%25t")
 
@@ -174,15 +177,6 @@
       *input-window-gravity* :center
       *message-window-padding* 10)
 
-;; (add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
-;; (load-module "ttf-fonts")
-
-;; (when *initializing*
-;;   (setf xft:*font-dirs* '("~/.guix-home/profile/share/fonts/")
-;;         clx-truetype:+font-cache-filename+ "~/.local/share/fonts/font-cache.sexp")
-;;   (xft:cache-fonts)
-;;   (set-font (make-instance 'xft:font :family "Iosevka Comfy" :subfamily "Regular" :size 10)))
-
 (setf *mode-line-background-color* col0
       *mode-line-foreground-color* col7
       *mode-line-border-color* col0
@@ -191,8 +185,8 @@
 
 (setf *screen-mode-line-format* "[%n] %W ^> %d")
 
-;; (when *initializing*
-;;   (mode-line))
+(when *initializing*
+  (mode-line))
 
 (setf *mouse-focus-policy* :click)
 

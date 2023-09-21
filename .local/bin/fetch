@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
-sy="GNU GuixSD"
-wm="$(awk '/exec/{print $NF}' ~/.config/sx/sxrc)"
-cl="[33;1m"
+sy="FreeBSD"
+wm="$(awk '/exec/{print $NF}' ~/.xinitrc)"
+pk="$(pkg info | wc -l)"
+pk="${pk##*\ }"
+cl="[31;1m"
 cr="[0m"
 
 case "$INSIDE_EMACS" in
@@ -23,6 +25,7 @@ esac
 cat <<EOF
 
   os ${cl}::${cr} ${sy}
+  pk ${cl}::${cr} ${pk}
   sh ${cl}::${cr} ${sh}
   tm ${cl}::${cr} ${tm}
   wm ${cl}::${cr} ${wm}
