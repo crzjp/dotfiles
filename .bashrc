@@ -11,16 +11,17 @@ if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
     source "$EAT_SHELL_INTEGRATION_DIR/bash"
 fi
 
-alias gi='guix install'
-alias gr='guix remove'
-alias gu='guix pull && guix upgrade'
-alias gs='guix search'
+alias pi='sudo pkg install'
+alias pd='sudo pkg delete'
+alias pa='sudo pkg autoremove'
+alias pu='sudo pkg update && sudo pkg upgrade'
+alias ps='pkg search'
 
 alias reboot="sudo reboot"
-alias poweroff="sudo shutdown"
+alias poweroff="sudo poweroff"
 
-alias ls='ls -AC --color=auto --group-directories-first'
-alias ll='ls -AgGh --color=auto --group-directories-first'
+alias ls='gnuls -AC --color=auto --group-directories-first'
+alias ll='gnuls -AgGh --color=auto --group-directories-first'
 alias lt='tree -C'
 
 alias cp='cp -rv'

@@ -45,14 +45,15 @@
 
 (defvar *apps*
   (let ((m (make-sparse-keymap)))
-    (define-key m (kbd "t") "exec XDG_CURRENT_DESKTOP=gnome telegram-desktop")
-    (define-key m (kbd "b") "exec chromium")
+    (define-key m (kbd "t") "exec telegram-desktop")
+    (define-key m (kbd "b") "exec ungoogled-chromium")
     (define-key m (kbd "g") "exec gimp") m))
 
 (define-key *top-map* (kbd "s-a") '*apps*)
 
 (run-shell-command "numlockx on")
 (run-shell-command "xset r rate 200 70")
+(run-shell-command "setxkbmap br")
 
 (run-shell-command "xsetroot -cursor_name left_ptr")
 (run-shell-command "xsetroot -mod 20 20 -bg '#000000' -fg '#101010'")
@@ -173,14 +174,14 @@
       *input-window-gravity* :center
       *message-window-padding* 10)
 
-(add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
-(load-module "ttf-fonts")
+;; (add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
+;; (load-module "ttf-fonts")
 
-(when *initializing*
-  (setf xft:*font-dirs* '("~/.guix-home/profile/share/fonts/")
-        clx-truetype:+font-cache-filename+ "~/.local/share/fonts/font-cache.sexp")
-  (xft:cache-fonts)
-  (set-font (make-instance 'xft:font :family "Iosevka Comfy" :subfamily "Regular" :size 10)))
+;; (when *initializing*
+;;   (setf xft:*font-dirs* '("~/.guix-home/profile/share/fonts/")
+;;         clx-truetype:+font-cache-filename+ "~/.local/share/fonts/font-cache.sexp")
+;;   (xft:cache-fonts)
+;;   (set-font (make-instance 'xft:font :family "Iosevka Comfy" :subfamily "Regular" :size 10)))
 
 (setf *mode-line-background-color* col0
       *mode-line-foreground-color* col7

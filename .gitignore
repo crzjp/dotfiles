@@ -7,7 +7,7 @@
 .config/configstore/
 .config/GIMP/
 .config/dconf/
-.config/chromium/
+.config/ungoogled-chromium/
 .config/torbrowser/
 .config/gdb/
 .config/guix/current

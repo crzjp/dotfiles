@@ -1,9 +1,6 @@
 export GDK_CORE_DEVICE_EVENTS=1
 export QT_QPA_PLATFORMTHEME=gtk
 
-GUIX_PROFILE=$HOME/.config/guix/current
-. $GUIX_PROFILE/etc/profile
-
 export PATH=$HOME/.local/bin:$PATH
 
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/settings.ini"
@@ -23,12 +20,11 @@ export MANPAGER=less
 
 export VISUAL=emacsclient
 export EDITOR=emacsclient
-export BROWSER=chromium
+export BROWSER=ungoogled-chromium
 export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 
-[ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bashrc ] && source ~/.bashrc
 
 [ "$(tty)" = "/dev/tty1" ] && sx
