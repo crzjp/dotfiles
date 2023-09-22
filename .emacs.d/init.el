@@ -58,6 +58,7 @@
 (use-package recentf
   :ensure nil
   :defer 2
+  :bind ("C-c r" . recentf-open)
   :custom
   (recentf-max-saved-items 100)
   (recentf-auto-cleanup (* 5 60))
@@ -116,8 +117,7 @@
 (use-package consult
   :after vertico
   :demand nil
-  :bind (("C-c r" . consult-recent-file)
-         :map minibuffer-mode-map
+  :bind (:map minibuffer-mode-map
          ("C-r" . consult-history))
   :custom
   (completion-in-region-function
