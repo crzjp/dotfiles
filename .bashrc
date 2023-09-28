@@ -11,17 +11,16 @@ if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
     source "$EAT_SHELL_INTEGRATION_DIR/bash"
 fi
 
-alias pi='sudo pkg install'
-alias pd='sudo pkg delete'
-alias pa='sudo pkg autoremove'
-alias pu='sudo pkg update && sudo pkg upgrade'
-alias ps='pkg search'
+alias gi='guix install'
+alias gr='guix remove'
+alias gu='guix pull && guix upgrade'
+alias gs='guix search'
 
 alias reboot="sudo reboot"
-alias poweroff="sudo poweroff"
+alias poweroff="sudo shutdown"
 
-alias ls='gnuls -AC --color=auto --group-directories-first'
-alias ll='gnuls -AgGh --color=auto --group-directories-first'
+alias ls='ls -AC --color=auto --group-directories-first'
+alias ll='ls -AgGh --color=auto --group-directories-first'
 alias lt='tree -C'
 
 alias cp='cp -rv'
@@ -39,7 +38,7 @@ alias ed="emacs --daemon"
 alias edk="emacsclient -e '(kill-emacs)'"
 alias mg='mg -n'
 
-alias ping='ping -c 3 freebsd.org'
+alias ping='ping -c 3 gnu.org'
 alias wttr='curl -s wttr.in'
 alias qttr='curl -s wttr.in/?0Q'
 alias which='command -v'

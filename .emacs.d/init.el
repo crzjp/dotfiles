@@ -167,7 +167,6 @@
          ("f" . dired-create-empty-file))
   :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :custom
-  (insert-directory-program "gnuls")
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
 
@@ -352,6 +351,7 @@
   :bind ("C-c g" . magit-status))
 
 (use-package pdf-tools
+  :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode))
 
@@ -389,7 +389,7 @@
   (erc-autojoin-timing 'ident)
   (erc-autojoin-delay 1)
   (erc-autojoin-channels-alist
-   '(("libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")
+   '(("libera.chat" "#emacs" "#guix" "#nonguix" "#nixers" "#stumpwm")
      ("slackjeff.com.br" "#mundo-libre")))
   (erc-track-exclude-types
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))

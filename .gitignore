@@ -7,7 +7,7 @@
 .config/configstore/
 .config/GIMP/
 .config/dconf/
-.config/ungoogled-chromium/
+.config/chromium/
 .config/torbrowser/
 .config/gdb/
 .config/guix/current
@@ -31,3 +31,4 @@
 !.local/bin/
 
 .stumpwm.d/*log*
+.emacs.d/elpa/

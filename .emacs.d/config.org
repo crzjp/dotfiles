@@ -387,7 +387,6 @@
          ("f" . dired-create-empty-file))
   :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :custom
-  (insert-directory-program "gnuls")
   (dired-listing-switches "-agGh --group-directories-first")
   (dired-kill-when-opening-new-dired-buffer t))
 
@@ -650,6 +649,7 @@
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
+  :ensure nil
   :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
   :hook (pdf-view-mode . pdf-view-midnight-minor-mode))
 
@@ -695,7 +695,7 @@
   (erc-autojoin-timing 'ident)
   (erc-autojoin-delay 1)
   (erc-autojoin-channels-alist
-   '(("libera.chat" "#emacs" "#freebsd" "#freebsd-emacs" "#nixers" "#stumpwm")
+   '(("libera.chat" "#emacs" "#guix" "#nonguix" "#nixers" "#stumpwm")
      ("slackjeff.com.br" "#mundo-libre")))
   (erc-track-exclude-types
    '("JOIN" "MODE" "NICK" "PART" "QUIT" "324" "329" "332" "333" "353" "477"))
@@ -873,14 +873,13 @@ alias d dired $1
 alias do dired-other-window $1
 alias c eshell/clear-scrollback
 
-alias pi sudo pkg install $*
-alias pd sudo pkg delete $*
-alias pa sudo pkg autoremove
-alias pu sudo pkg update && sudo pkg upgrade
-alias ps pkg search $*
+alias gi guix install $*
+alias gr guix remove $*
+alias gu guix pull && guix upgrade
+alias gs guix search $*
 
-alias ls gnuls -AC --color=always --group-directories-first $*
-alias ll gnuls -AgGh --color=always --group-directories-first $*
+alias ls ls -AC --color=always --group-directories-first $*
+alias ll ls -AgGh --color=always --group-directories-first $*
 alias lt tree -C $*
 
 alias - cd -
@@ -893,7 +892,7 @@ alias zgrep zgrep --color=always $*
 
 alias wttr curl -s wttr.in
 alias qttr curl -s wttr.in/?0Q
-alias ping ping -c 3 freebsd.org
+alias ping ping -c 3 gnu.org
 alias free free -h
 alias mime file -b --mime-type $*
 #+end_src

@@ -2,7 +2,7 @@
 
 [ "$1" = "-x" ] && set -x
 
-for dep in musipd mpc notify-send ; do
+for dep in mpd mpc notify-send ; do
     [ $(command -v $dep) ] || { echo error: \"$dep\" not found && exit 1; }
 done
 

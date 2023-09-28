@@ -1,5 +1,8 @@
 export GDK_CORE_DEVICE_EVENTS=1
-export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_QPA_PLATFORMTHEME=gtk
+
+GUIX_PROFILE=$HOME/.config/guix/current
+. $GUIX_PROFILE/etc/profile
 
 export PATH=$HOME/.local/bin:$PATH
 
@@ -20,11 +23,12 @@ export MANPAGER=less
 
 export VISUAL=emacsclient
 export EDITOR=emacsclient
-export BROWSER=ungoogled-chromium
+export BROWSER=chromium
 export GPG_TTY=$(tty)
 
 eval "$(dircolors)"
 
+[ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bashrc ] && source ~/.bashrc
 
-[ "$(tty)" = "/dev/ttyv0" ] && startx
+[ "$(tty)" = "/dev/tty1" ] && sx
