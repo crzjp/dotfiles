@@ -230,6 +230,7 @@ Public key
                   openssh
                   pinentry-emacs
                   sbcl
+                  sbcl-stumpwm-battery-portable
                   shellcheck
                   slop
                   stow
@@ -247,7 +248,7 @@ Public key
                   xsetroot
                   youtube-dl
                   (specifications->packages
-                   (list "zip"))))
+                   (list "steam" "zip"))))
 #+end_src
 
 ** Services

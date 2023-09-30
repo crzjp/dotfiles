@@ -61,6 +61,7 @@
                   openssh
                   pinentry-emacs
                   sbcl
+                  sbcl-stumpwm-battery-portable
                   shellcheck
                   slop
                   stow
@@ -78,7 +79,7 @@
                   xsetroot
                   youtube-dl
                   (specifications->packages
-                   (list "zip"))))
+                   (list "steam" "zip"))))
 
  (services
   (list (service home-gpg-agent-service-type
