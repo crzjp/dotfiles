@@ -176,13 +176,17 @@
       *input-window-gravity* :center
       *message-window-padding* 10)
 
+(when *initializing*
+  (add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-battery-portable")
+  (load-module "battery-portable"))
+
 (setf *mode-line-background-color* col0
       *mode-line-foreground-color* col7
       *mode-line-border-color* col0
       *mode-line-position* :bottom
       *time-modeline-string* "%F %H:%M")
 
-(setf *screen-mode-line-format* "[%n] %W ^> %d")
+(setf *screen-mode-line-format* "[%n] %W ^> %B | %d")
 
 (when *initializing*
   (mode-line))
