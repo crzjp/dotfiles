@@ -64,7 +64,7 @@
   (recentf-auto-cleanup (* 5 60))
   (recentf-exclude
    '("\\.[jp][pn]g\\'" "\\.webp\\'" "\\.pdf\\'" "\\.gpg\\'"
-     "/gnu/.*" "\\.cache/.*" ".*/mail/.*"))
+     "/gnu/.*" "\\.cache/.*" ".*/mail/.*" "~/.guix-profile/.*" "~/.guix-home/.*"))
   :config
   (recentf-mode 1))
 
