@@ -262,7 +262,7 @@
       ,*mode-line-foreground-color* col7
       ,*mode-line-border-color* col0
       ,*mode-line-position* :bottom
-      ,*time-modeline-string* "%F %H:%M")
+      ,*time-modeline-string* "%d/%m/%Y %H:%M")
 
 (setf *screen-mode-line-format* "[%n] %W ^> %B | %d")
 
