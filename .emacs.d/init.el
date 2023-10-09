@@ -617,12 +617,6 @@
   :bind (("C-<tab>" . tab-recent)
          ("C-x t b" . tab-switch))
   :custom
-  (tab-bar-new-button nil)
-  (tab-bar-close-button nil)
-  (tab-bar-back-button nil)
-  (tab-bar-border nil)
-  (tab-bar-tab-name-function 'tab-bar-tab-name-truncated)
-  (tab-bar-tab-name-truncated-max 15)
   (tab-bar-show 1))
 
 (use-package modus-themes
