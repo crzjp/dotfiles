@@ -20,7 +20,7 @@
     sort = yes
     idle_threshold = 0
     ### Text ###
-    font = Iosevka Slab 10
+    font = Iosevka Comfy Motion 10
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"

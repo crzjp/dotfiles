@@ -130,6 +130,9 @@
 
 (define-key *root-map* (kbd "d") "echo-date")
 
+(add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-battery-portable")
+(add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-ttf-fonts")
+
 (defvar colbg "#000000")
 (defvar colfg "#ffffff")
 (defvar col0 "#000000")
@@ -180,9 +183,7 @@
       *input-window-gravity* :center
       *message-window-padding* 10)
 
-(when *initializing*
-  (add-to-load-path "~/.guix-home/profile/share/common-lisp/sbcl/stumpwm-battery-portable")
-  (load-module "battery-portable"))
+(load-module "battery-portable")
 
 (setf *mode-line-background-color* col0
       *mode-line-foreground-color* col7
@@ -194,6 +195,15 @@
 
 (when *initializing*
   (mode-line))
+
+(load-module "ttf-fonts")
+
+(setf xft:*font-dirs* '("~/.guix-home/profile/share/fonts/")
+      clx-truetype:+font-cache-filename+ "~/.local/share/fonts/font-cache.sexp")
+
+(xft:cache-fonts)
+
+(set-font (make-instance 'xft:font :family "Iosevka Comfy Motion" :subfamily "Regular" :size 10))
 
 (setf *mouse-focus-policy* :click)
 

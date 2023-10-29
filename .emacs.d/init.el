@@ -598,9 +598,9 @@
   (display-time-mode 1))
 
 (defun crz/set-font-faces ()
-  (set-face-attribute 'default nil :font "Iosevka Slab" :height 105)
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka Slab" :height 105)
-  (set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :height 105))
+  (set-face-attribute 'default nil :font "Iosevka Comfy Motion" :height 105)
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka Comfy Motion" :height 105)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka Comfy Motion Duo" :height 105))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions

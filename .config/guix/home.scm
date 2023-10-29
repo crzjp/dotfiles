@@ -44,8 +44,7 @@
                   font-google-noto-emoji
                   font-google-noto-sans-cjk
                   font-google-noto-serif-cjk
-                  font-iosevka-aile
-                  font-iosevka-slab
+                  font-iosevka-comfy
                   fontconfig
                   hsetroot
                   imagemagick
@@ -64,6 +63,7 @@
                   pinentry-emacs
                   sbcl
                   sbcl-stumpwm-battery-portable
+                  sbcl-stumpwm-ttf-fonts
                   shellcheck
                   slop
                   stow
