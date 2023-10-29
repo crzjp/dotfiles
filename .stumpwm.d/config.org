@@ -14,12 +14,10 @@
 ** Volume
 
 #+begin_src lisp
-(define-key *top-map* (kbd "s-F12") "exec amixer sset Master 3%+")
-(define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
-;; (define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
-
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 3%+")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 3%-")
+(define-key *top-map* (kbd "s-F12") "exec amixer sset Master 3%+")
+(define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
 #+end_src
 
 ** Emacs
@@ -67,6 +65,15 @@
     (define-key m (kbd "u") '*upload*) m))
 
 (define-key *top-map* (kbd "Print") '*print*)
+#+end_src
+
+** Brightness
+
+#+begin_src lisp
+(define-key *top-map* (kbd "XF86MonBrightnessUp") "exec brightnessctl set +5%")
+(define-key *top-map* (kbd "XF86MonBrightnessDown") "exec brightnessctl set 5%-")
+(define-key *top-map* (kbd "s-F10") "exec brightnessctl set +5%")
+(define-key *top-map* (kbd "s-F9") "exec brightnessctl set 5%-")
 #+end_src
 
 ** Misc

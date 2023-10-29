@@ -2,12 +2,10 @@
 
 (set-prefix-key (kbd "s-x"))
 
-(define-key *top-map* (kbd "s-F12") "exec amixer sset Master 3%+")
-(define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
-;; (define-key *top-map* (kbd "s-F10") "exec amixer sset Master toggle")
-
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 3%+")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 3%-")
+(define-key *top-map* (kbd "s-F12") "exec amixer sset Master 3%+")
+(define-key *top-map* (kbd "s-F11") "exec amixer sset Master 3%-")
 
 (defvar *emacs*
   (let ((m (make-sparse-keymap)))
@@ -43,6 +41,11 @@
     (define-key m (kbd "u") '*upload*) m))
 
 (define-key *top-map* (kbd "Print") '*print*)
+
+(define-key *top-map* (kbd "XF86MonBrightnessUp") "exec brightnessctl set +5%")
+(define-key *top-map* (kbd "XF86MonBrightnessDown") "exec brightnessctl set 5%-")
+(define-key *top-map* (kbd "s-F10") "exec brightnessctl set +5%")
+(define-key *top-map* (kbd "s-F9") "exec brightnessctl set 5%-")
 
 (define-key *root-map* (kbd "l") "exec slock")
 
