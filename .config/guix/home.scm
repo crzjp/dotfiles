@@ -18,6 +18,7 @@
  (gnu packages imagemagick)
  (gnu packages java)
  (gnu packages libreoffice)
+ (gnu packages linux)
  (gnu packages lisp)
  (gnu packages mpd)
  (gnu packages package-management)
@@ -32,7 +33,8 @@
  (gnu home services xdg))
 
 (home-environment
- (packages (cons* curl
+ (packages (cons* brightnessctl
+                  curl
                   dunst
                   emacs
                   emacs-pdf-tools
