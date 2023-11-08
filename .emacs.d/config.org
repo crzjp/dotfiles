@@ -1,4 +1,5 @@
 #+title: My GNU Emacs configuration
+#+author: João Paulo da Cruz
 #+property: header-args :tangle init.el :lexical t
 
 * Early init
