@@ -9,6 +9,7 @@
  (gnu packages dunst)
  (gnu packages emacs)
  (gnu packages emacs-xyz)
+ (gnu packages engineering)
  (gnu packages fonts)
  (gnu packages fontutils)
  (gnu packages gnome)
@@ -48,6 +49,7 @@
                   fontconfig
                   hsetroot
                   imagemagick
+                  kicad
                   leiningen
                   libnotify
                   libreoffice
