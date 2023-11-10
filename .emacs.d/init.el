@@ -99,7 +99,7 @@
 (use-package cape
   :defer 1
   :config
-  (add-to-list 'completion-at-point-functions #'cape-file))
+  (add-to-list 'completion-at-point-functions 'cape-file))
 
 (use-package corfu
   :defer 1
@@ -122,12 +122,11 @@
   :custom
   (completion-in-region-function
    (lambda (&rest args)
-     (apply (if vertico-mode
+     (apply (if (or vertico-mode fido-vertical-mode)
                 'consult-completion-in-region
               'completion--in-region)
             args)))
   :config
-  (consult-customize consult-recent-file :preview-key nil)
   (consult-customize consult-org-heading :preview-key nil))
 
 (use-package marginalia

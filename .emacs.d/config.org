@@ -282,7 +282,7 @@
 (use-package cape
   :defer 1
   :config
-  (add-to-list 'completion-at-point-functions #'cape-file))
+  (add-to-list 'completion-at-point-functions 'cape-file))
 #+end_src
 
 *** Popup
@@ -315,12 +315,11 @@
   :custom
   (completion-in-region-function
    (lambda (&rest args)
-     (apply (if vertico-mode
+     (apply (if (or vertico-mode fido-vertical-mode)
                 'consult-completion-in-region
               'completion--in-region)
             args)))
   :config
-  (consult-customize consult-recent-file :preview-key nil)
   (consult-customize consult-org-heading :preview-key nil))
 #+end_src
 
@@ -344,7 +343,28 @@
   :config
   (vertico-mode 1))
 #+end_src
-  
+
+Disabled fido config to a (probably) future more polished version.
+
+#+begin_src emacs-lisp :tangle no
+(setq completion-styles '(initials flex) ;; place this on completion style section
+      eshell-cmpl-ignore-case t) ;; and this on eshell one
+
+(use-package icomplete
+  :ensure nil
+  :defer 1
+  :bind (:map icomplete-fido-mode-map
+         ("<tab>" . icomplete-force-complete)
+         ("RET" . icomplete-force-complete-and-exit))
+  :hook (icomplete-minibuffer-setup
+         . (lambda ()
+             (setq-local truncate-lines t
+                         completion-styles '(initials flex))))
+  :custom-face (icomplete-selected-match ((t (:extend t))))
+  :config
+  (fido-vertical-mode 1))
+#+end_src
+
 *** Hide some commands
 
 #+begin_src emacs-lisp
@@ -1134,17 +1154,4 @@ This option permits accessing aliases and variables when doing shell commands, b
   (epg-pinentry-mode 'loopback)
   :config
   (pinentry-start))
-#+end_src
-
-* pra testar
-
-#+begin_src emacs-lisp :tangle no
-(setopt show-paren-context-when-offscreen t
-        gnus-treat-fold-headers 'head)
-
-(recentf-open)
-
-(setenv "GPG_AGENT_INFO" nil)
-
-(setopt auth-sources '((:source "~/.authinfo.gpg")))
 #+end_src
