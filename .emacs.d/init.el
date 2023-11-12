@@ -142,6 +142,15 @@
   :config
   (vertico-mode 1))
 
+(setopt completion-auto-help 'visible
+        completion-auto-select 'second-tab
+        completion-show-help nil
+        completions-format 'one-column
+        completions-max-height 12)
+
+(add-hook 'completion-list-mode-hook
+          #'(lambda () (setq-local truncate-lines t)))
+
 (setopt read-extended-command-predicate 'command-completion-default-include-p)
 
 (setopt history-length 50
@@ -153,11 +162,21 @@
 
 (minibuffer-depth-indicate-mode 1)
 
+(setopt minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+
+(add-hook 'minibuffer-setup-hook 'cursor-intangible-mode)
+
 (use-package orderless
   :after vertico
   :custom
-  (completion-styles '(orderless))
-  (orderless-matching-styles '(orderless-initialism orderless-flex)))
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  (completion-ignore-case t)
+  (completion-styles '(basic substring initials flex orderless))
+  (completion-category-overrides '((file (styles . (basic partial-completion orderless)))))
+  (completion-category-defaults nil)
+  (orderless-matching-styles '(orderless-prefixes orderless-regexp)))
 
 (use-package dired
   :ensure nil
@@ -427,7 +446,9 @@
   (org-directory "~/documents/org")
   (org-return-follows-link t)
   :config
-  (add-to-list 'org-export-backends 'md))
+  (add-to-list 'org-export-backends 'md)
+  (unless (file-directory-p org-directory)
+    (make-directory org-directory t)))
 
 (use-package org
   :ensure nil
@@ -512,6 +533,8 @@
 
 (use-package em-cmpl
   :ensure nil
+  :custom
+  (eshell-cmpl-ignore-case t)
   :config
   (defun corfu-send-shell (&rest _)
     (cond

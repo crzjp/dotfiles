@@ -347,11 +347,29 @@
   (vertico-mode 1))
 #+end_src
 
-Disabled fido config to a (probably) future more polished version.
+This is for the built-in and default completion UI, in the case of not using vertico/fido (very rarely).
+
+#+begin_src emacs-lisp
+(setopt completion-auto-help 'visible
+        completion-auto-select 'second-tab
+        completion-show-help nil
+        completions-format 'one-column
+        completions-max-height 12)
+
+(add-hook 'completion-list-mode-hook
+          #'(lambda () (setq-local truncate-lines t)))
+#+end_src
+
+Disabled fido config (also built-in) to a (probably) future more polished version.
 
 #+begin_src emacs-lisp :tangle no
-(setq completion-styles '(initials flex) ;; place this on completion style section
-      eshell-cmpl-ignore-case t) ;; and this on eshell one
+;; place this on completion style section
+(setopt read-buffer-completion-ignore-case t
+        read-file-name-completion-ignore-case t
+        completion-ignore-case t
+        completion-styles '(basic substring initials flex)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (basic partial-completion)))))
 
 (use-package icomplete
   :ensure nil
@@ -362,7 +380,7 @@ Disabled fido config to a (probably) future more polished version.
   :hook (icomplete-minibuffer-setup
          . (lambda ()
              (setq-local truncate-lines t
-                         completion-styles '(initials flex))))
+                         completion-styles '(basic substring initials flex))))
   :custom-face (icomplete-selected-match ((t (:extend t))))
   :config
   (fido-vertical-mode 1))
@@ -391,14 +409,28 @@ Disabled fido config to a (probably) future more polished version.
 (minibuffer-depth-indicate-mode 1)
 #+end_src
 
+*** Don't allow the cursor to move inside the prompt
+
+#+begin_src emacs-lisp
+(setopt minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+
+(add-hook 'minibuffer-setup-hook 'cursor-intangible-mode)
+#+end_src
+
 ** Completion style
 
 #+begin_src emacs-lisp
 (use-package orderless
   :after vertico
   :custom
-  (completion-styles '(orderless))
-  (orderless-matching-styles '(orderless-initialism orderless-flex)))
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  (completion-ignore-case t)
+  (completion-styles '(basic substring initials flex orderless))
+  (completion-category-overrides '((file (styles . (basic partial-completion orderless)))))
+  (completion-category-defaults nil)
+  (orderless-matching-styles '(orderless-prefixes orderless-regexp)))
 #+end_src
 
 * Dired
@@ -772,7 +804,9 @@ Disabled fido config to a (probably) future more polished version.
   (org-directory "~/documents/org")
   (org-return-follows-link t)
   :config
-  (add-to-list 'org-export-backends 'md))
+  (add-to-list 'org-export-backends 'md)
+  (unless (file-directory-p org-directory)
+    (make-directory org-directory t)))
 #+end_src
 
 ** Agenda
@@ -926,6 +960,8 @@ alias mime file -b --mime-type $*
 #+begin_src emacs-lisp
 (use-package em-cmpl
   :ensure nil
+  :custom
+  (eshell-cmpl-ignore-case t)
   :config
   (defun corfu-send-shell (&rest _)
     (cond
