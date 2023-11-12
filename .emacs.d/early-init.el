@@ -1,16 +1,19 @@
 ;; -*- lexical-binding: t; -*-
 
 (defvar last-file-name-handler-alist file-name-handler-alist)
+(defvar last-vc-handled-backends vc-handled-backends)
 
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6
-      file-name-handler-alist nil)
+      file-name-handler-alist nil
+      vc-handled-backends nil)
 
 (add-hook 'after-init-hook
           #'(lambda ()
               (setq gc-cons-threshold (* 2 1000 1000)
                     gc-cons-percentage 0.1
-                    file-name-handler-alist last-file-name-handler-alist)))
+                    file-name-handler-alist last-file-name-handler-alist
+                    vc-handled-backends last-vc-handled-backends)))
 
 (setq user-emacs-directory "~/.cache/emacs/")
 
