@@ -12,6 +12,7 @@
  (gnu packages engineering)
  (gnu packages fonts)
  (gnu packages fontutils)
+ (gnu packages gimp)
  (gnu packages gnome)
  (gnu packages gnome-xyz)
  (gnu packages gnupg)
@@ -47,6 +48,7 @@
                   font-google-noto-serif-cjk
                   font-iosevka-comfy
                   fontconfig
+                  gimp
                   hsetroot
                   imagemagick
                   kicad
