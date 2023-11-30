@@ -12,20 +12,21 @@
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t; -*-
 
-(defvar last-file-name-handler-alist file-name-handler-alist)
-(defvar last-vc-handled-backends vc-handled-backends)
-
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6
-      file-name-handler-alist nil
-      vc-handled-backends nil)
-
-(add-hook 'after-init-hook
-          #'(lambda ()
-              (setq gc-cons-threshold (* 2 1000 1000)
-                    gc-cons-percentage 0.1
-                    file-name-handler-alist last-file-name-handler-alist
-                    vc-handled-backends last-vc-handled-backends)))
+(let ((last-file-name-handler-alist file-name-handler-alist)
+      (last-vc-handled-backends vc-handled-backends)
+      (last-mode-line-format mode-line-format))
+  (setq gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6
+        file-name-handler-alist nil
+        vc-handled-backends nil
+        mode-line-format nil)
+  (add-hook 'after-init-hook
+            #'(lambda ()
+                (setq gc-cons-threshold (* 2 1000 1000)
+                      gc-cons-percentage 0.1
+                      file-name-handler-alist last-file-name-handler-alist
+                      vc-handled-backends last-vc-handled-backends
+                      mode-line-format last-mode-line-format))))
 #+end_src
 
 ** User emacs directory
@@ -41,16 +42,9 @@
 
 #+begin_src emacs-lisp
 (setq package-native-compile t
-      native-comp-deferred-compilation t
       native-comp-async-report-warnings-errors nil)
 
 (add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache" user-emacs-directory))
-#+end_src
-
-** Package
-
-#+begin_src emacs-lisp
-(setq load-prefer-newer t)
 #+end_src
 
 ** Visual
@@ -444,7 +438,8 @@ Disabled fido config (also built-in) to a (probably) future more polished versio
   :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :custom
   (dired-listing-switches "-agGh --group-directories-first")
-  (dired-kill-when-opening-new-dired-buffer t))
+  (dired-kill-when-opening-new-dired-buffer t)
+  (dired-dwim-target t))
 
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
@@ -876,8 +871,8 @@ Disabled fido config (also built-in) to a (probably) future more polished versio
 (use-package proced
   :ensure nil
   :bind ("C-c p" . proced)
-  :hook (proced-mode . (lambda () (proced-toggle-auto-update 1)))
   :custom
+  (proced-auto-update-flag t)
   (proced-auto-update-interval 2)
   (proced-enable-color-flag t))
 #+end_src

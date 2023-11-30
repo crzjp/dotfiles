@@ -186,7 +186,8 @@
   :hook (dired-mode . (lambda () (setq truncate-lines t)))
   :custom
   (dired-listing-switches "-agGh --group-directories-first")
-  (dired-kill-when-opening-new-dired-buffer t))
+  (dired-kill-when-opening-new-dired-buffer t)
+  (dired-dwim-target t))
 
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
@@ -502,8 +503,8 @@
 (use-package proced
   :ensure nil
   :bind ("C-c p" . proced)
-  :hook (proced-mode . (lambda () (proced-toggle-auto-update 1)))
   :custom
+  (proced-auto-update-flag t)
   (proced-auto-update-interval 2)
   (proced-enable-color-flag t))
 

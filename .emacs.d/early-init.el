@@ -1,19 +1,20 @@
 ;; -*- lexical-binding: t; -*-
 
-(defvar last-file-name-handler-alist file-name-handler-alist)
-(defvar last-vc-handled-backends vc-handled-backends)
-
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6
-      file-name-handler-alist nil
-      vc-handled-backends nil)
-
-(add-hook 'after-init-hook
-          #'(lambda ()
-              (setq gc-cons-threshold (* 2 1000 1000)
-                    gc-cons-percentage 0.1
-                    file-name-handler-alist last-file-name-handler-alist
-                    vc-handled-backends last-vc-handled-backends)))
+(let ((last-file-name-handler-alist file-name-handler-alist)
+      (last-vc-handled-backends vc-handled-backends)
+      (last-mode-line-format mode-line-format))
+  (setq gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6
+        file-name-handler-alist nil
+        vc-handled-backends nil
+        mode-line-format nil)
+  (add-hook 'after-init-hook
+            #'(lambda ()
+                (setq gc-cons-threshold (* 2 1000 1000)
+                      gc-cons-percentage 0.1
+                      file-name-handler-alist last-file-name-handler-alist
+                      vc-handled-backends last-vc-handled-backends
+                      mode-line-format last-mode-line-format))))
 
 (setq user-emacs-directory "~/.cache/emacs/")
 
@@ -21,12 +22,9 @@
   (make-directory user-emacs-directory t))
 
 (setq package-native-compile t
-      native-comp-deferred-compilation t
       native-comp-async-report-warnings-errors nil)
 
 (add-to-list 'native-comp-eln-load-path (expand-file-name "eln-cache" user-emacs-directory))
-
-(setq load-prefer-newer t)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
