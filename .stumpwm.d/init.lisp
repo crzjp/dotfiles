@@ -66,6 +66,21 @@
 
 (run-shell-command "pidof emacs || emacs --daemon")
 
+(defparameter *async-shell* (uiop:launch-program (uiop:getenv "SHELL") :input :stream :output :stream))
+
+(defun async-run (command)
+  (write-line command (uiop:process-info-input *async-shell*))
+  (force-output (uiop:process-info-input *async-shell*))
+  (let* ((output-string (read-line (uiop:process-info-output *async-shell*)))
+         (stream (uiop:process-info-output *async-shell*)))
+    (if (listen stream)
+        (loop while (listen stream)
+              do (setf output-string (concatenate 'string
+                                                  output-string
+                                                  '(#\Newline)
+                                                  (read-line stream)))))
+    output-string))
+
 (setf *window-format* "%n%s%25t")
 
 (define-key *root-map* (kbd "b") "windowlist")
@@ -191,7 +206,10 @@
       *mode-line-position* :bottom
       *time-modeline-string* "%d/%m/%Y %H:%M")
 
-(setf *screen-mode-line-format* "[%n] %W ^> %B | %d")
+(setf *screen-mode-line-format*
+      (list "[%n] %W ^>"
+            '(:eval (async-run "mpc current -f '%artist% - %title%' 2> /dev/null || echo No song"))
+            " | %B | %d"))
 
 (when *initializing*
   (mode-line))
