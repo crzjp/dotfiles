@@ -604,6 +604,11 @@
 
 (use-package rainbow-mode)
 
+(defun crz/display-ansi-colors ()
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
 (column-number-mode 1)
 
 (setopt cursor-type 'hbar
@@ -661,7 +666,7 @@
 
 (use-package popper
   :defer 2
-  :bind (("M-'" . popper-toggle-latest)
+  :bind (("M-'" . popper-toggle)
          ("C-'" . popper-cycle)
          ("C-M-'" . popper-toggle-type))
   :custom

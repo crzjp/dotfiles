@@ -1055,6 +1055,15 @@ This option permits accessing aliases and variables when doing shell commands, b
 (use-package rainbow-mode)
 #+end_src
 
+Render ASCII color escape codes, taken from [[https://stackoverflow.com/a/3072831/13215205][here]].
+
+#+begin_src emacs-lisp
+(defun crz/display-ansi-colors ()
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+#+end_src
+
 ** Column number
 
 #+begin_src emacs-lisp
@@ -1157,7 +1166,7 @@ This option permits accessing aliases and variables when doing shell commands, b
 #+begin_src emacs-lisp
 (use-package popper
   :defer 2
-  :bind (("M-'" . popper-toggle-latest)
+  :bind (("M-'" . popper-toggle)
          ("C-'" . popper-cycle)
          ("C-M-'" . popper-toggle-type))
   :custom
