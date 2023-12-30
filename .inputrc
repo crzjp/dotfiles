@@ -1,9 +1,0 @@
-# -*- mode: conf -*-
-set show-all-if-ambiguous on
-set completion-ignore-case on
-set colored-stats on
-set mark-symlinked-directories on
-
-set editing-mode emacs
-set show-mode-in-prompt on
-set emacs-mode-string \1\e[4 q\2

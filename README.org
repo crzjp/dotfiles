@@ -1,7 +1,5 @@
 #+title: My dotfiles
+#+author: João Paulo da Cruz
+#+email: crzzjp@gmail.com
 
-You're (un)likely here for see my:
-
-- [[file:.emacs.d/config.org][GNU Emacs configuration]]
-- [[file:.config/guix/config.org][GNU Guix System and Home configuration]]
-- [[file:.stumpwm.d/config.org][StumpWM configuration]]
+Moved to Codeberg: https://codeberg.org/crzjp/dotfiles
